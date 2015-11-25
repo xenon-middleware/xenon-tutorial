@@ -1,8 +1,7 @@
 Xenon Examples
 ==============
 
-Copyright 2015 The Netherlands eScience Center
-
+[![Build Status](https://travis-ci.org/NLeSC/Xenon-examples.svg)](https://travis-ci.org/NLeSC/Xenon-examples)
 
 This repository contains the source of the [Xenon](https://nlesc.github.io/Xenom) examples
 and a build file to compile and run them.
@@ -52,3 +51,5 @@ Generate IDE specific project files with `./gradlew eclipse` or `./gradlew idea`
 This repository can then be imported into Eclipse or IntelliJ IDEA.
 
 An example file can be opened and run from inside the IDE.
+
+Copyright 2015 The Netherlands eScience Center

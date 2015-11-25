@@ -1,0 +1,7 @@
+language: java
+install: 
+  - ./.travis-ssh.sh
+  - ./gradlew 
+script: 
+  - ./run_examples.sh
+
