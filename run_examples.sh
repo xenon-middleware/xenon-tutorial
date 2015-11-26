@@ -7,7 +7,7 @@ set -x #echo on
 #
 ###
 
-class_path=build/libs/Xenon-examples-all.jar
+class_path=build/libs/*-all.jar
 
 java -cp $class_path nl.esciencecenter.xenon.examples.CreatingXenon
 
