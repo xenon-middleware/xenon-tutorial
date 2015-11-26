@@ -37,9 +37,9 @@ For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.exa
 java -cp build/libs/Xenon-examples-all.jar nl.esciencecenter.xenon.examples.files.DirectoryListing file:///tmp
 ```
 
-where `file:///tmp` is the input argument to `DirectoryListing`. Further note that the classpath is specified in Linux/OSX format here. On Windows, use `build\libs\Xenon-examples-all.jar`.
+Further note that the classpath is specified in Linux/OSX format here. On Windows, use `build\libs\Xenon-examples-all.jar`.
 
-'run-examples.sh' is a Bash script that contains a number of example calls; execute `./run-examples.sh` at the command line to run them all. Note that some of the examples require passwordless ssh login to localhost.
+'[run-examples.sh](https://github.com/NLeSC/Xenon-examples/blob/master/run-examples.sh)' is a Bash script that contains a number of example calls; execute `./run-examples.sh` at the command line to run them all. Note that some of the examples require passwordless ssh login to localhost.
 
 Running examples from the IDE
 -------------------------
