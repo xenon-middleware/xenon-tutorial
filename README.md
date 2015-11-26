@@ -1,6 +1,3 @@
-Xenon Examples
-==============
-
 [![Build Status](https://travis-ci.org/NLeSC/Xenon-examples.svg)](https://travis-ci.org/NLeSC/Xenon-examples)
 
 This repository contains the source of the [Xenon](https://nlesc.github.io/Xenom) examples
