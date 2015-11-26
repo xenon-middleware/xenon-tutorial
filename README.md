@@ -42,9 +42,14 @@ Further note that the classpath is specified in Linux/OSX format here. On Window
 '[run-examples.sh](https://github.com/NLeSC/Xenon-examples/blob/master/run-examples.sh)' is a Bash script that contains a number of example calls; execute `./run-examples.sh` at the command line to run them all. Note that some of the examples require passwordless ssh login to localhost.
 
 Running examples from the IDE
--------------------------
+-----------------------------
 
 Generate IDE-specific project files with `./gradlew eclipse` or `./gradlew idea` and subsequently import the project into Eclipse or IntelliJ IDEA using their respective import functionality.
 
 Example files can be opened and run from inside the IDE, without the need to re-compile using `./gradlew`.
 
+
+Tutorial 
+--------
+
+A tutorial pdf targeting inexperienced users is available [here](https://github.com/NLeSC/Xenon-examples/raw/master/doc/tutorial/xenon-tutorial.pdf).
