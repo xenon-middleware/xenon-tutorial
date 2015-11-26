@@ -27,12 +27,12 @@ Which will generate a new file 'build/libs/Xenon-examples-all.jar' containing th
 
 Whenever you make changes to any of the examples, re-run `./gradlew` to update the jar file.
 
-After the jar has been generated, examples can be executed using the following format
+After the jar has been generated, examples can be executed using the following format:
 ```
 java -cp <jar file> <fully qualified example main class> <arguments required by example>
 ```
 
-For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.examples.files' package can be run with
+For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.examples.files` package can be run with:
 ```
 java -cp build/libs/Xenon-examples-all.jar nl.esciencecenter.xenon.examples.files.DirectoryListing file:///tmp
 ```
