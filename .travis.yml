@@ -3,5 +3,5 @@ install:
   - ./.travis-ssh.sh
   - ./gradlew 
 script: 
-  - ./run_examples.sh
+  - ./run-examples.sh
 
