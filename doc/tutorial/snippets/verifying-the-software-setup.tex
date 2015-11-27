@@ -3,26 +3,43 @@
 
 To check if everything works, we first need to build the example from source and then run the example from the command line.
 
-\subsubsection{Building}
+\subsubsection{Building with \texttt{gradlew}}
 
-The code is divided into a few sets of files that conceptually belong together. Such sets are referred to as `sourceSets'\index{sourceSets}. Each sourceSet has its own subdirectory; for example, the sourceSet `main'\index{Xenon!sourceSet!main@\texttt{main}} contains the source code for Xenon and is located at \url{src/main/java}. We'll also need a second sourceSet, `examples'\index{Xenon!sourceSet!examples@\texttt{examples}}, which contains the source code for the Xenon examples. It is located at \url{src/examples/java}. We will compile both sourceSets using a build automation tool, which comes in the form of a script called \texttt{gradlew}.
+At this point, \mytilde/\url{Xenon-examples} only contains files directly related to the source code of the example files. However, in order to build and run the examples successfully, we'll need a few more things. Naturally, we'll need a copy of the Xenon library, but the Xenon library in turn also has dependencies that need to be resolved. Because the process of fitting together the right libraries is quite a lot of work, we have automated it. For this, we use the build automation tool\index{build automation}\index{build tool} Gradle\index{Gradle}\footnote{\url{http://gradle.org/}}. Interestingly, you do not need to install Gradle for it to work (although you do need Java). This is because the Xenon-examples repository already includes a script called \texttt{gradlew}, which will download a predefined version of the Gradle program upon execution. The advantage of using \texttt{gradlew} for this is that the resulting build setup will be exactly the same as what the developers use, thus avoiding any bugs that stem solely from build configuration differences.
 
-How a project should be built is defined in `*.gradle' files. Xenon has two main ones (`build.gradle' and `build-offline.gradle'), as well as a few auxiliary ones (located in the \texttt{gradle} subdirectory). Together, they define all kinds of neat things you can do with the source code, such as compiling, generating documentation, uploading generated jar files to an external repository, and so on. You can get an overview of what tasks are available by:
-
+The \texttt{gradlew} script can be run with arguments. For example, running
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon
+./gradlew dependencies
+\end{lstlisting} % dummy $
+prints a list of the dependencies, and
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+./gradlew clean
+\end{lstlisting} % dummy $
+cleans up the files pertaining to any previous builds.
+
+\texttt{dependencies} and \texttt{clean} are referred to as `Gradle tasks', `build tasks' or just `tasks'\index{Gradle!tasks}. Tasks are defined in a so-called build file\index{Gradle!build file} called `build.gradle'. To get an overview of all available tasks you could read through `build.gradle', or you could simply run:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+./gradlew tasks
+\end{lstlisting} % dummy $
+
+or
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 ./gradlew tasks --all
 \end{lstlisting} % dummy $
 
-Under `Build tasks', there should be an item \texttt{examplesClasses}, used for compiling the `examples' sourceSet; \texttt{examplesClasses} has a dependent task \texttt{classes}, used for compiling the `main' sourceSet.
+If you run \texttt{./gradlew tasks}, you'll see a line at the top that says that the default task is called \texttt{shadowJar}\index{shadowJar@\texttt{shadowJar}}\footnote{\url{https://github.com/johnrengelman/shadow}}. \texttt{shadowJar} bundles any and all dependencies into one large jar, sometimes referred to as a `fat jar'\index{fat jar}. Once you figure out what to put in it, using a fat jar makes deployment more robust against forgotten-dependency errors. Lucky for you, someone has already figured out how to make the fat jar, and has even written it down in a file that Gradle can understand. So when you run \texttt{./gradlew} (without any arguments), a lot of things will happen at once:
+\begin{enumerate}
+\item{the correct version of Gradle will be downloaded;}
+\item{the Xenon library will be downloaded;}
+\item{any dependencies that the Xenon library has will be downloaded;}
+\item{all of that will then be compiled;}
+\item{a fat jar will be created.}
+\end{enumerate}
 
-Running
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd ${HOME}/Xenon
-./gradlew examplesClasses
-\end{lstlisting} % dummy $
-should give you a new directory \mytilde\url{/Xenon/build} with subdirectories \url{classes/examples} and {\url{classes/main} (as well as some other stuff).
-
+% TODO this is where I left off
 
 \subsubsection{Running an example}
 
