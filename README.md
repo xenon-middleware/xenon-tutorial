@@ -22,6 +22,8 @@ sudo apt-get install git
 # get a copy of this repository
 git clone https://github.com/NLeSC/Xenon-examples.git
 
+# change into the new directory:
+cd Xenon-examples
 ```
 
 When running from the command line, the examples need to be compiled first. We have provided an easy way to do so through:
