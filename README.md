@@ -11,6 +11,19 @@ Requirements
 * An internet connection to download dependencies
 
 
+Install version management software Git:
+----------------------------------------
+```
+sudo apt-get install git
+```
+
+Get a copy of this repository:
+------------------------------
+
+```
+git clone https://github.com/NLeSC/Xenon-examples.git
+```
+
 
 Running the examples from the command line
 ------------------------------------------
