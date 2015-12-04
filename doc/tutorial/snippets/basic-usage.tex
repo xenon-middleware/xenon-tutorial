@@ -17,11 +17,14 @@ The following sections describe the necessary steps in more detail.
 \index{Installing Git}
 
 Open a terminal (default keybinding Ctrl + Alt + t). The shell should be Bash\index{Bash}. You can check this with:
+\Needspace{5\baselineskip}
 \begin{lstlisting}[style=basic,style=bash]
 echo $0
 \end{lstlisting} % fix syntax highlighting by inserting an extra dollar sign $
 which should return \texttt{/bin/bash}.
 
+
+\Needspace{5\baselineskip}
 Now install \texttt{git}\index{Git!git@\texttt{git}} if you don't have it already:
 \begin{lstlisting}[style=basic,style=bash]
 sudo apt-get install git
@@ -31,6 +34,8 @@ After the install completes, we need to get a copy of the examples. We will use 
 \begin{lstlisting}[style=basic,style=bash]
 cd ${HOME}
 \end{lstlisting} % fix syntax highlighting by inserting an extra dollar sign $
+
+\Needspace{5\baselineskip}
 Then clone the Xenon-examples repository into the current directory:
 \begin{lstlisting}[style=basic,style=bash]
 git clone https://github.com/NLeSC/Xenon-examples.git
@@ -63,6 +68,8 @@ If you don't have Java yet, install it with:
 \begin{lstlisting}[style=basic,style=bash]
 sudo apt-get install default-jdk
 \end{lstlisting}
+this will install the open-source variant of Java (`OpenJDK'\index{Java!OpenJDK}\index{OpenJDK}).
+
 
 
 
@@ -86,7 +93,7 @@ The \texttt{gradlew} script can be run with arguments. For example, running
 cd ${HOME}/Xenon
 ./gradlew dependencies
 \end{lstlisting} % dummy $
-prints a list of the dependencies, and
+prints a list of the dependencies (of which there are quite many), and
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 ./gradlew clean
@@ -104,7 +111,9 @@ or
 ./gradlew tasks --all
 \end{lstlisting} % dummy $
 
-If you run \texttt{./gradlew tasks}, you'll see a line at the top that says that the default task is called \texttt{shadowJar}\index{shadowJar@\texttt{shadowJar}}\footnote{\url{https://github.com/johnrengelman/shadow}}. \texttt{shadowJar} bundles any and all dependencies into one large jar, sometimes referred to as a `fat jar'\index{fat jar}. Once you figure out what to put in it, using a fat jar makes deployment more robust against forgotten-dependency errors. Lucky for you, someone has already figured out how to make the fat jar, and has even written it down in a file that Gradle can understand. So when you run \texttt{./gradlew} (without any arguments), a lot of things will happen at once:
+If you run \texttt{./gradlew tasks}, you'll see a line at the top that says that the default task is called \texttt{shadowJar}\index{shadowJar@\texttt{shadowJar}}\footnote{\url{https://github.com/johnrengelman/shadow}}. \texttt{shadowJar} bundles any and all dependencies into one large jar, sometimes referred to as a `fat jar'\index{fat jar}. Once you figure out what to put in it, using a fat jar makes deployment more robust against forgotten-dependency errors. Lucky for you, someone has already figured out how to make the fat jar, and has even written it down in a file that Gradle can understand.
+
+Run \texttt{./gradlew} (without any arguments) to start the default task. The following things will happen:
 \begin{enumerate}
 \item{the correct version of Gradle will be downloaded;}
 \item{the Xenon library will be downloaded;}
@@ -113,7 +122,7 @@ If you run \texttt{./gradlew tasks}, you'll see a line at the top that says that
 \item{a fat jar will be created.}
 \end{enumerate}
 
-% TODO this is where I left off
+
 
 \subsubsection{Running an example}
 
@@ -123,7 +132,7 @@ The general syntax for running compiled Java programs from the command line\inde
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 java (*@\textit{<fully qualified classname>}@*)
 \end{lstlisting}
-The fully qualified classname for our example is \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but if you try to run
+We will use the \texttt{DirectoryListing} example from the \url{nl.esciencecenter.xenon.examples.files} package. As the name implies, it lists the directory contents of a given directory. The fully qualified classname for our example is \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but if you try to run
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon
 java nl.esciencecenter.xenon.examples.files.DirectoryListing
@@ -134,30 +143,26 @@ Error: Could not find or load main class \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
 
-This is because the \url{java} executable tries to locate our class \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but we haven't told \url{java} where to look for it. We can resolve that by specifying a list of one or more directories using \texttt{java}'s classpath option \texttt{-cp}\index{Java!from the command line!classpath}\index{Java!from the command line!-cp@\texttt{-cp}}. There are 3 locations that are relevant for running \url{DirectoryListing}. These are:
-\begin{enumerate}
-\item{the location of \url{DirectoryListing} itself:\\ \mytilde\url{/Xenon/build/classes/examples}}
-\item{the location of the Xenon classes:\\ \mytilde\url{/Xenon/build/classes/main}}
-\item{the location of any libraries that Xenon depends on:\\ \mytilde\url{/Xenon/lib}}
-\end{enumerate}
-These directories can be passed to \texttt{java} as a colon-separated list, in which directory names can be relative to the current directory. Furthermore, the syntax is slightly different depending on what type of file you want \texttt{java} to find in a given directory: if you want \texttt{java} to find compiled Java classes, use the directory name; if you want \texttt{java} to find jar files, use the directory name followed by \texttt{/*}. Finally, the order within the classpath is significant.
-% TODO find out about the order in java classpath
+This is because the \url{java} executable tries to locate our class \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but we haven't told \url{java} where to look for it. We can resolve that by specifying a list of one or more directories using \texttt{java}'s classpath option \texttt{-cp}\index{Java!from the command line!classpath}\index{Java!from the command line!-cp@\texttt{-cp}}.
 
-Using paths relative to \mytilde\url{/Xenon}, our classpath thus becomes \url{build/classes/examples:build/classes/main:lib/*}. However, if we now try to run
+Directory names can be passed to \texttt{java} as a colon-separated list, in which directory names can be relative to the current directory. Furthermore, the syntax is slightly different depending on what type of file you want \texttt{java} to find in a given directory: if you want \texttt{java} to find compiled Java classes, use the directory name; if you want \texttt{java} to find jar files, use the directory name followed by the name of the jar (or use the wildcard \texttt{*} if you want \texttt{java} to find any jar from a given directory). Finally, the order within the classpath is significant.\index{Java!classpath}
+
+
+We want Java to find the fat jar 'Xenon-examples-all.jar' from 'build/libs'. Using paths relative to \mytilde\url{/Xenon}, our classpath thus becomes \url{build/libs/Xenon-examples-all.jar}. However, if we now try to run
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon
-java -cp 'build/classes/examples:build/classes/main:lib/*' \
+java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
 % dummy $
-it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by an \textit{authority}\index{URI!authority}. For a local file, the scheme is \texttt{file://}. The authority is the name of the directory we want to list the contents of, such as \texttt{\$PWD} (the present working directory).
+it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$PWD} (the present working directory).
 
 Putting all that together, we get:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon
-java -cp 'build/classes/examples:build/classes/main:lib/*' \
-nl.esciencecenter.xenon.examples.files.DirectoryListing file://$PWD
+java -cp 'build/libs/Xenon-examples-all.jar' \
+nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
 \end{lstlisting} % dummy $
 
 If all goes well, you should now see the contents of the current directory.
