@@ -1,3 +1,4 @@
+```
 # install a server
 sudo apt-get install openssh-server
 
@@ -10,3 +11,4 @@ ssh-copy-id ${USER}@localhost
 
 # now try to log in without entering key:
 ssh ${USER}@localhost
+```
