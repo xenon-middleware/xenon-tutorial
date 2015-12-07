@@ -29,9 +29,11 @@ import nl.esciencecenter.xenon.jobs.Scheduler;
 /**
  * An example of how to retrieve a list of jobs from a scheduler.
  * 
- * This example assumes the user provides a URI with the scheduler location on the command line.
+ * This example assumes the user provides a URI with the scheduler location on
+ * the command line.
  *
- * Note: this example assumes the job is submitted to a Linux machine, as it tries to run "/bin/sleep".
+ * Note: this example assumes the job is submitted to a Linux machine, as it 
+ * tries to run "/bin/sleep".
  *
  * @version 1.0
  * @since 1.0
