@@ -447,31 +447,6 @@ Note that Javadoc expects the commenting style to be exactly like this:
 % TODO add gradle eclipse
 
 
-\subsubsection{The Gradle wrapper}
-% TODO gradlew see https://spring.io/guides/gs/gradle/
-
-% TODO what is the gradle wrapper
-
-So far, we've been calling the \texttt{gradle} executable directly. There is, however, a better way of starting a Gradle build, namely by using the so-called `Gradle wrapper'\index{Gradle!wrapper}. The Gradle wrapper consists of a shell script (\url{gradlew}), a configuration file (\url{gradle/wrapper/gradle-wrapper.properties}), and some compiled Java code bundled into a Java archive (\url{gradle/wrapper/gradle-wrapper.jar}).
-
-The Gradle wrapper is the preferred way of starting a Gradle build. This is because using \texttt{./gradlew}\index{Gradle!gradlew@\texttt{gradlew}} offers a couple of advantages over using \texttt{gradle}\index{Gradle!gradle@\texttt{gradle}}.
-%
-Firstly, users don't need to install Gradle in order to build the software. This is particularly convenient when  building the software on machines that are not owned or maintained by the user, as is typically the case during \textit{continuous integration testing}\index{continuous integration testing} using software such as Jenkins\index{Jenkins} or Travis\index{Travis}; we'll take a look at testing later.
-%
-Secondly, using the Gradle wrapper gives you the option of running a Gradle version which is more up-to-date than what's available in the operating system's software repositories. For example, my Lubuntu 14.10 comes with Gradle version 1.4, while Gradle is currently at version 2.7.
-%
-Thirdly, since the Gradle wrapper files are checked into the version control system, they become part of the software. This ensures that software users are running the exact same build setup as are the software developers, which improves the robustness of the software when everything is running smoothly, and improves reproducability when bugs occur.
-% TODO explain first-time plugin download and where those plugins are stored
-% TODO clean caches: rm ~/.m2 (maven stuff) and ~/.gradle/caches (gradle stuff)
-
-
-
-
-
-
-
-
-
 
 \subsubsection{Simple Xenon program from the command line}
 
