@@ -1,4 +1,4 @@
-\section{Basic usage}
+\chapter{Basic usage}
 
 \needspace{6\baselineskip}
 To use a minimal feature set of the Xenon library, you'll need the following software packages:
@@ -13,6 +13,158 @@ The following sections describe the necessary steps in more detail.
 
 
 
+\section{Installing Git}
+\index{Installing Git}
 
+Open a terminal (default keybinding Ctrl + Alt + t). The shell should be Bash\index{Bash}. You can check this with:
+\Needspace{5\baselineskip}
+\begin{lstlisting}[style=basic,style=bash]
+echo $0
+\end{lstlisting} % fix syntax highlighting by inserting an extra dollar sign $
+which should return \texttt{/bin/bash}.
+
+
+\Needspace{5\baselineskip}
+Now install \texttt{git}\index{Git!git@\texttt{git}} if you don't have it already:
+\begin{lstlisting}[style=basic,style=bash]
+sudo apt-get install git
+\end{lstlisting}
+
+After the install completes, we need to get a copy of the examples. We will use \texttt{git} to do so. Change into the directory that you want to end up containing the top-level repository directory. I want to put the Xenon examples in my home directory, so for me that means:
+\begin{lstlisting}[style=basic,style=bash]
+cd ${HOME}
+\end{lstlisting} % fix syntax highlighting by inserting an extra dollar sign $
+
+\Needspace{5\baselineskip}
+Then clone the Xenon-examples repository into the current directory:
+\begin{lstlisting}[style=basic,style=bash]
+git clone https://github.com/NLeSC/Xenon-examples.git
+\end{lstlisting}
+This will create a directory \texttt{\mytilde{}/Xenon-examples} that contains the source code of the Xenon examples.
+
+
+
+
+
+
+\section{Installing Java}
+\index{Installing Java}
+
+Xenon is a Java library, therefore it needs Java in order to run. Java comes in different versions identified by a name and a number. The labeling is somewhat confusing\footnote{See for example \url{http://stackoverflow.com/questions/2411288/java-versioning-and-terminology-1-6-vs-6-0-openjdk-vs-sun}}. This is partly because Java was first developed by Sun Microsystems (which was later bought by Oracle Corporation), while an open-source implementation is also available (it comes standard with many Linuxes). Furthermore, there are different flavors for each version, each flavor having different capabilities. For example, if you just want to \textit{run} Java applications, you need the JRE\index{JRE} (Java Runtime Environment\index{Java Runtime Environment}); if you also want to \textit{develop} Java software, you'll need either an SDK\index{SDK} (Software Development Kit\index{Java Software Development Kit}) from Sun/Oracle, or a JDK\index{JDK} (Java Development Kit\index{Java Development Kit}) if you are using the open-source variant.
+
+Check if you have Java and if so, what version you have:
+\begin{lstlisting}[style=basic,style=bash]
+java -version
+\end{lstlisting}
+That should produce something like:
+\begin{lstlisting}[style=basic,style=bash]
+java version "1.7.0_79"
+OpenJDK Runtime Environment (IcedTea 2.5.6) (7u79-2.5.6-0ubuntu1.14.04.1)
+OpenJDK 64-Bit Server VM (build 24.79-b02, mixed mode)
+\end{lstlisting}
+Note that `Java version 1.7' is often referred to as `Java 7'.
+
+If you don't have Java yet, install it with:
+\begin{lstlisting}[style=basic,style=bash]
+sudo apt-get install default-jdk
+\end{lstlisting}
+this will install the open-source variant of Java (`OpenJDK'\index{Java!OpenJDK}\index{OpenJDK}).
+
+
+
+
+
+
+
+
+
+
+
+\section{Verifying the software setup}
+
+To check if everything works, we first need to build the example from source and then run the example from the command line.
+
+\subsubsection{Building with \texttt{gradlew}}
+
+At this point, \mytilde/\url{Xenon-examples} only contains files directly related to the source code of the example files. However, in order to build and run the examples successfully, we'll need a few more things. Naturally, we'll need a copy of the Xenon library, but the Xenon library in turn also has dependencies that need to be resolved. Because the process of fitting together the right libraries is quite a lot of work, we have automated it. For this, we use the build automation tool\index{build automation}\index{build tool} Gradle\index{Gradle}\footnote{\url{http://gradle.org/}}. Interestingly, you do not need to install Gradle for it to work (although you do need Java). This is because the Xenon-examples repository already includes a script called \texttt{gradlew}, which will download a predefined version of the Gradle program upon execution. The advantage of using \texttt{gradlew} for this is that the resulting build setup will be exactly the same as what the developers use, thus avoiding any bugs that stem solely from build configuration differences.
+
+The \texttt{gradlew} script can be run with arguments. For example, running
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon
+./gradlew dependencies
+\end{lstlisting} % dummy $
+prints a list of the dependencies (of which there are quite many), and
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+./gradlew clean
+\end{lstlisting} % dummy $
+cleans up the files pertaining to any previous builds.
+
+\texttt{dependencies} and \texttt{clean} are referred to as `Gradle tasks', `build tasks' or just `tasks'\index{Gradle!tasks}. Tasks are defined in a so-called build file\index{Gradle!build file} called `build.gradle'. To get an overview of all available tasks you could read through `build.gradle', or you could simply run:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+./gradlew tasks
+\end{lstlisting} % dummy $
+
+or
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+./gradlew tasks --all
+\end{lstlisting} % dummy $
+
+If you run \texttt{./gradlew tasks}, you'll see a line at the top that says that the default task is called \texttt{shadowJar}\index{shadowJar@\texttt{shadowJar}}\footnote{\url{https://github.com/johnrengelman/shadow}}. \texttt{shadowJar} bundles any and all dependencies into one large jar, sometimes referred to as a `fat jar'\index{fat jar}. Once you figure out what to put in it, using a fat jar makes deployment more robust against forgotten-dependency errors. Lucky for you, someone has already figured out how to make the fat jar, and has even written it down in a file that Gradle can understand.
+
+Run \texttt{./gradlew} (without any arguments) to start the default task. The following things will happen:
+\begin{enumerate}
+\item{the correct version of Gradle will be downloaded;}
+\item{the Xenon library will be downloaded;}
+\item{any dependencies that the Xenon library has will be downloaded;}
+\item{all of that will then be compiled;}
+\item{a fat jar will be created.}
+\end{enumerate}
+
+
+
+\subsubsection{Running an example}
+
+So at this point we have compiled the necessary Java classes; now we need to figure out how to run them.
+
+The general syntax for running compiled Java programs from the command line\index{Java!from the command line} is as follows:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+java (*@\textit{<fully qualified classname>}@*)
+\end{lstlisting}
+We will use the \texttt{DirectoryListing} example from the \url{nl.esciencecenter.xenon.examples.files} package. As the name implies, it lists the directory contents of a given directory. The fully qualified classname for our example is \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but if you try to run
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon
+java nl.esciencecenter.xenon.examples.files.DirectoryListing
+\end{lstlisting} % dummy $
+you will get the error below:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+Error: Could not find or load main class \
+nl.esciencecenter.xenon.examples.files.DirectoryListing
+\end{lstlisting}
+
+This is because the \url{java} executable tries to locate our class \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but we haven't told \url{java} where to look for it. We can resolve that by specifying a list of one or more directories using \texttt{java}'s classpath option \texttt{-cp}\index{Java!from the command line!classpath}\index{Java!from the command line!-cp@\texttt{-cp}}.
+
+Directory names can be passed to \texttt{java} as a colon-separated list, in which directory names can be relative to the current directory. Furthermore, the syntax is slightly different depending on what type of file you want \texttt{java} to find in a given directory: if you want \texttt{java} to find compiled Java classes, use the directory name; if you want \texttt{java} to find jar files, use the directory name followed by the name of the jar (or use the wildcard \texttt{*} if you want \texttt{java} to find any jar from a given directory). Finally, the order within the classpath is significant.\index{Java!classpath}
+
+
+We want Java to find the fat jar 'Xenon-examples-all.jar' from 'build/libs'. Using paths relative to \mytilde\url{/Xenon}, our classpath thus becomes \url{build/libs/Xenon-examples-all.jar}. However, if we now try to run
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon
+java -cp 'build/libs/Xenon-examples-all.jar' \
+nl.esciencecenter.xenon.examples.files.DirectoryListing
+\end{lstlisting}
+% dummy $
+it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$PWD} (the present working directory).
+
+Putting all that together, we get:
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon
+java -cp 'build/libs/Xenon-examples-all.jar' \
+nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
+\end{lstlisting} % dummy $
+
+If all goes well, you should now see the contents of the current directory.
 
 
