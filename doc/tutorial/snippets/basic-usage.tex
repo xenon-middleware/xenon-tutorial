@@ -80,17 +80,16 @@ this will install the open-source variant of Java (`OpenJDK'\index{Java!OpenJDK}
 
 
 
-\section{Verifying the software setup}
+
+\section{Building with \texttt{gradlew}}
 
 To check if everything works, we first need to build the example from source and then run the example from the command line.
-
-\subsubsection{Building with \texttt{gradlew}}
 
 At this point, \mytilde/\url{Xenon-examples} only contains files directly related to the source code of the example files. However, in order to build and run the examples successfully, we'll need a few more things. Naturally, we'll need a copy of the Xenon library, but the Xenon library in turn also has dependencies that need to be resolved. Because the process of fitting together the right libraries is quite a lot of work, we have automated it. For this, we use the build automation tool\index{build automation}\index{build tool} Gradle\index{Gradle}\footnote{\url{http://gradle.org/}}. Interestingly, you do not need to install Gradle for it to work (although you do need Java). This is because the Xenon-examples repository already includes a script called \texttt{gradlew}, which will download a predefined version of the Gradle program upon execution. The advantage of using \texttt{gradlew} for this is that the resulting build setup will be exactly the same as what the developers use, thus avoiding any bugs that stem solely from build configuration differences.
 
 The \texttt{gradlew} script can be run with arguments. For example, running
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd ${HOME}/Xenon
+cd ${HOME}/Xenon-examples
 ./gradlew dependencies
 \end{lstlisting} % dummy $
 prints a list of the dependencies (of which there are quite many), and
@@ -124,7 +123,7 @@ Run \texttt{./gradlew} (without any arguments) to start the default task. The fo
 
 
 
-\subsubsection{Running an example}
+\section{Running an example}
 
 So at this point we have compiled the necessary Java classes; now we need to figure out how to run them.
 
@@ -134,7 +133,7 @@ java (*@\textit{<fully qualified classname>}@*)
 \end{lstlisting}
 We will use the \texttt{DirectoryListing} example from the \url{nl.esciencecenter.xenon.examples.files} package. As the name implies, it lists the directory contents of a given directory. The fully qualified classname for our example is \url{nl.esciencecenter.xenon.examples.files.DirectoryListing}, but if you try to run
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd ${HOME}/Xenon
+cd ${HOME}/Xenon-examples
 java nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting} % dummy $
 you will get the error below:
@@ -148,9 +147,9 @@ This is because the \url{java} executable tries to locate our class \url{nl.esci
 Directory names can be passed to \texttt{java} as a colon-separated list, in which directory names can be relative to the current directory. Furthermore, the syntax is slightly different depending on what type of file you want \texttt{java} to find in a given directory: if you want \texttt{java} to find compiled Java classes, use the directory name; if you want \texttt{java} to find jar files, use the directory name followed by the name of the jar (or use the wildcard \texttt{*} if you want \texttt{java} to find any jar from a given directory). Finally, the order within the classpath is significant.\index{Java!classpath}
 
 
-We want Java to find the fat jar 'Xenon-examples-all.jar' from 'build/libs'. Using paths relative to \mytilde\url{/Xenon}, our classpath thus becomes \url{build/libs/Xenon-examples-all.jar}. However, if we now try to run
+We want Java to find the fat jar `Xenon-examples-all.jar' from `build/libs'. Using paths relative to \mytilde\url{/Xenon-examples}, our classpath thus becomes \url{build/libs/Xenon-examples-all.jar}. However, if we now try to run
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd ${HOME}/Xenon
+cd ${HOME}/Xenon-examples
 java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
@@ -160,11 +159,43 @@ it still does not work yet, because \url{DirectoryListing} takes exactly one inp
 Putting all that together, we get:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd ${HOME}/Xenon
+cd ${HOME}/Xenon-examples
 java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
 \end{lstlisting} % dummy $
 
-If all goes well, you should now see the contents of the current directory.
+If all goes well, you should now see the contents of the current directory (where each INFO message represents one file or directory).
 
 
+\section{Setting the log level}
+
+Xenon uses the logback\footnote{\url{http://logback.qos.ch/}}\index{logback}\index{logger} library for much of the output. For this, developers have sprinkled the code with so-called \textit{logger}\index{logger} statements that produce messages. Each message has been annotated as an error, a warning, debugging information, or as a plain informational message. The logback library lets the user configure where each type of message should be routed. For example, warnings and informational messages may be routed to standard output, while error messages may be routed to standard error. Furthermore, it gives the user control of how each message should be formatted, for example with regard to what class produced the message, and at what line exactly. The behavior of the logger can be configured by means of a file called \url{logback.xml}. It is located at \url{src/main/resources/}. There should not be any need for you to change \url{logback.xml} too much, but if you do, make sure to re-run \texttt{./gradlew} for your changes to take effect.
+
+By default, \url{logback.xml} uses a logging level of \texttt{INFO}, which means that only warnings and errors are routed to standard output, but informational messages or debug messages are not visible. When you run from the command line, you may find yourself in a situation where you want to change the logging level. There's two ways you can do that: first you can change the default behavior by editing the \texttt{loglevel} line in \url{src/main/resources/logback.xml}, saving it, and re-running \texttt{./gradlew}. Secondly, you can keep the defaults as they are, but only run a specific call with altered \texttt{loglevel} settings, by using command line parameters to the \texttt{java} program. For example, you could lower the logging level from \texttt{INFO} to \texttt{DEBUG} as follows:
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon-examples
+java -Dloglevel=DEBUG -cp 'build/libs/Xenon-examples-all.jar' \
+nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
+\end{lstlisting} % dummy $
+
+Standard output will now include messages of the \texttt{WARN}, \texttt{ERROR}, \texttt{INFO}, and \texttt{DEBUG} level:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+time   : 16:52:38.393 (+271 ms)
+thread : main
+level  : DEBUG
+class  : nl.esciencecenter.xenon.adaptors.ssh.SshAdaptor:179
+message: Setting ssh known hosts file to: /home/daisycutter/.ssh/config
+
+time   : 16:52:38.396 (+274 ms)
+thread : main
+level  : WARN
+class  : nl.esciencecenter.xenon.adaptors.ssh.SshAdaptor:242
+message: OpenSSH config file cannot be read.
+
+time   : 16:52:38.412 (+290 ms)
+thread : main
+level  : INFO
+class  : nl.esciencecenter.xenon.engine.XenonEngine:169
+message: Xenon engine initialized with adaptors: [Adaptor [name=local], Ada...
+\end{lstlisting}
