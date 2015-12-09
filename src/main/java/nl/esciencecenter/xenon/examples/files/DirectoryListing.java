@@ -28,6 +28,10 @@ import nl.esciencecenter.xenon.files.Files;
 import nl.esciencecenter.xenon.files.Path;
 import nl.esciencecenter.xenon.files.RelativePath;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * An example of how to list a directory.
  * 
@@ -38,55 +42,65 @@ import nl.esciencecenter.xenon.files.RelativePath;
  */
 public class DirectoryListing {
 
+	final static Logger LOGGER = LoggerFactory.getLogger(DirectoryListing.class);
+	
     public static void main(String[] args) {
 
         if (args.length != 1) {
-            System.out.println("Example requires a URI as parameter!");
+            LOGGER.error("Example requires a URI as parameter!");
             System.exit(1);
         }
 
         try {
             // We first turn the user provided argument into a URI.
+        	LOGGER.debug("Reading the URI...");
             URI uri = new URI(args[0]);
 
             // We create a new Xenon using the XenonFactory (without providing any properties).
+            LOGGER.debug("Creating a Xenon...");
             Xenon xenon = XenonFactory.newXenon(null);
 
             // Next, we retrieve the Files and Credentials interfaces
+            LOGGER.debug("Getting the Files interface...");
             Files files = xenon.files();
 
             // Next we create a FileSystem. Note that both credential and properties are null (which means: use default)
+            LOGGER.debug("Creating a FileSystem...");
             FileSystem fs = files.newFileSystem(uri.getScheme(), uri.getAuthority(), null, null);
 
             // We now create an Path representing the directory we want to list.
+            LOGGER.debug("Creating a new Path...");
             Path path = files.newPath(fs, new RelativePath(uri.getPath()));
 
             // Retrieve the attributes of the file.
+            LOGGER.debug("Getting the directory attributes...");
             FileAttributes att = files.getAttributes(path);
 
             // Retrieve the attributes of the files in the directory.
             if (att.isDirectory()) {
 
-                System.out.println("Directory " + uri + " exists and contains the following:");
+                LOGGER.info("Directory " + uri + " exists and contains the following:");
 
                 DirectoryStream<Path> stream = files.newDirectoryStream(path);
 
                 for (Path p : stream) {
-                    System.out.println("   " + p.getRelativePath().getFileNameAsString());
+                    LOGGER.info(p.getRelativePath().getFileNameAsString());
                 }
 
             } else {
-                System.out.println("Directory " + uri + " does not exists or is not a directory.");
+                LOGGER.error("Directory " + uri + " does not exists or is not a directory.");
             }
 
             // If we are done we need to close the FileSystem
+            LOGGER.debug("Closing the File System to free resources...");
             files.close(fs);
 
             // Finally, we end Xenon to release all resources 
+            LOGGER.debug("Closing the Xenon instance to free resources...");
             XenonFactory.endXenon(xenon);
 
         } catch (URISyntaxException | XenonException e) {
-            System.out.println("DirectoryListing example failed: " + e.getMessage());
+            LOGGER.error("DirectoryListing example failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
