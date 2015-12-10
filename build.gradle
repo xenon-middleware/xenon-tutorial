@@ -18,9 +18,34 @@ dependencies {
     compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0-beta1'
 }
 
-
 shadowJar {
   baseName = 'Xenon-examples'
+}
+
+// create a single Jar with only local dependencies
+// all dependencies need to be put in the lib directory
+// first
+configurations {
+    compileLocal
+}
+dependencies {
+    compileLocal fileTree(dir: file('lib'), include: '*.jar')
+}
+task downloadDependencies(type: Copy) {
+    from configurations.runtime.files
+    into file('lib')
+}
+task localJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Xenon-examples-testing'
+    }
+    baseName = project.name + '-testing'
+    from(configurations.compileLocal.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
 }
 
 defaultTasks 'shadowJar'
