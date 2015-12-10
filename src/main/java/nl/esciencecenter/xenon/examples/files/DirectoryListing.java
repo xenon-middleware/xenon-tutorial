@@ -78,17 +78,24 @@ public class DirectoryListing {
 
             // Retrieve the attributes of the files in the directory.
             if (att.isDirectory()) {
-
-                LOGGER.info("Directory " + uri + " exists and contains the following:");
+        		
+            	String s = "";
+            	String indent = "         ";
+        		
+        		s += "Directory " + uri + " exists and contains the following:\n";
 
                 DirectoryStream<Path> stream = files.newDirectoryStream(path);
 
                 for (Path p : stream) {
-                    LOGGER.info(p.getRelativePath().getFileNameAsString());
+                    s += indent + p.getRelativePath().getFileNameAsString() + "\n";
                 }
+                
+                LOGGER.info(s);
 
+            } else if (att.isRegularFile()) {
+            	LOGGER.error(uri + " is a file.");
             } else {
-                LOGGER.error("Directory " + uri + " does not exists or is not a directory.");
+                LOGGER.error("Directory " + uri + " does not exist or is not a directory.");
             }
 
             // If we are done we need to close the FileSystem

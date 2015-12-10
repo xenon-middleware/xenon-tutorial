@@ -164,18 +164,18 @@ java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
 \end{lstlisting} % dummy $
 
-If all goes well, you should now see the contents of the current directory (where each INFO message represents one file or directory).
+If all goes well, you should now see the contents of the current directory as an INFO message.
 
 
 \section{Setting the log level}
 \label{sec:setting-the-log-level-command-line}
 
-Xenon uses the logback\footnote{\url{http://logback.qos.ch/}}\index{logback}\index{logger} library for much of the output. For this, developers have sprinkled the code with so-called \textit{logger}\index{logger} statements that produce messages. Each message has been annotated as an error, a warning, debugging information, or as a plain informational message. The logback library lets the user configure where each type of message should be routed. For example, warnings and informational messages may be routed to standard output, while error messages may be routed to standard error. Furthermore, it gives the user control of how each message should be formatted, for example with regard to what class produced the message, and at what line exactly. The behavior of the logger can be configured by means of a file called \url{logback.xml}. It is located at \url{src/main/resources/}. There should not be any need for you to change \url{logback.xml} too much, but if you do, make sure to re-run \texttt{./gradlew} for your changes to take effect.
+Xenon uses the logback\footnote{\url{http://logback.qos.ch/}}\index{logback library}\index{logger} library for much of the output. For this, developers have sprinkled the code with so-called \textit{logger}\index{logger} statements that produce messages. Each message has been annotated as an error, a warning, debugging information, or as a plain informational message. The logback library lets the user configure where each type of message should be routed. For example, warnings and informational messages may be routed to standard output, while error messages may be routed to standard error. Furthermore, it gives the user control of how each message should be formatted, for example with regard to what class produced the message, and at what line exactly. The behavior of the logger can be configured by means of a file called \url{logback.xml}\index{logback.xml@\texttt{logback.xml}}. It is located at \url{src/main/resources/}. There should not be any need for you to change \url{logback.xml} too much, but if you do, make sure to re-run \texttt{./gradlew} for your changes to take effect.
 
-By default, \url{logback.xml} uses a logging level of \texttt{INFO}, which means that warnings, errors, and informational messages are routed to standard output, but debug messages are not visible. At some point, you may find yourself in a situation where you want to change the logging level. There's two ways you can do that: first you can change the default behavior by editing the \texttt{loglevel} line in \url{src/main/resources/logback.xml}, saving it, and re-running \texttt{./gradlew}. Secondly, you can keep the defaults as they are, but only run a specific call with altered \texttt{loglevel} settings, by using command line parameters to the \texttt{java} program\index{Java!command line parameters}.
+By default, \url{logback.xml} uses a logging level of \texttt{INFO}, which means that warnings, errors, and informational messages are routed to standard output, but debug messages are not visible. At some point, you may find yourself in a situation where you want to change the logging level. There's two ways you can do that: first you can change the default behavior by editing the \texttt{loglevel} line in \url{src/main/resources/logback.xml}, saving it, and re-running \texttt{./gradlew}.
 
 \Needspace{20\baselineskip}
-For example, you could lower the logging level from \texttt{INFO} to \texttt{DEBUG} as follows:
+Secondly, you can keep the defaults as they are, but only run a specific call with altered \texttt{loglevel} settings, by using command line parameters to the \texttt{java} program\index{Java!command line parameters}. For example, you could lower the logging level from \texttt{INFO} to \texttt{DEBUG} as follows:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
