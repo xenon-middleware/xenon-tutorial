@@ -205,3 +205,87 @@ message: Xenon engine initialized with adaptors: [Adaptor [name=local], Ada...
 \end{lstlisting}
 
 
+
+
+\section{\texttt{ssh} setup}
+
+% TODO what is ssh
+% TODO explain why ssh is so important (we use it for everything, all adaptors except local adaptor use it)
+
+\subsection{\texttt{ssh} to \texttt{localhost}}
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# install a server
+sudo apt-get install openssh-server
+\end{lstlisting}
+% TODO explain why we need this
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# generate key pair
+ssh-keygen -t rsa
+# (press enter a couple times to accept the defaults)
+\end{lstlisting}
+% TODO explain what happened id_rsa and id_rsa.pub
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# copy identity
+ssh-copy-id ${USER}@localhost
+\end{lstlisting} % dummy $
+% TODO explain what happened authorized_keys and known_hosts
+
+The structure of \url{known_hosts} is as follows. Each line begins with the following elements:
+\begin{itemize}
+\item{\texttt{1} a flag. Here, it signifies that the third element (host name) is hashed using the SHA1 algorithm;}
+\item{\texttt{x5PcOam9hhAjdF84++EKwodUNgQ} the (public) salt used to encrypt the host name;}
+\item{\texttt{NK1rAZev7rV6JSTIdM3ymPpKlQ0}} the (hashed) host name;}
+\item{key-value pairs, e.g. the RSA fingerprint of the Lisa system \url{ssh-rsa} \url{b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b}.}  % FIXME wrong example; change to localhost
+\end{itemize}
+Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote system, without having to ask for credentials every time.
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# now try to log in without entering key:
+ssh ${USER}@localhost
+\end{lstlisting} % dummy $
+% explain what should happen
+
+
+% TODO now run \texttt{./run-examples.sh}
+
+
+\subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
+
+Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system, such as the Amazon Cloud, the Cartesius supercomputer, or maybe even just a single machine. In this section, I'll explain how to connect to SURFsara's cluster computer, Lisa. Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+
+I can connect to Lisa's head node using the \texttt{ssh} command line program as follows:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# (my account on Lisa is called jspaaks)
+ssh jspaaks@lisa.surfsara.nl
+\end{lstlisting}
+
+If this is the first time you connect to the remote machine, it will generally ask if you want to add the remote machine to the list of known hosts. For example, here's what the Lisa system tells me when I try to ssh to it:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+The authenticity of host 'lisa.surfsara.nl (145.100.29.210)' can't be
+established.
+RSA key fingerprint is b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b.
+Are you sure you want to continue connecting (yes/no)?
+\end{lstlisting}
+If I then type \texttt{yes}, it says\footnote{SURFsara publish RSA key fingerprints for their systems at \url{https://userinfo.surfsara.nl/systems/shared/ssh}. The number posted there should be the same as what you have in your terminal.}:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
+         the list of known hosts.
+
+                             (*@\textit{<some content omitted>}@*)
+\end{lstlisting}
+and asks for my password.
+
+The result of this connection is that \url{~/.ssh/known_hosts} now includes a line for the Lisa system.
+
+
+
+
+
+
+
+
+
+
