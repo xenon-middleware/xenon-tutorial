@@ -2,53 +2,54 @@
 set -x #echo on
 set -e
 
-###
-#
-# This script requires a Linux machine with passwordless ssh to localhost.
-#
-###
+echo "This script requires a Linux machine with passwordless ssh to localhost."
 
-class_path=build/libs/*-all.jar
+# set the Java classpath
+CP=build/libs/Xenon-examples-all.jar
 
-java -cp $class_path nl.esciencecenter.xenon.examples.CreatingXenon
+# set the logback library's logging level/verbosity 
+# possible values: INFO / WARN / DEBUG / ERROR
+LOGLEVEL=WARN
 
-java -cp $class_path nl.esciencecenter.xenon.examples.CreatingXenonWithProperties
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.CreatingXenon
 
-java -cp $class_path nl.esciencecenter.xenon.examples.credentials.CreatingCredential
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.CreatingXenonWithProperties
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateLocalFileSystem
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.credentials.CreatingCredential
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateFileSystem file:///
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.CreateLocalFileSystem
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateFileSystem ssh://$USER@localhost
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.CreateFileSystem file:///
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.DirectoryListing file://$PWD
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.CreateFileSystem ssh://$USER@localhost
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.DirectoryListing ssh://$USER@localhost$PWD
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.DirectoryListing file://$PWD
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.LocalFileExists $PWD/README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.DirectoryListing ssh://$USER@localhost$PWD
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.FileExists file://$PWD/README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.LocalFileExists $PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.FileExists ssh://$USER@localhost/$PWD/README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.FileExists file://$PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.ShowFileAttributes file://$PWD/README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.FileExists ssh://$USER@localhost/$PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.ShowFileAttributes ssh://$USER@localhost/$PWD/README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.ShowFileAttributes file://$PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CopyFile file://$PWD/README.md file:///tmp/Copy.Of.README.md
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.ShowFileAttributes ssh://$USER@localhost/$PWD/README.md
+
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.files.CopyFile file://$PWD/README.md file:///tmp/Copy.Of.README.md
 ls /tmp/Copy.Of.README.md
 rm /tmp/Copy.Of.README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJob local:///
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJob local:///
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJob ssh://$USER@localhost
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJob ssh://$USER@localhost
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.SubmitBatchJobWithOutput local:///
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.SubmitBatchJobWithOutput local:///
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.SubmitBatchJobWithOutput ssh://$USER@localhost
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.SubmitBatchJobWithOutput ssh://$USER@localhost
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.SubmitInteractiveJobWithOutput ssh://$USER@localhost
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.SubmitInteractiveJobWithOutput ssh://$USER@localhost
 
-java -cp $class_path nl.esciencecenter.xenon.examples.jobs.ListJobs local:///
+java -Dloglevel=$LOGLEVEL -cp $CP nl.esciencecenter.xenon.examples.jobs.ListJobs local:///
 
