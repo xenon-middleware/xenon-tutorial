@@ -1,14 +1,10 @@
-\chapter{Advanced usage}
+\chapter{Eclipse}
 
-So now that we've verified that everything works, we can start thinking about doing some development work. Let's first look at opening the Xenon project in the Java editor Eclipse.
-
-
-
-\section{Eclipse}
+So now that we've verified that everything works, we can start thinking about doing some development work. Let's first look at the Java editor Eclipse.
 
 Eclipse\index{Eclipse} is a very powerful, free, open-source, integrated development environment for Java (and many other languages). It is available in most Linuxes from their respective repositories. By default, Eclipse comes with many features, such as Git (version control)\index{Git}, Mylyn (task management)\index{Mylyn}, Maven (building)\index{Maven}, Ant (building)\index{Ant}, an XML editor, as well as some other stuff. While these features are nice, they can get in the way if you're new to code development with Java using Eclipse. We will therefore set up a minimal Eclipse installation which includes only the Eclipse platform and the Java related tools (most importantly, the debugger). Feel free to skip this next part if you're already familiar with Eclipse.
 
-\subsection{A minimal Eclipse installation}
+\section{A minimal Eclipse installation}
 \index{Eclipse!minimal installation}
 
 Go to \url{http://download.eclipse.org/eclipse/downloads/}. Under `Latest release', click on the link with the highest version number. It will take you to a website that has a menu in the upper left corner. From that menu, select the item `Platform Runtime binary', then download the file corresponding to your platform (for me, that is \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz}). Go back to the menu by scrolling up, then select the item `JDT Runtime binary', and download the file (there should be only one; for me that is \url{org.eclipse.jdt-4.5.zip}).
@@ -17,9 +13,6 @@ Now go to where you downloaded those two files. Uncompress \url{eclipse-platform
 
 In Eclipse's menu go to \textsf{Help}, then select \textsf{Install New Software...}. Near the bottom of the dialog, uncheck \textsf{Group items by category}. Then click the top-right button labeled \textsf{Add...} and click \textsf{Archive...}. Then navigate to the second file you downloaded, \url{org.eclipse.jdt-4.5.zip} and select it. In the dialog, a new item \textsf{Eclipse Java Development Tools} should appear. Make sure it's checked, then click \textsf{Next} and \textsf{Finish}. When Eclipse restarts, you should have everything you need for Java development, without any of the clutter!
 
-\needspace{4em}
-\vspace{2em}
-\textit{Adding a Bash alias}
 \index{Bash!alias}
 \index{Bash!alias!miniclipse@\texttt{miniclipse}}
 
@@ -30,7 +23,7 @@ ${HOME}/.bash_aliases
 \end{lstlisting}
 to do so (restart your terminal to use the \texttt{miniclipse} alias).
 
-\subsection{Automatic project setup with \texttt{gradlew}}
+\section{Automatic project setup with \texttt{gradlew}}
 
 \index{Eclipse!automatic project setup}
 \index{Eclipse!gradle eclipse@\texttt{gradle eclipse}}
@@ -47,7 +40,7 @@ cd ${HOME}/Xenon
 ./gradlew eclipse
 \end{lstlisting} % dummy $
 
-\subsection{Opening the Xenon examples in Eclipse}
+\section{Opening the Xenon examples in Eclipse}
 \index{Xenon examples!in Eclipse}
 \index{Eclipse!new project}
 
@@ -63,7 +56,7 @@ Double-click \textsf{DirectoryListing2.java} to bring up the corresponding Java 
 
 
 
-\subsection{Running a Java program in Eclipse}
+\section{Running a Java program in Eclipse}
 \index{Eclipse!Running a Java program}
 \index{Running a Java program in Eclipse}
 \index{Java!Running a Java program in Eclipse}
@@ -83,7 +76,7 @@ So somehow we have to tell Eclipse about the URI (including both its scheme and 
 
 
 
-\subsection{Debugging a Java program in Eclipse}
+\section{Debugging a Java program in Eclipse}
 
 \index{Eclipse!Debugging a Java program}
 \index{Debugging a Java program in Eclipse}
@@ -130,6 +123,6 @@ Finally, you can terminate a debug run by pressing \textsf{Ctrl+F2}. Table~\ref{
 \end{tabular}
 \end{table}
 
-\subsection{Setting the log level}
+\section{Setting the log level}
 
 Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{java} using command line parameters such as \texttt{-Dloglevel=DEBUG} (see section \ref{sec:setting-the-log-level-command-line}). Passing command line parameters is also possible in Eclipse, by altering the debug configuration (or run configuration) as follows. In Eclipse's menu, go to \textsf{Run} and select either \textsf{Run configurations...} or \textsf{Debug configurations...} as appropriate. Then, in the left pane, select the Java application whose configuration you want to adapt. In the right-hand pane, subsequently select the tab labeled \textsf{Arguments}. The second text field from the top should be labeled \textsf{VM arguments}\index{Eclipse!VM arguments}. Here you can add command line parameters to the java program, such as \texttt{-Dloglevel=DEBUG}.
