@@ -28,6 +28,7 @@ cd Xenon-examples
 
 When running from the command line, the examples need to be compiled first. We have provided an easy way to do so through:
 ```
+# (in Xenon-examples/)
 ./gradlew
 ```
 
@@ -37,11 +38,13 @@ Whenever you make changes to any of the examples, re-run `./gradlew` to update t
 
 After the jar has been generated, examples can be executed using the following format:
 ```
+# (in Xenon-examples/)
 java -cp <jar file> <fully qualified example main class> <arguments required by example>
 ```
 
 For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.examples.files` package can be run with (Linux):
 ```
+# (in Xenon-examples/)
 java -cp build/libs/Xenon-examples-all.jar nl.esciencecenter.xenon.examples.files.DirectoryListing file:///tmp
 ```
 
