@@ -18,25 +18,25 @@ java -cp $class_path nl.esciencecenter.xenon.examples.credentials.CreatingCreden
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateLocalFileSystem
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateFileSystem file:///
+java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateFileSystem local:///
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.CreateFileSystem ssh://$USER@localhost
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.DirectoryListing file://$PWD
+java -cp $class_path nl.esciencecenter.xenon.examples.files.DirectoryListing local://$PWD
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.DirectoryListing ssh://$USER@localhost$PWD
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.LocalFileExists $PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.FileExists file://$PWD/README.md
+java -cp $class_path nl.esciencecenter.xenon.examples.files.FileExists local://$PWD/README.md
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.FileExists ssh://$USER@localhost/$PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.ShowFileAttributes file://$PWD/README.md
+java -cp $class_path nl.esciencecenter.xenon.examples.files.ShowFileAttributes local://$PWD/README.md
 
 java -cp $class_path nl.esciencecenter.xenon.examples.files.ShowFileAttributes ssh://$USER@localhost/$PWD/README.md
 
-java -cp $class_path nl.esciencecenter.xenon.examples.files.CopyFile file://$PWD/README.md file:///tmp/Copy.Of.README.md
+java -cp $class_path nl.esciencecenter.xenon.examples.files.CopyFile local://$PWD/README.md local:///tmp/Copy.Of.README.md
 ls /tmp/Copy.Of.README.md
 rm /tmp/Copy.Of.README.md
 
