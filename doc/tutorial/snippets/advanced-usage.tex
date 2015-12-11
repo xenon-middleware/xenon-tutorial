@@ -52,9 +52,10 @@ In the next dialog (\textsf{Import projects}), use the \textsf{Browse...} button
 
 
 \section{Running a Java program in Eclipse}
-\index{Eclipse!Running a Java program}
+
+\index{Eclipse!running a Java program}
 \index{Running a Java program in Eclipse}
-\index{Java!Running a Java program in Eclipse}
+\index{Java!running a program in Eclipse}
 
 So now that we have the source code open in the editor, let's see if we can run it. You can start the program in a couple different ways. For example, you can select \textsf{Run}$\rightarrow$\textsf{Run}; you can use the key binding \textsf{Ctrl+F11}, or you can press the `Play' icon in Eclipse's GUI. If you try to run the program, however, you will get the error we saw earlier at the command line (Eclipse prints the program's output to the pane labeled \textsf{Console}):
 \begin{lstlisting}[style=basic,style=bash,language=java,escapeinside={(*@}{@*)}]
@@ -65,7 +66,7 @@ class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:51
 message: Example requires a URI as parameter!
 \end{lstlisting}
 
-So somehow we have to tell Eclipse about the URI (including both its scheme and its path) that we want to use to get to the contents of a directory of our chosing. You can do this through so-called `Run configurations'\index{Eclipse!Run configurations}. You can make a new run configuration by selecting \textsf{Run} from the Eclipse menu, then \textsf{Run configurations...}. In the left pane of the dialog that pops up, select \textsf{Java Application}, then press the \textsf{New launch configuration} button in the top left of the dialog. A new run configuration item should now become visible under \textsf{Java Application}. By default, the name of the run configuration will be the name of the class, but you can change the name to whatever you like. When you select the \textsf{DirectoryListing} run configuration in the left pane, the right pane changes to show the details of the run configuration. The information is divided over a few tabs. Select the tab labeled \textsf{Arguments}. You should see a field named \textsf{Program arguments} where you can provide the arguments that you would normally pass through the command line. Earlier, we passed the string \texttt{file:\$\{PWD\}}, but that won't work here, since \texttt{\$\{PWD\}} is a Bash environment variable, and thus not directly available from within Eclipse. Eclipse does provide a workaround for this by way of the \texttt{env\_var} variable. \texttt{env\_var} takes exactly one argument, namely the name of an environment variable, such as \texttt{PWD}. The correct text to enter into \textsf{Program arguments} thus becomes \texttt{file:\$\{env\_var:PWD\}}. Note that \texttt{\$\{env\_var:PWD\}} refers to the directory that Eclipse was started from.
+So somehow we have to tell Eclipse about the URI (including both its scheme and its path) that we want to use to get to the contents of a directory of our chosing. You can do this through so-called `Run configurations'\index{Eclipse!run configurations}. You can make a new run configuration by selecting \textsf{Run} from the Eclipse menu, then \textsf{Run configurations...}. In the left pane of the dialog that pops up, select \textsf{Java Application}, then press the \textsf{New launch configuration} button in the top left of the dialog. A new run configuration item should now become visible under \textsf{Java Application}. By default, the name of the run configuration will be the name of the class, but you can change the name to whatever you like. When you select the \textsf{DirectoryListing} run configuration in the left pane, the right pane changes to show the details of the run configuration. The information is divided over a few tabs. Select the tab labeled \textsf{Arguments}. You should see a field named \textsf{Program arguments} where you can provide the arguments that you would normally pass through the command line. Earlier, we passed the string \texttt{file:\$\{PWD\}}, but that won't work here, since \texttt{\$\{PWD\}} is a Bash environment variable, and thus not directly available from within Eclipse. Eclipse does provide a workaround for this by way of the \texttt{env\_var} variable. \texttt{env\_var} takes exactly one argument, namely the name of an environment variable, such as \texttt{PWD}. The correct text to enter into \textsf{Program arguments} thus becomes \texttt{file:\$\{env\_var:PWD\}}. Note that \texttt{\$\{env\_var:PWD\}} refers to the directory that Eclipse was started from.
 
 
 
@@ -73,9 +74,9 @@ So somehow we have to tell Eclipse about the URI (including both its scheme and 
 
 \section{Debugging a Java program in Eclipse}
 
-\index{Eclipse!Debugging a Java program}
-\index{Debugging a Java program in Eclipse}
-\index{Java!Debugging a Java program in Eclipse}
+\index{Eclipse!debugging a Java program}
+\index{Debugging a program in Eclipse}
+\index{Java!debugging in Eclipse}
 
 
 
