@@ -9,7 +9,7 @@ Eclipse\index{Eclipse} is a very powerful, free, open-source, integrated develop
 
 Go to \url{http://download.eclipse.org/eclipse/downloads/}. Under `Latest release', click on the link with the highest version number. It will take you to a website that has a menu in the upper left corner. From that menu, select the item `Platform Runtime binary', then download the file corresponding to your platform (for me, that is \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz}). Go back to the menu by scrolling up, then select the item `JDT Runtime binary', and download the file (there should be only one; for me that is \url{org.eclipse.jdt-4.5.zip}).
 
-Now go to where you downloaded those two files. Uncompress \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz} and move the uncompressed files to a new directory \mytilde\url{/opt/minimal-eclipse/} (they can be anywhere, really, but \mytilde\url{/opt} is the conventional place to install user-space programs on Linux). Start Eclipse by running \url{eclipse} from \mytilde\url{/opt/minimal-eclipse/eclipse}.
+Now go to where you downloaded those two files to. Uncompress \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz} and move the uncompressed files to a new directory \mytilde\url{/opt/minimal-eclipse/} (they can be anywhere, really, but \mytilde\url{/opt} is the conventional place to install user-space programs on Linux). Start Eclipse by running \url{eclipse} from \mytilde\url{/opt/minimal-eclipse/eclipse}.
 
 In Eclipse's menu go to \textsf{Help}, then select \textsf{Install New Software...}. Near the bottom of the dialog, uncheck \textsf{Group items by category}. Then click the top-right button labeled \textsf{Add...} and click \textsf{Archive...}. Then navigate to the second file you downloaded, \url{org.eclipse.jdt-4.5.zip} and select it. In the dialog, a new item \textsf{Eclipse Java Development Tools} should appear. Make sure it's checked, then click \textsf{Next} and \textsf{Finish}. When Eclipse restarts, you should have everything you need for Java development, without any of the clutter!
 
@@ -46,15 +46,16 @@ cd ${HOME}/Xenon-examples
 
 After the Eclipse files have been generated, start Eclipse by typing the Bash alias \texttt{miniclipse} at the command line. From Eclipse's menu, select \textsf{File}$\rightarrow$\textsf{Import}. In the \textsf{Select} dialog, select \textsf{Existing projects into Workspace}, then click the button labeled \textsf{Next}.
 
-In the next dialog (\textsf{Import projects}), use the \textsf{Browse...} button to select the project's root directory, e.g. \url{/home/daisycutter/Xenon-examples}, then click \textsf{Finish}. An item \textsf{Xenon-examples} should now be visible in the \textsf{Package explorer} pane. Expand it, and navigate to \url{src/main/java/}, then dobule-click \textsf{DirectoryListing.java} from the \textsf{nl.esciencecenter.xenon.examples.files} package to view its code in the editor pane.
+In the next dialog (\textsf{Import projects}), use the \textsf{Browse...} button to select the project's root directory, e.g. \url{/home/daisycutter/Xenon-examples}, then click \textsf{Finish}. An item \textsf{Xenon-examples} should now be visible in the \textsf{Package explorer} pane. Expand it, and navigate to \url{src/main/java/}, then double-click \textsf{DirectoryListing.java} from the \textsf{nl.esciencecenter.xenon.examples.files} package to view its code in the editor pane.
 
 
 
 
 \section{Running a Java program in Eclipse}
-\index{Eclipse!Running a Java program}
+
+\index{Eclipse!running a Java program}
 \index{Running a Java program in Eclipse}
-\index{Java!Running a Java program in Eclipse}
+\index{Java!running a program in Eclipse}
 
 So now that we have the source code open in the editor, let's see if we can run it. You can start the program in a couple different ways. For example, you can select \textsf{Run}$\rightarrow$\textsf{Run}; you can use the key binding \textsf{Ctrl+F11}, or you can press the `Play' icon in Eclipse's GUI. If you try to run the program, however, you will get the error we saw earlier at the command line (Eclipse prints the program's output to the pane labeled \textsf{Console}):
 \begin{lstlisting}[style=basic,style=bash,language=java,escapeinside={(*@}{@*)}]
@@ -65,7 +66,7 @@ class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:51
 message: Example requires a URI as parameter!
 \end{lstlisting}
 
-So somehow we have to tell Eclipse about the URI (including both its scheme and its path) that we want to use to get to the contents of a directory of our chosing. You can do this through so-called `Run configurations'\index{Eclipse!Run configurations}. You can make a new run configuration by selecting \textsf{Run} from the Eclipse menu, then \textsf{Run configurations...}. In the left pane of the dialog that pops up, select \textsf{Java Application}, then press the \textsf{New launch configuration} button in the top left of the dialog. A new run configuration item should now become visible under \textsf{Java Application}. By default, the name of the run configuration will be the name of the class, but you can change the name to whatever you like. When you select the \textsf{DirectoryListing} run configuration in the left pane, the right pane changes to show the details of the run configuration. The information is divided over a few tabs. Select the tab labeled \textsf{Arguments}. You should see a field named \textsf{Program arguments} where you can provide the arguments that you would normally pass through the command line. Earlier, we passed the string \texttt{file:\${PWD}}, but that won't work here, since \texttt{\${PWD}} is a Bash environment variable, and thus not directly available from within Eclipse. Eclipse does provide a workaround for this by way of the \texttt{env\_var} variable. \texttt{env\_var} takes exactly one argument, namely the name of an environment variable, such as \texttt{PWD}. The correct text to enter into \textsf{Program arguments} thus becomes \texttt{file:\$\{env\_var:PWD\}}. Note that \texttt{\$\{env\_var:PWD\}} refers to the directory that Eclipse was started from.
+So somehow we have to tell Eclipse about the URI (including both its scheme and its path) that we want to use to get to the contents of a directory of our chosing. You can do this through so-called `Run configurations'\index{Eclipse!run configurations}. You can make a new run configuration by selecting \textsf{Run} from the Eclipse menu, then \textsf{Run configurations...}. In the left pane of the dialog that pops up, select \textsf{Java Application}, then press the \textsf{New launch configuration} button in the top left of the dialog. A new run configuration item should now become visible under \textsf{Java Application}. By default, the name of the run configuration will be the name of the class, but you can change the name to whatever you like. When you select the \textsf{DirectoryListing} run configuration in the left pane, the right pane changes to show the details of the run configuration. The information is divided over a few tabs. Select the tab labeled \textsf{Arguments}. You should see a field named \textsf{Program arguments} where you can provide the arguments that you would normally pass through the command line. Earlier, we passed the string \texttt{file:\$\{PWD\}}, but that won't work here, since \texttt{\$\{PWD\}} is a Bash environment variable, and thus not directly available from within Eclipse. Eclipse does provide a workaround for this by way of the \texttt{env\_var} variable. \texttt{env\_var} takes exactly one argument, namely the name of an environment variable, such as \texttt{PWD}. The correct text to enter into \textsf{Program arguments} thus becomes \texttt{file:\$\{env\_var:PWD\}}. Note that \texttt{\$\{env\_var:PWD\}} refers to the directory that Eclipse was started from.
 
 
 
@@ -73,9 +74,9 @@ So somehow we have to tell Eclipse about the URI (including both its scheme and 
 
 \section{Debugging a Java program in Eclipse}
 
-\index{Eclipse!Debugging a Java program}
-\index{Debugging a Java program in Eclipse}
-\index{Java!Debugging a Java program in Eclipse}
+\index{Eclipse!debugging a Java program}
+\index{Debugging a program in Eclipse}
+\index{Java!debugging in Eclipse}
 
 
 
@@ -120,4 +121,4 @@ Finally, you can terminate a debug run by pressing \textsf{Ctrl+F2}. Table~\ref{
 
 \section{Setting the log level}
 
-Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{java} using command line parameters such as \texttt{-Dloglevel=DEBUG} (see section \ref{sec:setting-the-log-level-command-line}). Passing command line parameters is also possible in Eclipse, by altering the debug configuration (or run configuration) as follows. In Eclipse's menu, go to \textsf{Run} and select either \textsf{Run configurations...} or \textsf{Debug configurations...} as appropriate. Then, in the left pane, select the Java application whose configuration you want to adapt. In the right-hand pane, subsequently select the tab labeled \textsf{Arguments}. The second text field from the top should be labeled \textsf{VM arguments}\index{Eclipse!VM arguments}. Here you can add command line parameters to the java program, such as \texttt{-Dloglevel=DEBUG}.
+Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{java} using command line parameters such as \texttt{-Dloglevel=DEBUG} (see section \ref{sec:setting-the-log-level-command-line}). Passing command line parameters is also possible in Eclipse, by altering the debug configuration (or run configuration) as follows. In Eclipse's menu, go to \textsf{Run} and select either \textsf{Run configurations...} or \textsf{Debug configurations...} as appropriate. Then, in the left pane, select the Java application whose configuration you want to adapt. In the right-hand pane, subsequently select the tab labeled \textsf{Arguments}. The second text field from the top should be labeled \textsf{VM~arguments}\index{Eclipse!VM arguments}. Here you can add command line parameters to the java program, such as \texttt{-Dloglevel=DEBUG}.

@@ -154,7 +154,7 @@ java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
 % dummy $
-it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$PWD} (the present working directory).
+it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$\{PWD\}} (the present working directory).
 
 Putting all that together, we get:
 
@@ -209,36 +209,53 @@ message: Xenon engine initialized with adaptors: [Adaptor [name=local], Ada...
 
 \section{\texttt{ssh} setup}
 
-% TODO what is ssh
-% TODO explain why ssh is so important (we use it for everything, all adaptors except local adaptor use it)
+Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's local \texttt{file} adaptor). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). In order to do anything on those remote systems, you first need to connect to them. On Linux, you can use the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}}. With \texttt{ssh}, you can set up an SSH connection to a remote system. Through SSH, you can do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator). Note that SSH connections are a crucial part of how Xenon works: without them, you can not do anything that requires remote resources.
 
 \subsection{\texttt{ssh} to \texttt{localhost}}
 
+SSH uses the server-client model. Normally, your system is the client, while the remote system is the server. However, let's first see if you can connect to your own system using \texttt{ssh}. Your system will thus play the part of both client and server.
+
+The client needs to have a so-called \textit{public-private key pair}\index{public-private key pair}. The key pair can be generated according to different algorithms:
+\texttt{dsa}\index{ssh-keygen@\texttt{ssh-keygen}!dsa@\texttt{dsa}},
+\texttt{ecdsa}\index{ssh-keygen@\texttt{ssh-keygen}!ecdsa@\texttt{ecdsa}},
+\texttt{ed25519}\index{ssh-keygen@\texttt{ssh-keygen}!ed25519@\texttt{ed25519}}, or
+\texttt{rsa}\index{ssh-keygen@\texttt{ssh-keygen}!rsa@\texttt{rsa}}.
+The Linux program \texttt{ssh-keygen}\index{ssh-keygen@\texttt{ssh-keygen}} implements these algorithms; we will use it to generate a public-private key pair using the \texttt{rsa} algorithm, as follows:
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# generate key pair using rsa algorithm
+ssh-keygen -t rsa
+# (press enter to accept the default file location ~/.ssh/id_rsa)
+# (press enter to set the passphrase to an empty string)
+# (press enter to confirm setting the passphrase to an empty string)
+\end{lstlisting}
+
+You should now have a directory \mytilde/\url{.ssh} with two files in it: \url{id_rsa},  the private part of the key pair and \url{id_rsa.pub}, the public part of the key pair. Note that the contents of \url{id_rsa} should remain a secret.
+
+That's it for the client-side, but you still need to do some stuff on the server-side. First, install the package \texttt{openssh-server} from the Ubuntu repositories:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # install a server
 sudo apt-get install openssh-server
-\end{lstlisting}
-% TODO explain why we need this
+\end{lstlisting} % dummy $
 
+The server-side keeps a list \mytilde/\url{.ssh/authorized_keys} of trusted identities. You have to add the identity information from \mytilde/\url{.ssh/id_rsa.pub} to it. Linux provides an easy way of doing this, as follows:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-# generate key pair
-ssh-keygen -t rsa
-# (press enter a couple times to accept the defaults)
-\end{lstlisting}
-% TODO explain what happened id_rsa and id_rsa.pub
-
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-# copy identity
+# copy identity, type 'yes' when prompted
 ssh-copy-id ${USER}@localhost
 \end{lstlisting} % dummy $
-% TODO explain what happened authorized_keys and known_hosts
+
+On the server-side, file \mytilde/\url{.ssh/authorized_keys} should now contain the information from \mytilde/\mbox{\url{.ssh/id_rsa.pub}}.
+
+On the client side, SSH tried to connect the current user (whose credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the `remote' system \url{localhost}. If that was successful, there should be a new file \mytilde/\url{.ssh/known_hosts}. \url{known_hosts} is a list of machines that we have connected to previously; i.e. these are systems we trust.
 
 The structure of \url{known_hosts} is as follows. Each line begins with the following elements:
 \begin{itemize}
 \item{\texttt{1} a flag. Here, it signifies that the third element (host name) is hashed using the SHA1 algorithm;}
 \item{\texttt{x5PcOam9hhAjdF84++EKwodUNgQ} the (public) salt used to encrypt the host name;}
 \item{\texttt{NK1rAZev7rV6JSTIdM3ymPpKlQ0}} the (hashed) host name;}
-\item{key-value pairs, e.g. the RSA fingerprint of the Lisa system \url{ssh-rsa} \url{b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b}.}  % FIXME wrong example; change to localhost
+\item{key-value pairs, e.g. the key \url{ecdsa-sha2-nistp256} and its value\\ \texttt{AAAAE2V\textit{...<characters omitted>...}RpXi/rE}, representing the public key of the `remote' system which was generated when we installed \texttt{openssh-server} and which is stored at \url{/etc/ssh/ssh_host_ecdsa_key.pub}\footnote{You can show the fingerprint of the server's public key file using:\\
+\texttt{ssh-keygen -l -f /etc/ssh/ssh\_host\_ecdsa\_key.pub}\\
+The number that \texttt{ssh-keygen} returns should be the same number that was displayed in your terminal when you did \texttt{ssh-copy-id \${USER}@localhost}.}.}
 \end{itemize}
 Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote system, without having to ask for credentials every time.
 
