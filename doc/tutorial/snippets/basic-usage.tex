@@ -253,7 +253,9 @@ The structure of \url{known_hosts} is as follows. Each line begins with the foll
 \item{\texttt{1} a flag. Here, it signifies that the third element (host name) is hashed using the SHA1 algorithm;}
 \item{\texttt{x5PcOam9hhAjdF84++EKwodUNgQ} the (public) salt used to encrypt the host name;}
 \item{\texttt{NK1rAZev7rV6JSTIdM3ymPpKlQ0}} the (hashed) host name;}
-\item{key-value pairs, e.g. the key \url{ecdsa-sha2-nistp256} and its value\\ \texttt{AAAAE2V\textit{...<characters omitted>...}RpXi/rE}, representing the public key of the `remote' system which was generated when we installed \texttt{openssh-server} and which is stored at \url{/etc/ssh/ssh_host_ecdsa_key.pub}.}
+\item{key-value pairs, e.g. the key \url{ecdsa-sha2-nistp256} and its value\\ \texttt{AAAAE2V\textit{...<characters omitted>...}RpXi/rE}, representing the public key of the `remote' system which was generated when we installed \texttt{openssh-server} and which is stored at \url{/etc/ssh/ssh_host_ecdsa_key.pub}\footnote{You can show the fingerprint of the server's public key file using:\\
+\texttt{ssh-keygen -l -f /etc/ssh/ssh\_host\_ecdsa\_key.pub}\\
+The number that \texttt{ssh-keygen} returns should be the same number that was displayed in your terminal when you did \texttt{ssh-copy-id \${USER}@localhost}.}.}
 \end{itemize}
 Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote system, without having to ask for credentials every time.
 
