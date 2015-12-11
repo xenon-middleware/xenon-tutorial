@@ -276,22 +276,28 @@ ssh://localhost${PWD}
 \end{lstlisting} % dummy $
 
 If all goes well, you should see the same directory contents as before, but now viewed through SSH.
+\clearpage
 
+\section{Example usage of \texttt{local} and \texttt{ssh} adaptors}
 
-\section{Example usage of \texttt{local} adaptor and \texttt{ssh} adaptor}
-
+\Needspace{6\baselineskip}
 We have compiled a list of examples demonstrating various uses of the \texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now configured correctly to run all of them. This is most easily accomplished by starting the \texttt{run-examples.sh} script we have prepared:
-
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
 ./run-examples.sh
 \end{lstlisting} % dummy $
 
-\section{Live systems: \texttt{ssh} to SURFsara's Lisa\\ cluster computer}
+Note that you can edit the loglevel by changing the parameter \texttt{LOGLEVEL} in \url{run-examples.sh}.
 
-Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In this section, I'll explain how to connect to SURFsara's cluster computer, Lisa. Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+\section{Live systems}
 
-I can connect to Lisa's head node using any of the \texttt{ssh} commands below:
+Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In the next two sections, I'll explain how to connect to SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster, respectively.
+
+\subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
+
+Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+
+First, I verify that I can connect to Lisa's head node, using the \texttt{ssh} command below:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # (my account on Lisa is called jspaaks)
 ssh jspaaks@lisa.surfsara.nl
@@ -305,7 +311,8 @@ established.
 RSA key fingerprint is b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b.
 Are you sure you want to continue connecting (yes/no)?
 \end{lstlisting}
-If I then type \texttt{yes}, it says\footnote{SURFsara publish RSA key fingerprints for their systems at \url{https://userinfo.surfsara.nl/systems/shared/ssh}. The number posted there should be the same as what you have in your terminal.}:
+\Needspace{6\baselineskip}
+If I then type \texttt{yes}, it says\footnote{SURFsara publish RSA public key fingerprints for their systems at \url{https://userinfo.surfsara.nl/systems/shared/ssh}. The number posted there should be the same as what you have in your terminal.}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
          the list of known hosts.
@@ -318,10 +325,14 @@ The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includ
 
 
 
+% TODO now copy DirectoryListing to DirectoryListingWithPwd
+% TODO add passwordcredential with your password
+% check that it works
 
 
 
 
 
+\subsection{\texttt{ssh} to DAS-4 cluster computer}
 
-
+TODO
