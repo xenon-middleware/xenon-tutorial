@@ -154,7 +154,7 @@ java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
 % dummy $
-it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$PWD} (the present working directory).
+it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$\{PWD\}} (the present working directory).
 
 Putting all that together, we get:
 
