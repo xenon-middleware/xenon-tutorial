@@ -154,15 +154,15 @@ java -cp 'build/libs/Xenon-examples-all.jar' \
 nl.esciencecenter.xenon.examples.files.DirectoryListing
 \end{lstlisting}
 % dummy $
-it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}}. For a local file, the scheme is \texttt{file} (or equivalently, \texttt{local}). The path is the name of the directory we want to list the contents of, such as \texttt{\$\{PWD\}} (the present working directory).
+it still does not work yet, because \url{DirectoryListing} takes exactly one input argument that defines the location (URI\index{URI}) of the directory whose contents we want to list. URIs generally consist of a \textit{scheme}\index{URI!scheme} followed by the colon character~\texttt{:}, followed by a \textit{path}\index{URI!path}\footnote{The full specification of a URI is (optional parts in brackets): \\ \texttt{scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]}\label{footnote:format-uri}}. For a local file, the scheme name is \texttt{local}. The path is the name of the directory we want to list the contents of, such as \texttt{\$\{PWD\}} (the present working directory).
 
 Putting all that together, we get:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
 java -cp 'build/libs/Xenon-examples-all.jar' \
-nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
-\end{lstlisting} % dummy $
+nl.esciencecenter.xenon.examples.files.DirectoryListing local:${PWD}
+\end{lstlisting} \label{snip:directory-listing-local}
 
 If all goes well, you should now see the contents of the current directory as an INFO message.
 
@@ -180,7 +180,7 @@ Secondly, you can keep the defaults as they are, but only run a specific call wi
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
 java -Dloglevel=DEBUG -cp 'build/libs/Xenon-examples-all.jar' \
-nl.esciencecenter.xenon.examples.files.DirectoryListing file:${PWD}
+nl.esciencecenter.xenon.examples.files.DirectoryListing local:${PWD}
 \end{lstlisting} % dummy $
 
 Standard output will now include messages of the \texttt{WARN}, \texttt{ERROR}, \texttt{INFO}, and \texttt{DEBUG} level:
@@ -207,11 +207,9 @@ message: Xenon engine initialized with adaptors: [Adaptor [name=local], Ada...
 
 
 
-\section{\texttt{ssh} setup}
+\section{\texttt{ssh} to \texttt{localhost}}
 
-Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's local \texttt{file} adaptor). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). In order to do anything on those remote systems, you first need to connect to them. On Linux, you can use the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}}. With \texttt{ssh}, you can set up an SSH connection to a remote system. Through SSH, you can do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator). Note that SSH connections are a crucial part of how Xenon works: without them, you can not do anything that requires remote resources.
-
-\subsection{\texttt{ssh} to \texttt{localhost}}
+Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's \texttt{local} adaptor). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). In order to do anything on those remote systems, you first need to connect to them. On Linux, you can use the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}}. With \texttt{ssh}, you can set up an SSH connection to a remote system. Through SSH, you can do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator). Note that SSH connections are a crucial part of how Xenon works: without them, you can not do anything that requires remote resources.
 
 SSH uses the server-client model. Normally, your system is the client, while the remote system is the server. However, let's first see if you can connect to your own system using \texttt{ssh}. Your system will thus play the part of both client and server.
 
@@ -225,26 +223,27 @@ The Linux program \texttt{ssh-keygen}\index{ssh-keygen@\texttt{ssh-keygen}} impl
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # generate key pair using rsa algorithm
 ssh-keygen -t rsa
-# (press enter to accept the default file location ~/.ssh/id_rsa)
+# (press enter to accept the default file location ~/.ssh/id_rsa; if it
+# tells you the file already exists, you can skip creation of a new key)
 # (press enter to set the passphrase to an empty string)
 # (press enter to confirm setting the passphrase to an empty string)
 \end{lstlisting}
 
 You should now have a directory \mytilde/\url{.ssh} with two files in it: \url{id_rsa},  the private part of the key pair and \url{id_rsa.pub}, the public part of the key pair. Note that the contents of \url{id_rsa} should remain a secret.
 
-That's it for the client-side, but you still need to do some stuff on the server-side. First, install the package \texttt{openssh-server} from the Ubuntu repositories:
+That's it for the client side, but you still need to do some stuff on the server side. First, install the package \texttt{openssh-server} from the Ubuntu repositories:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # install a server
 sudo apt-get install openssh-server
 \end{lstlisting} % dummy $
 
-The server-side keeps a list \mytilde/\url{.ssh/authorized_keys} of trusted identities. You have to add the identity information from \mytilde/\url{.ssh/id_rsa.pub} to it. Linux provides an easy way of doing this, as follows:
+The server side keeps a list \mytilde/\url{.ssh/authorized_keys} of trusted identities. You have to add the identity information from \mytilde/\url{.ssh/id_rsa.pub} to it. Linux provides an easy way of doing this, as follows:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # copy identity, type 'yes' when prompted
 ssh-copy-id ${USER}@localhost
 \end{lstlisting} % dummy $
 
-On the server-side, file \mytilde/\url{.ssh/authorized_keys} should now contain the information from \mytilde/\mbox{\url{.ssh/id_rsa.pub}}.
+On the server side, file \mytilde/\url{.ssh/authorized_keys} should now contain the information from \mytilde/\mbox{\url{.ssh/id_rsa.pub}}.
 
 On the client side, SSH tried to connect the current user (whose credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the `remote' system \url{localhost}. If that was successful, there should be a new file \mytilde/\url{.ssh/known_hosts}. \url{known_hosts} is a list of machines that we have connected to previously; i.e. these are systems we trust.
 
@@ -263,23 +262,43 @@ Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote sy
 # now try to log in without entering key:
 ssh ${USER}@localhost
 \end{lstlisting} % dummy $
-% explain what should happen
 
 
-% TODO now run \texttt{./run-examples.sh}
+\section{\texttt{DirectoryListing} through \texttt{ssh}}
+
+So now that we have configured passwordless \texttt{ssh} to \texttt{localhost}, listing the contents of a directory on \texttt{localhost} is actually pretty simple. In the URI that you pass as a command line argument to \texttt{DirectoryListing} (see page~\pageref{snip:directory-listing-local}), replace \texttt{local} by \texttt{ssh}, and supply \url{localhost} as the domain name. Also note that the inclusion of a domain makes it necessary to include \texttt{//} between \texttt{ssh} and \texttt{localhost} (see footnote on formatting URIs on page~\pageref{footnote:format-uri}).
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon-examples
+java -cp 'build/libs/Xenon-examples-all.jar' \
+nl.esciencecenter.xenon.examples.files.DirectoryListing \
+ssh://localhost${PWD}
+\end{lstlisting} % dummy $
+
+If all goes well, you should see the same directory contents as before, but now viewed through SSH.
 
 
-\subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
+\section{Example usage of \texttt{local} adaptor and \texttt{ssh} adaptor}
 
-Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system, such as the Amazon Cloud, the Cartesius supercomputer, or maybe even just a single machine. In this section, I'll explain how to connect to SURFsara's cluster computer, Lisa. Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+We have compiled a list of examples demonstrating various uses of the \texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now configured correctly to run all of them. This is most easily accomplished by starting the \texttt{run-examples.sh} script we have prepared:
 
-I can connect to Lisa's head node using the \texttt{ssh} command line program as follows:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+cd ${HOME}/Xenon-examples
+./run-examples.sh
+\end{lstlisting} % dummy $
+
+\section{Live systems: \texttt{ssh} to SURFsara's Lisa\\ cluster computer}
+
+Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In this section, I'll explain how to connect to SURFsara's cluster computer, Lisa. Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+
+I can connect to Lisa's head node using any of the \texttt{ssh} commands below:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # (my account on Lisa is called jspaaks)
 ssh jspaaks@lisa.surfsara.nl
 \end{lstlisting}
 
-If this is the first time you connect to the remote machine, it will generally ask if you want to add the remote machine to the list of known hosts. For example, here's what the Lisa system tells me when I try to ssh to it:
+\Needspace{6\baselineskip}
+If this is the first time you connect to the remote machine, it will generally ask if you want to add the remote machine to the list of known hosts. For example, here's what the Lisa system tells me when I try to \texttt{ssh} to it:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 The authenticity of host 'lisa.surfsara.nl (145.100.29.210)' can't be
 established.
@@ -295,7 +314,7 @@ Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
 \end{lstlisting}
 and asks for my password.
 
-The result of this connection is that \url{~/.ssh/known_hosts} now includes a line for the Lisa system.
+The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includes a line for the Lisa system.
 
 
 
