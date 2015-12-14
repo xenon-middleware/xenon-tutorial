@@ -122,3 +122,60 @@ Finally, you can terminate a debug run by pressing \textsf{Ctrl+F2}. Table~\ref{
 \section{Setting the log level}
 
 Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{java} using command line parameters such as \texttt{-Dloglevel=DEBUG} (see section \ref{sec:setting-the-log-level-command-line}). Passing command line parameters is also possible in Eclipse, by altering the debug configuration (or run configuration) as follows. In Eclipse's menu, go to \textsf{Run} and select either \textsf{Run configurations...} or \textsf{Debug configurations...} as appropriate. Then, in the left pane, select the Java application whose configuration you want to adapt. In the right-hand pane, subsequently select the tab labeled \textsf{Arguments}. The second text field from the top should be labeled \textsf{VM~arguments}\index{Eclipse!VM arguments}. Here you can add command line parameters to the java program, such as \texttt{-Dloglevel=DEBUG}.
+
+
+
+
+
+
+\section{Live systems}
+\label{sec:live-systems}
+
+Earlier, we set up passwordless \texttt{ssh} to connect to \url{localhost}. Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In the next two sections, I'll explain how to connect to SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster, respectively.
+
+\subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
+
+Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
+
+First, I verify that I can connect to Lisa's head node, using the \texttt{ssh} command below:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# (my account on Lisa is called jspaaks)
+ssh jspaaks@lisa.surfsara.nl
+\end{lstlisting}
+
+\Needspace{6\baselineskip}
+If this is the first time you connect to the remote machine, it will generally ask if you want to add the remote machine to the list of known hosts. For example, here's what the Lisa system tells me when I try to \texttt{ssh} to it:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+The authenticity of host 'lisa.surfsara.nl (145.100.29.210)' can't be
+established.
+RSA key fingerprint is b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b.
+Are you sure you want to continue connecting (yes/no)?
+\end{lstlisting}
+\Needspace{6\baselineskip}
+If I then type \texttt{yes}, it says\footnote{SURFsara publish RSA public key fingerprints for their systems at \url{https://userinfo.surfsara.nl/systems/shared/ssh}. The number posted there should be the same as what you have in your terminal.}:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
+         the list of known hosts.
+
+                             (*@\textit{<some content omitted>}@*)
+\end{lstlisting}
+and asks for my password.
+
+The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includes a line for the Lisa system.
+
+
+
+% TODO now copy DirectoryListing to DirectoryListingWithPwd
+% TODO add passwordcredential with your password
+% check that it works
+
+
+
+
+
+\subsection{\texttt{ssh} to DAS-4 cluster computer}
+
+TODO
+
+
+
