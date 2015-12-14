@@ -443,43 +443,53 @@ nl.esciencecenter.xenon.examples.files.DirectoryListing local:${PWD}
 \end{lstlisting} % dummy $
 
 Standard output will now include messages of the \texttt{WARN},
-\texttt{ERROR}, \texttt{INFO}, and \texttt{DEBUG} level:
+\texttt{ERROR}, \texttt{INFO}, and \texttt{DEBUG} level, e.g.:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-time : 16:52:38.393 (+271 ms) thread : main level : DEBUG class :
-nl.esciencecenter.xenon.adaptors.ssh.SshAdaptor:179 message: Setting
-ssh known hosts file to: /home/daisycutter/.ssh/config
+time : 11:50:07.428 (+216 ms) thread : main level : DEBUG class :
+nl.esciencecenter.xenon.examples.files.DirectoryListing:56 message:
+Reading the URI...  \end{lstlisting}
 
-time : 16:52:38.396 (+274 ms) thread : main level : WARN class :
-nl.esciencecenter.xenon.adaptors.ssh.SshAdaptor:242 message: OpenSSH
-config file cannot be read.
-
-time : 16:52:38.412 (+290 ms) thread : main level : INFO class :
-nl.esciencecenter.xenon.engine.XenonEngine:169 message: Xenon engine
-initialized with adaptors: [Adaptor [name=local], Ada...  \end{lstlisting}
+and: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+time : 11:50:07.562 (+350 ms) thread : main level : INFO class :
+nl.esciencecenter.xenon.engine.XenonEngine:166 message: Xenon engine
+initialized with adaptors: [Adaptor [name=local], ...  \end{lstlisting}
 
 
 
+\section{Xenon's \texttt{ssh} adaptor}
 
-\section{\texttt{ssh} to \texttt{localhost}}
+Up till now, you've used Xenon to perform tasks on
+your own system (by means of Xenon's \texttt{local}
+adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though,
+you'll want to use Xenon to perform tasks on remote systems, such as the
+Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer,
+or perhaps just a single machine (but not your own). To do so,
+you first need to connect to them. You can use Xenon's \texttt{ssh}
+adaptor\index{Xenon!adaptor!\ssh@\texttt{ssh}} to do so. The \texttt{ssh}
+adaptor works in a similar way as the so-called \textit{secure
+shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}}
+on the Linux command line. Through SSH, you can connect to a remote
+system and do all the things a user is allowed to do on that system
+(which in turn is defined by the remote system's administrator).
 
-Up till now, you've used Xenon to perform tasks on your own system (by
-means of Xenon's \texttt{local} adaptor). Usually though, you'll want to
-use Xenon to perform tasks on remote systems, such as the Amazon cloud,
-the Lisa cluster computer, the Cartesius supercomputer, or perhaps
-just a single machine (but not your own). In order to do anything on
-those remote systems, you first need to connect to them. On Linux, you
-can use the so-called \textit{secure shell}\index{secure shell} program
-\texttt{ssh}\index{ssh@\texttt{ssh}}. With \texttt{ssh}, you can set up
-an SSH connection to a remote system. Through SSH, you can do all the
-things a user is allowed to do on that system (which in turn is defined
-by the remote system's administrator). Note that SSH connections are a
-crucial part of how Xenon works: without them, you can not do anything
-that requires remote resources.
+To keep things simple, we'll first set up an SSH connection
+to \url{localhost}, thus effectively connecting ourselves
+with ourselves. Later on in this document we'll also
+look at using SSH to connect to two remote systems (see
+Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}).
+Additionally, we'll set up Docker to run virtual
+remote systems on your local machine. That way, you can
+emulate the behavior of one or more remote machines (see
+Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the
+need for these machines to be live all the time. Anyway, that's all for
+later---let's get started on setting up SSH to \url{localhost} first.
+
+\subsection{\texttt{ssh} to \texttt{localhost}}
 
 SSH uses the server-client model. Normally, your system is the client,
-while the remote system is the server. However, let's first see if you
-can connect to your own system using \texttt{ssh}. Your system will thus
-play the part of both client and server.
+while the remote system is the server. Since we will connect to
+\url{localhost} however, your system will play the part of both client
+and server.
 
 The client needs to have a so-called \textit{public-private
 key pair}\index{public-private key pair}. The key
@@ -490,7 +500,7 @@ pair can be generated according to different algorithms:
 or \texttt{rsa}\index{ssh-keygen@\texttt{ssh-keygen}!rsa@\texttt{rsa}}.
 The Linux program
 \texttt{ssh-keygen}\index{ssh-keygen@\texttt{ssh-keygen}} implements
-these algorithms; we will use it to generate a public-private key pair
+these algorithms. We will use it to generate a public-private key pair
 using the \texttt{rsa} algorithm, as follows:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] #
@@ -529,24 +539,25 @@ system \url{localhost}. If that was successful, there should be a new file
 \mytilde/\url{.ssh/known_hosts}. \url{known_hosts} is a list of machines
 that we have connected to previously; i.e. these are systems we trust.
 
-The structure of \url{known_hosts} is as follows. Each line begins with
-the following elements: \begin{itemize} \item{\texttt{1} a flag. Here,
-it signifies that the third element (host name) is hashed using
-the SHA1 algorithm;} \item{\texttt{rb6bKm69i0R/885WKLX7HZR0CjY}
-the (public) salt used to encrypt the host name;}
-\item{\texttt{NoA7R+Ivcef4+rtCLYqBMlqPT+A}} the (hashed) host name;}
-\item{key-value pairs, e.g. the key \url{ecdsa-sha2-nistp256} and its
-value\\ \texttt{AAAAE2V\textit{...<characters omitted>...}RpXi/rE},
-representing the public key of the `remote' system which was
-generated when we installed \texttt{openssh-server} and which
-is stored at \url{/etc/ssh/ssh_host_ecdsa_key.pub}\footnote{You
-can show the fingerprint of the server's public key file using:\\
-\texttt{ssh-keygen -l -f /etc/ssh/ssh\_host\_ecdsa\_key.pub}\\ The
-number that \texttt{ssh-keygen} returns should be the same number
-that was displayed in your terminal when you did \texttt{ssh-copy-id
-\${USER}@localhost}.}.} \end{itemize} Xenon uses \texttt{known\_hosts}
-to automatically connect to a (known) remote system, without having to
-ask for credentials every time.
+\Needspace{10\baselineskip} Each line in \url{known_hosts} is formatted
+according to: \\ \texttt{|<flag>|<salt>=|<hostname>= <key> <value>=},
+where \begin{itemize} \item{\texttt{<flag>} is a flag. Mine says
+\texttt{1} to signify that the third element \texttt{<hostname>}
+is hashed using the SHA1 algorithm;} \item{\texttt{<salt>} is the
+(public) salt used to encrypt the host name;} \item{\texttt{<hostname>}
+is the (hashed) host name;} \item{\texttt{<key>}\texttt{<value>}
+pairs, e.g. the key \url{ecdsa-sha2-nistp256} and its value\\
+\texttt{AAAAE2V\textit{...<characters omitted>...}RpXi/rE},
+representing the public key of the `remote' system which was generated
+when we installed \texttt{openssh-server} and which is stored at
+\url{/etc/ssh/ssh_host_ecdsa_key.pub}\footnote{You can show the
+fingerprint of the server's public key file using:\\ \texttt{ssh-keygen
+-l -f /etc/ssh/ssh\_host\_ecdsa\_key.pub}\\ The number that
+\texttt{ssh-keygen} returns should be the same number that was displayed
+in your terminal when you did \texttt{ssh-copy-id \${USER}@localhost}.} on
+hostname.} \end{itemize} Xenon uses \texttt{known\_hosts} to automatically
+connect to a (known) remote system, without having to ask for credentials
+every time.
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] # now
 try to log in without entering key: ssh ${USER}@localhost \end{lstlisting}
@@ -563,7 +574,7 @@ page~\pageref{snip:directory-listing-local}), replace \texttt{local} by
 \texttt{ssh}, and supply \url{localhost} as the domain name. Also note
 that the inclusion of a domain makes it necessary to include \texttt{//}
 between \texttt{ssh} and \texttt{localhost} (see footnote on formatting
-URIs on page~\pageref{footnote:format-uri}).
+URIs on page~\pageref{footnote:format-uri}). So the complete call becomes:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] cd
 ${HOME}/Xenon-examples java -cp 'build/libs/Xenon-examples-all.jar'
@@ -571,7 +582,7 @@ ${HOME}/Xenon-examples java -cp 'build/libs/Xenon-examples-all.jar'
 ssh://localhost${PWD} \end{lstlisting} % dummy $
 
 If all goes well, you should see the same directory contents as before,
-but now viewed through SSH.  \clearpage
+but now viewed through SSH.
 
 \section{Example usage of \texttt{local} and \texttt{ssh} adaptors}
 
@@ -585,35 +596,6 @@ cd ${HOME}/Xenon-examples ./run-examples.sh \end{lstlisting} % dummy $
 
 Note that you can edit the loglevel by changing the parameter
 \texttt{LOGLEVEL} in \url{run-examples.sh}.
-
-For now, we'll just use SSH to connect to our own machine,
-but later on in this document we'll also look at using
-SSH to connect to physically remote systems, such as the
-Lisa\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}}
-and DAS-4\footnote{\url{http://www.cs.vu.nl/das4/}} systems (see
-Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}).
-Additionally, we'll set up Docker to run virtualized
-systems on your local machine, with which you can
-emulate the behavior of one or more remote machines (see
-Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}). Anyway,
-that's all for later---first we'll make a small digression into setting
-up the Integrated Development Environment\index{integrated development
-environment} or IDE\index{IDE} called Eclipse.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -882,7 +864,14 @@ Earlier, we set up passwordless \texttt{ssh} to connect to
 system is a bit silly. Normally, you'll want to connect to a physically
 remote system. In the next two sections, I'll explain how to connect to
 SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster,
-respectively.
+respectively. If you want to follow along, you need to make sure you
+have an account on at least one of these systems. Check their respective
+websites\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}}\footnote{\url{http://www.cs.vu.nl/das4/}}
+to see how you can apply for an account.
+
+If for some reason you can not or do not want to connect to these systems,
+make sure to check Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}
+to learn about using virtual remote systems.
 
 \subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
 
@@ -920,46 +909,29 @@ Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
 The result of this connection is that \mytilde\url{/.ssh/known_hosts}
 now includes a line for the Lisa system.
 
-
-
-% TODO now copy DirectoryListing to DirectoryListingWithPwd % TODO add
-passwordcredential with your password % check that it works
-
-
-
-
-
-\subsection{\texttt{ssh} to DAS-4 cluster computer}
-
-TODO
-
-
-
-
-
-
-
-
+\begin{enumerate} \item{\textit{now adapt DirectoryListing's command
+line parameters to \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}
+or a simplification thereof}} %FIXME \item{\textit{try to run. should
+not work on account of you not supplying a password. explain that you
+could set up passwordless login for lisa like we did for localhost,
+but that instead we will add a pasword in the code and use that}
+\item{\textit{now copy DirectoryListing to DirectoryListingWithPwd}}
+%FIXME \item{\textit{add passwordcredential with your password. I
+know I'm stating the obvious, but make sure you don't accidentally
+commit this stuff to a public repository}} % FIXME \item{\textit{try to
+run DirectoryListing while supplying a password, should work now.}} %
+FIXME \item{\textit{analyze the debug messages to show that knonw-hosts
+is actually used when connecting. then tell them about the adaptor
+properties such as autoAddBlah and loadKnownHosts and such, and where to
+find them $\rightarrow$ javadoc online or generated}} \item{\textit{Maybe
+use property to load password from a config file; which you then also
+should not commit}} \end{enumerate}
 
 
 
+\subsection{Passwordless \texttt{ssh} to DAS-4 cluster computer}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\textit{explain how to ssh to DAS4} % FIXME
 
 
 
@@ -968,10 +940,6 @@ TODO
 
 
 \chapter{Unused texts}
-
-
-
-
 
 \section{Docker} \label{sec:docker} \index{Docker}
 \index{Docker!installing}
