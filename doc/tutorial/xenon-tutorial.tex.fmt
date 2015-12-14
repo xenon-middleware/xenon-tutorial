@@ -909,23 +909,63 @@ Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
 The result of this connection is that \mytilde\url{/.ssh/known_hosts}
 now includes a line for the Lisa system.
 
-\begin{enumerate} \item{\textit{now adapt DirectoryListing's command
-line parameters to \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}
-or a simplification thereof}} %FIXME \item{\textit{try to run. should
-not work on account of you not supplying a password. explain that you
-could set up passwordless login for lisa like we did for localhost,
-but that instead we will add a pasword in the code and use that}
-\item{\textit{now copy DirectoryListing to DirectoryListingWithPwd}}
-%FIXME \item{\textit{add passwordcredential with your password. I
-know I'm stating the obvious, but make sure you don't accidentally
-commit this stuff to a public repository}} % FIXME \item{\textit{try to
-run DirectoryListing while supplying a password, should work now.}} %
-FIXME \item{\textit{analyze the debug messages to show that knonw-hosts
-is actually used when connecting. then tell them about the adaptor
-properties such as autoAddBlah and loadKnownHosts and such, and where to
-find them $\rightarrow$ javadoc online or generated}} \item{\textit{Maybe
-use property to load password from a config file; which you then also
-should not commit}} \end{enumerate}
+% FIXME Even with authorized_keys on the server and the lisa system as
+known host, I can't do passwordless login for some reason
+
+In Eclipse, go to \texttt{DirectoryListing}'s \textsf{Debug
+configurations} like you did before and bring up
+the \textsf{Arguments} tab. Instead of connecting to
+\url{localhost}, we now want to connect to the Lisa cluster's
+head node at \url{lisa.surfsara.nl}. The full URI\footnote{see
+page~\pageref{footnote:format-uri} for URI's format specification} should
+now be \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}, although
+you can get away with leaving the \texttt{port} value (\texttt{22})
+and the \texttt{path} value (\texttt{/home/jspaaks}) unspecified,
+because they are the same as the default settings for the Lisa system.
+
+However, if you now run \texttt{DirectoryListing}, it still won't
+work, because we must supply a password somehow. THough you could
+set up passwordless login like we did for \texttt{localhost},
+there is another way: Xenon \texttt{Credentials}. For the
+purposes of the exercise, make a copy of \texttt{DirectoryListing}
+and call it something like \texttt{DirectoryListingWithPwd} or
+something. In \texttt{DirectoryListing}, find the lines that say:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}] String
+scheme = uri.getScheme(); String auth = uri.getAuthority(); FileSystem
+fs = files.newFileSystem(scheme, auth, null, null); \end{lstlisting}
+
+\Needspace{10\baselineskip} and add the
+following code just above it to specify a credential:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+LOGGER.debug("Getting the credentials interface..."); // Retrieve the
+Credentials API Credentials credentials = xenon.credentials();
+
+LOGGER.debug("Creating a password credential..."); //
+Create a password credential Credential credential =
+credentials.newPasswordCredential("ssh", "jspaaks",
+        "secretpassword".toCharArray(), null);
+\end{lstlisting}
+
+Obviously, you need to replace \texttt{jspaaks} and
+\texttt{secretpassword} with your own name and password to the Lisa
+system.
+
+At the risk of stating the obvious, \textbf{make sure not
+to accidentally publish this code}. Finally, make sure to
+actually use the \texttt{credential} as the third argument to
+\texttt{credentials.newPasswordCredential()}.
+
+Now try to run the new file DirectoryListingPwd (don't forget to run
+\texttt{./gradlew} when you're running from the command line).
+
+\begin{enumerate} \item{\textit{try to run DirectoryListing while
+supplying a password, should work now.}} % FIXME \item{\textit{analyze
+the debug messages to show that knonw-hosts is actually used when
+connecting. then tell them about the adaptor properties such as
+autoAddBlah and loadKnownHosts and such, and where to find them
+$\rightarrow$ javadoc online or generated}} \item{\textit{Maybe use
+property to load password from a config file; which you then also should
+not commit}} \end{enumerate}
 
 
 
