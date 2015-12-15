@@ -8,6 +8,8 @@ plugins {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
+    // Use Local Maven repository, if Xenon has been published locally
+    mavenLocal()
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
@@ -15,37 +17,12 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0-beta1'
+    compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0-beta2'
 }
+
 
 shadowJar {
   baseName = 'Xenon-examples'
-}
-
-// create a single Jar with only local dependencies
-// all dependencies need to be put in the lib directory
-// first
-configurations {
-    compileLocal
-}
-dependencies {
-    compileLocal fileTree(dir: file('lib'), include: '*.jar')
-}
-task downloadDependencies(type: Copy) {
-    from configurations.runtime.files
-    into file('lib')
-}
-task localJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Xenon-examples-testing'
-    }
-    baseName = project.name + '-testing'
-    from(configurations.compileLocal.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-    with jar
 }
 
 defaultTasks 'shadowJar'
