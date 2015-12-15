@@ -535,15 +535,17 @@ information from \mytilde/\url{.ssh/id_rsa.pub} to
 it. Linux provides an easy way of doing this, as follows:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] #
 copy identity, type 'yes' when prompted ssh-copy-id ${USER}@localhost
-\end{lstlisting} % dummy $
+\end{lstlisting}\index{ssh-copy-id@\texttt{ssh-copy-id}} % dummy $
 
 On the server side, file \mytilde/\url{.ssh/authorized_keys} should now
 contain the information from \mytilde/\mbox{\url{.ssh/id_rsa.pub}}.
 
-On the client side, SSH tried to connect the current user (whose
-credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the `remote'
-system \url{localhost}. If that was successful, there should be a new file
-\mytilde/\url{.ssh/known_hosts}. \url{known_hosts} is a list of machines
+
+
+When you did \texttt{ssh-copy-id}, SSH tried to connect the current user
+(whose credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the
+`remote' system \url{localhost}. If that was successful, there should be a
+new file \mytilde/\url{.ssh/known_hosts}, that contains a list of machines
 that we have connected to previously; i.e. these are systems we trust.
 
 \Needspace{10\baselineskip} Each line in \url{known_hosts} is formatted
@@ -572,6 +574,37 @@ try to log in without entering key: ssh ${USER}@localhost \end{lstlisting}
 without having to enter a password. You can log out of the session with:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] #
 log out (of localhost) logout \end{lstlisting}
+
+
+\Needspace{7\baselineskip} For passwordless SSH to work,
+permissions are important\index{ssh@\texttt{ssh}!permissions}. You
+can check the octal representation of a file's permissions by:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] stat -c
+"%a" (*@\textit{<filename>@*)} \end{lstlisting} and you can change them
+with: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# change (*@\textit{<filename>@*)}'s permissions to rwx------ or octal
+700 chmod 700 (*@\textit{<filename>@*)} \end{lstlisting}
+
+On the server-side, verify that permissions are set correctly on the
+following files and directories: \begin{enumerate} \item{\url{${HOME}/}
+should be writable only by owner, not by `group' or `all'. On my system,
+I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh} should
+be writable only by owner, not by `group' or `all'. On my system, I have
+octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh/authorized_keys}
+should be writable only by owner, not by `group' or `all'. On my system,
+I have octal permission 600. } % dummy $ \end{enumerate}
+
+On the client-side, verify that permissions are set correctly on the
+following files and directories: \begin{enumerate} \item{\url{${HOME}/}}
+should be writable only by owner, not by `group' or `all'. On my system,
+I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh}
+should be writable only by owner, not by `group' or `all'. On my system,
+I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh/id_rsa}
+should be octal permission 600. \texttt{ssh-copy-id} should have set the
+permissions correctly.} % dummy $ \item{\url{${HOME}/.ssh/id_rsa.pub}
+should be octal permission 644. \texttt{ssh-copy-id} should have set
+the permissions correctly.} % dummy $ \end{enumerate}
+
 
 \section{\texttt{DirectoryListing} through \texttt{ssh}}
 
@@ -972,12 +1005,14 @@ goes well, you should see the directory contents of your home directory
 on the Lisa.
 
 
-%\subsection{Passwordless \texttt{ssh} to DAS-4 cluster computer}
+\subsection{\texttt{ssh} to DAS-4 cluster computer}
 
-%\textit{explain how to ssh to DAS4} % FIXME
-
-
-
+Connecting to DAS-4 works in a similar way as connecting to Lisa, except
+that DAS's headnode is located at \url{fs0.das4.cs.vu.nl}, so the full
+URI becomes:\\ \url{ssh://jspaaks@fs0.das4.cs.vu.nl:22/home/jspaaks}. Due
+to the default settings on DAS-4, only the port number is superfluous
+here; omitting the path will result in listing the directory contents
+of \url{/}.
 
 
 \section{Docker} \label{sec:docker} \index{Docker}
@@ -985,13 +1020,13 @@ on the Lisa.
 
 
 
-So far, we've been using SSH to connect to \url{localhost} as well as to
-some live systems. Each option comes with its own drawbacks: live systems
-require additional hardware, and they may be temporarily unavailable
-(for instance when you are on a flaky wireless network, or when other
-users have higher-priority jobs). Development on \url{localhost} can be
-tricky as well, for example when one job requires software that conflicts
-with that of another job.
+So far, we've been using SSH to connect to \url{localhost} as well
+as to some live systems. Each option comes with its own drawbacks:
+live systems require additional hardware, and they may be temporarily
+unavailable (for instance when you are on a flaky wireless network,
+or when other users have higher-priority jobs). On the other hand,
+development on \url{localhost} can be tricky as well, for example when
+one job requires software that conflicts with that of another job.
 
 With Docker, you can combine the pros of running on \url{localhost}
 with the pros of running on live systems, with few of the drawbacks.
@@ -1211,9 +1246,10 @@ docker-compose version: 1.5.0 \end{lstlisting}
 
 
 
-% TODO now add an example: % start the container(s) % ssh to it (with
-ssh from command line) % adapt DirectoryListing URI to list dir contents
-of container, both % from the java command line and from within eclipse
+% TODO now add an example: % start the container(s) % something like %
+docker run -ti ubuntu:14.04 /bin/bash % ssh to it (with ssh from command
+line) % adapt DirectoryListing URI to list dir contents of container,
+both % from the java command line and from within eclipse
 
 
 
