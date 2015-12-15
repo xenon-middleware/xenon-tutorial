@@ -376,20 +376,31 @@ nl.esciencecenter.xenon.examples.files.DirectoryListing local:${PWD}
 
 Standard output will now include messages of the \texttt{WARN}, \texttt{ERROR}, \texttt{INFO}, and \texttt{DEBUG} level, e.g.:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-time   : 11:50:07.428 (+216 ms)
+time   : 11:49:58.473 (+315 ms)
 thread : main
 level  : DEBUG
-class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:56
-message: Reading the URI...
-\end{lstlisting}
+class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:74
+message: Creating a new Path...
 
-and:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-time   : 11:50:07.562 (+350 ms)
+time   : 11:49:58.473 (+315 ms)
+thread : main
+level  : DEBUG
+class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:78
+message: Getting the directory attributes...
+
+time   : 11:49:58.481 (+323 ms)
 thread : main
 level  : INFO
-class  : nl.esciencecenter.xenon.engine.XenonEngine:166
-message: Xenon engine initialized with adaptors: [Adaptor [name=local], ...
+class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:95
+message: Directory local:/home/daisycutter/github/nlesc/xenon-examples exists
+         and contains the following:
+         .travis-ssh.sh
+         run-examples.sh
+         .gitignore
+         doc
+         build
+         bin
+                             (*@\textit{<some content omitted>}@*)
 \end{lstlisting}
 
 
@@ -398,7 +409,7 @@ message: Xenon engine initialized with adaptors: [Adaptor [name=local], ...
 
 Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's \texttt{local} adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). To do so, you first need to connect to them. You can use Xenon's \texttt{ssh} adaptor\index{Xenon!adaptor!\ssh@\texttt{ssh}} to do so. The \texttt{ssh} adaptor works in a similar way as the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}} on the Linux command line. Through SSH, you can connect to a remote system and do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator).
 
-To keep things simple, we'll first set up an SSH connection to \url{localhost}, thus effectively connecting ourselves with ourselves. Later on in this document we'll also look at using SSH to connect to two remote systems (see Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}). Additionally, we'll set up Docker to run virtual remote systems on your local machine. That way, you can emulate the behavior of one or more remote machines (see Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the need for these machines to be live all the time. Anyway, that's all for later---let's get started on setting up SSH to \url{localhost} first.
+To keep things simple, we'll first set up an SSH connection to \url{localhost}, thus effectively connecting ourselves with ourselves. Later on in this document we'll also look at using SSH to connect to a remote system (see Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}). Additionally, we'll set up Docker to run virtual remote systems on your local machine. That way, you can emulate the behavior of one or more remote machines (see Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the need for any additional hardware besides your own machine. Anyway, that's all for later---let's get started on setting up SSH to \url{localhost} first.
 
 \subsection{\texttt{ssh} to \texttt{localhost}}
 
@@ -455,7 +466,11 @@ Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote sy
 # now try to log in without entering key:
 ssh ${USER}@localhost
 \end{lstlisting} % dummy $
-
+If all goes well, you should be logged in automatically without having to enter a password. You can log out of the session with:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# log out (of localhost)
+logout
+\end{lstlisting}
 
 \section{\texttt{DirectoryListing} through \texttt{ssh}}
 
@@ -493,7 +508,7 @@ Note that you can edit the loglevel by changing the parameter \texttt{LOGLEVEL} 
 
 
 
-\chapter{Eclipse}
+%\chapter{Eclipse}
 
 So now that we've verified that everything works, we can start thinking about doing some development work. Let's first look at the Java editor Eclipse.
 
@@ -664,7 +679,7 @@ The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includ
 
 In Eclipse, go to \texttt{DirectoryListing}'s \textsf{Debug configurations} like you did before and bring up the \textsf{Arguments} tab. Instead of connecting to \url{localhost}, we now want to connect to the Lisa cluster's head node at \url{lisa.surfsara.nl}. The full URI\footnote{see page~\pageref{footnote:format-uri} for URI's format specification} should now be \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}, although you can get away with leaving the \texttt{port} value (\texttt{22}) and the \texttt{path} value (\texttt{/home/jspaaks}) unspecified, because they are the same as the default settings for the Lisa system.
 
-However, if you now run \texttt{DirectoryListing}, it still won't work, because we must supply a password somehow. THough you could set up passwordless login like we did for \texttt{localhost}, there is another way: Xenon \texttt{Credentials}. For the purposes of the exercise, make a copy of \texttt{DirectoryListing} and call it something like \texttt{DirectoryListingWithPwd} or something. In \texttt{DirectoryListing}, find the lines that say:
+However, if you now run \texttt{DirectoryListing}, it still won't work, because we must supply a password somehow. Though you could set up passwordless login like we did for \texttt{localhost}, there is another way: Xenon \texttt{Credentials}. For the purposes of the exercise, make a copy of \texttt{DirectoryListing} and call it something like \texttt{DirectoryListingWithPwd}. In \texttt{DirectoryListingWithPwd}, find the lines that say:
 \begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
 String scheme = uri.getScheme();
 String auth = uri.getAuthority();
@@ -686,16 +701,9 @@ Credential credential = credentials.newPasswordCredential("ssh", "jspaaks",
 
 Obviously, you need to replace \texttt{jspaaks} and \texttt{secretpassword} with your own name and password to the Lisa system.
 
-At the risk of stating the obvious, \textbf{make sure not to accidentally publish this code}. Finally, make sure to actually use the \texttt{credential} as the third argument to \texttt{files.newFileSystem()}.
+At the risk of stating the obvious, \textbf{make sure not to accidentally publish this code because it now contains your password}. Finally, make sure to actually use the \texttt{credential} as the third argument to \texttt{files.newFileSystem()}.
 
-Now try to run the new file DirectoryListingPwd (don't forget to run \texttt{./gradlew} when you're running from the command line).
-
-\begin{enumerate}
-\item{\textit{try to run DirectoryListing while supplying a password, should work now.}} % FIXME
-\item{\textit{analyze the debug messages to show that knonw-hosts is actually used when connecting. then tell them   about the adaptor properties such as autoAddBlah and loadKnownHosts and such, and where to find them $\rightarrow$ javadoc online or generated}}
-\item{\textit{Maybe use property to load password from a config file; which you then also should not commit}}
-\end{enumerate}
-
+Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to run \texttt{./gradlew} if you're testing at the command line).
 
 
 \subsection{Passwordless \texttt{ssh} to DAS-4 cluster computer}
@@ -706,16 +714,23 @@ Now try to run the new file DirectoryListingPwd (don't forget to run \texttt{./g
 
 
 
-
-
-\chapter{Unused texts}
-
 \section{Docker}
 \label{sec:docker}
 \index{Docker}
+
+
+
+
+So far, we've been using SSH to connect to \url{localhost} as well as to some live systems. Each option comes with its own drawbacks: live systems require additional hardware, and they may be temporarily unavailable (for instance when you are on a flaky wireless network, or when other users have higher-priority jobs). Development on \url{localhost} can be tricky as well, for example when one job requires software that conflicts with that of another job.
+
+With Docker, you can combine the pros of running on \url{localhost} with the pros of running on live systems, with few of the drawbacks.
+
+\subsection{Installing Docker}
 \index{Docker!installing}
 
-Later on in this document, we will take a closer look at continuous integration testing\index{continuous integration testing}. Usually, setting up a testing environment\index{testing!environment} is reasonably easy, but for Xenon it's a little more complicated. This is because the Xenon library is about connecting to remote systems, but in a testing environment, such remote systems do not exist---there's only the test machine. So, in order to run Xenon tests, we need to set up an environment in which a \textit{virtual} remote system\index{testing!virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one \textit{physical} machine. For now, let's just install the Docker\footnote{The remainder of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}} software that we'll use to set up virtual remote systems. Note that Docker needs a 64-bit host system. Also, it needs a minimum kernel version of 3.10 (again, on the host).
+We will set up an environment in which a \textit{virtual} remote system\index{virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one \textit{physical} machine. For now, let's just install the Docker software that we'll use to set up virtual remote systems. Note that much of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's where you need to go if you want to learn more.
+
+Docker requires that your operating system (the host system) is 64-bit. Also, it needs a minimum Linux kernel version of 3.10 (on the host).
 
 \Needspace{4\baselineskip}
 Check your kernel version with:
@@ -774,13 +789,13 @@ sudo nano /etc/apt/sources.list.d/docker.list
 \end{lstlisting}
 
 \Needspace{6\baselineskip}
-Delete any existing entries in \url{/etc/apt/sources.list.d/docker.list}, then add one of the following options
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-deb https://apt.dockerproject.org/repo ubuntu-precise main
-deb https://apt.dockerproject.org/repo ubuntu-trusty main
-deb https://apt.dockerproject.org/repo ubuntu-vivid main
-deb https://apt.dockerproject.org/repo ubuntu-wily main
-\end{lstlisting}
+Delete any existing entries in \url{/etc/apt/sources.list.d/docker.list}, then add one of the following options:
+\begin{enumerate}
+\item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-precise main}}
+\item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-trusty main}}
+\item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-vivid main}}
+\item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-wily main}}
+\end{enumerate}
 (I chose the second because I'm on trusty).
 
 Next, save and close \url{/etc/apt/sources.list.d/docker.list}.
@@ -854,7 +869,7 @@ docker info
 \end{lstlisting}
 Mine are stored under \url{/var/lib/docker}; whatever the location, make sure you have enough disk space there, as Docker will download any new containers to that location.
 
-The Docker daemon binds to a Unix socket instead of a TCP port. By default that Unix socket is owned by the user \texttt{root} and other users can access it with \texttt{sudo}. For this reason, the Docker daemon always runs as the \texttt{root} user.
+The Docker daemon binds to a Unix socket instead of a TCP port. By default, that Unix socket is owned by the user \texttt{root} and other users can access it with \texttt{sudo}. For this reason, the Docker daemon always runs as the \texttt{root} user.
 
 To avoid having to use \texttt{sudo} when you use the \texttt{docker} command, we will create a Unix group called \texttt{docker} and add users to it. When the Docker daemon starts, it makes the ownership of the Unix socket read/writable by the \texttt{docker} group.
 
@@ -864,8 +879,9 @@ sudo usermod -G docker -a <name-of-user>
 \end{lstlisting}
 Log out and back in.
 
-We will use multiple Docker containers simultanenously. To coordinate how individual Docker containers talk to each other, we need a tool called \texttt{docker-compose}\footnote{For more information on installation, see: \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}. It uses
-a so-called compose file\index{Docker!compose file} to configure an container's services. Xenon's compose file is \url{docker-compose.yml} located in \url{src/integrationTest/docker/}.
+We will use multiple Docker containers simultanenously. To coordinate how individual Docker containers talk to each other, we need a tool called \texttt{docker-compose}\footnote{For more information on installation, see: \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}.
+%
+%It uses a so-called compose file\index{Docker!compose file} to configure a container's services. Xenon's compose file is \url{docker-compose.yml} located in \url{src/integrationTest/docker/}.
 
 To install the \texttt{docker-compose} program, first check \url{https://github.com/docker/compose/releases} to see what the latest stable version of \texttt{docker-compose} is. This determines the \texttt{VERSION\_NUM} in the command below. Mine is \texttt{1.5.0}.
 
@@ -897,16 +913,13 @@ Mine says:
 docker-compose version: 1.5.0
 \end{lstlisting}
 
-That's it for now, we will get back to Docker in Section~\ref{sec:testing}:~\nameref{sec:testing}.
 
 
-
-
-
-
-
-
-
+% TODO now add an example:
+% start the container(s)
+% ssh to it (with ssh from command line)
+% adapt DirectoryListing URI to list dir contents of container, both
+% from the java command line and from within eclipse
 
 
 
