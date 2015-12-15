@@ -66,7 +66,9 @@ public class DirectoryListing {
 
             // Next we create a FileSystem. Note that both credential and properties are null (which means: use default)
             LOGGER.debug("Creating a FileSystem...");
-            FileSystem fs = files.newFileSystem(uri.getScheme(), uri.getAuthority(), null, null);
+            String scheme = uri.getScheme();
+            String auth = uri.getAuthority();
+            FileSystem fs = files.newFileSystem(scheme, auth, null, null);
 
             // We now create an Path representing the directory we want to list.
             LOGGER.debug("Creating a new Path...");

@@ -276,45 +276,20 @@ ssh://localhost${PWD}
 \end{lstlisting} % dummy $
 
 If all goes well, you should see the same directory contents as before, but now viewed through SSH.
+\clearpage
 
+\section{Example usage of \texttt{local} and \texttt{ssh} adaptors}
 
-\section{Example usage of \texttt{local} adaptor and \texttt{ssh} adaptor}
-
+\Needspace{6\baselineskip}
 We have compiled a list of examples demonstrating various uses of the \texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now configured correctly to run all of them. This is most easily accomplished by starting the \texttt{run-examples.sh} script we have prepared:
-
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
 ./run-examples.sh
 \end{lstlisting} % dummy $
 
-\section{Live systems: \texttt{ssh} to SURFsara's Lisa\\ cluster computer}
+Note that you can edit the loglevel by changing the parameter \texttt{LOGLEVEL} in \url{run-examples.sh}.
 
-Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In this section, I'll explain how to connect to SURFsara's cluster computer, Lisa. Cluster computers typically have a dedicated machine (the so-called `headnode') that serves as the main entry point when connecting from outside the cluster. For Lisa, the headnode is located at \url{lisa.surfsara.nl}.
-
-I can connect to Lisa's head node using any of the \texttt{ssh} commands below:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-# (my account on Lisa is called jspaaks)
-ssh jspaaks@lisa.surfsara.nl
-\end{lstlisting}
-
-\Needspace{6\baselineskip}
-If this is the first time you connect to the remote machine, it will generally ask if you want to add the remote machine to the list of known hosts. For example, here's what the Lisa system tells me when I try to \texttt{ssh} to it:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-The authenticity of host 'lisa.surfsara.nl (145.100.29.210)' can't be
-established.
-RSA key fingerprint is b0:69:85:a5:21:d6:43:40:bc:6c:da:e3:a2:cc:b5:8b.
-Are you sure you want to continue connecting (yes/no)?
-\end{lstlisting}
-If I then type \texttt{yes}, it says\footnote{SURFsara publish RSA key fingerprints for their systems at \url{https://userinfo.surfsara.nl/systems/shared/ssh}. The number posted there should be the same as what you have in your terminal.}:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
-         the list of known hosts.
-
-                             (*@\textit{<some content omitted>}@*)
-\end{lstlisting}
-and asks for my password.
-
-The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includes a line for the Lisa system.
+For now, we'll just use SSH to connect to our own machine, but later on in this document we'll also look at using SSH to connect to physically remote systems, such as the Lisa\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}} and DAS-4\footnote{\url{http://www.cs.vu.nl/das4/}} systems (see Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}). Additionally, we'll set up Docker to run virtualized systems on your local machine, with which you can emulate the behavior of one or more remote machines (see Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}). Anyway, that's all for later---first we'll make a small digression into setting up the Integrated Development Environment\index{integrated development environment} or IDE\index{IDE} called Eclipse.
 
 
 
