@@ -131,10 +131,10 @@ understand how to use the Xenon library.
 \section{Version information}
 
 It is assumed that you are using one of the Ubuntu-based operating
-systems (I'm using Linux Lubuntu 14.10). Nonetheless, most of the
-material covered in this manual should be usable on other Linux
-distributions with minor changes. The manual is written to be
-consistent with Xenon release 1.1.1\footnote{For releases, see
+systems (I'm using Linux Lubuntu 14.04.3 LTS). Nonetheless, most
+of the material covered in this manual should be usable on other
+Linux distributions with minor changes. The manual is written to
+be consistent with Xenon release 1.1.0\footnote{For releases, see
 \url{https://github.com/NLeSC/Xenon/releases}}.
 
 
@@ -298,10 +298,10 @@ $ prints a list of the dependencies (of which there are quite many), and
 to any previous builds.
 
 \texttt{dependencies} and \texttt{clean} are referred to as `Gradle
-tasks', `build tasks' or just `tasks'\index{Gradle!tasks}. Tasks
-are defined in a so-called build file\index{Gradle!build file}
-called `build.gradle'. To get an overview of all available tasks
-you could read through `build.gradle', or you could simply run:
+tasks', `build tasks' or just `tasks'\index{Gradle!tasks}. Tasks are
+defined in a so-called build file\index{Gradle!build file} called
+\url{build.gradle}. To get an overview of all available tasks you
+could read through \url{build.gradle}, or you could simply run:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 ./gradlew tasks \end{lstlisting} % dummy $
 
@@ -370,8 +370,8 @@ you want \texttt{java} to find any jar from a given directory). Finally,
 the order within the classpath is significant.\index{Java!classpath}
 
 
-We want Java to find the fat jar `Xenon-examples-all.jar'
-from `build/libs'. Using paths relative to
+We want Java to find the fat jar \url{Xenon-examples-all.jar}
+from \url{build/libs}. Using paths relative to
 \mytilde\url{/Xenon-examples}, our classpath thus becomes
 \url{build/libs/Xenon-examples-all.jar}. However, if we now try to run
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] cd
@@ -463,21 +463,21 @@ Directory local:/home/daisycutter/github/nlesc/xenon-examples exists
 
 
 
-\section{Xenon's \texttt{ssh} adaptor}
+\section{Xenon's SSH adaptor}
 
 Up till now, you've used Xenon to perform tasks on
 your own system (by means of Xenon's \texttt{local}
 adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though,
-you'll want to use Xenon to perform tasks on remote systems, such as the
-Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer,
-or perhaps just a single machine (but not your own). To do so,
-you first need to connect to them. You can use Xenon's \texttt{ssh}
-adaptor\index{Xenon!adaptor!\ssh@\texttt{ssh}} to do so. The \texttt{ssh}
-adaptor works in a similar way as the so-called \textit{secure
-shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}}
-on the Linux command line. Through SSH, you can connect to a remote
-system and do all the things a user is allowed to do on that system
-(which in turn is defined by the remote system's administrator).
+you'll want to use Xenon to perform tasks on remote systems,
+such as the Amazon cloud, the Lisa cluster computer, the Cartesius
+supercomputer, or perhaps just a single machine (but not your own). To
+do so, you first need to connect to them. You can use Xenon's SSH
+adaptor\index{Xenon!adaptor!SSH} to do so. The SSH adaptor works in a
+similar way as the so-called \textit{secure shell}\index{secure shell}
+program \texttt{ssh}\index{ssh@\texttt{ssh}} on the Linux command
+line. Through SSH, you can connect to a remote system and do all the
+things a user is allowed to do on that system (which in turn is defined
+by the remote system's administrator).
 
 To keep things simple, we'll first set up an SSH
 connection to \url{localhost}, thus effectively connecting
@@ -587,18 +587,18 @@ with: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 
 On the server-side, verify that permissions are set correctly on the
 following files and directories: \begin{enumerate} \item{\url{${HOME}/}
-should be writable only by owner, not by `group' or `all'. On my system,
-I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh} should
-be writable only by owner, not by `group' or `all'. On my system, I have
-octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh/authorized_keys}
-should be writable only by owner, not by `group' or `all'. On my system,
+should be writable only by owner, not by group or all. On my system, I
+have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh} should be
+writable only by owner, not by group or all. On my system, I have octal
+permission 700. } % dummy $ \item{\url{${HOME}/.ssh/authorized_keys}
+should be writable only by owner, not by group or all. On my system,
 I have octal permission 600. } % dummy $ \end{enumerate}
 
 On the client-side, verify that permissions are set correctly on the
 following files and directories: \begin{enumerate} \item{\url{${HOME}/}}
-should be writable only by owner, not by `group' or `all'. On my system,
+should be writable only by owner, not by group or all. On my system,
 I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh}
-should be writable only by owner, not by `group' or `all'. On my system,
+should be writable only by owner, not by group or all. On my system,
 I have octal permission 700. } % dummy $ \item{\url{${HOME}/.ssh/id_rsa}
 should be octal permission 600. \texttt{ssh-copy-id} should have set the
 permissions correctly.} % dummy $ \item{\url{${HOME}/.ssh/id_rsa.pub}
@@ -606,10 +606,10 @@ should be octal permission 644. \texttt{ssh-copy-id} should have set
 the permissions correctly.} % dummy $ \end{enumerate}
 
 
-\section{\texttt{DirectoryListing} through \texttt{ssh}}
+\section{\texttt{DirectoryListing} through SSH}
 
-So now that we have configured passwordless \texttt{ssh}
-to \texttt{localhost}, listing the contents of a directory on
+So now that we have configured passwordless SSH to
+\texttt{localhost}, listing the contents of a directory on
 \texttt{localhost} is actually pretty simple. In the URI that you
 pass as a command line argument to \texttt{DirectoryListing} (see
 page~\pageref{snip:directory-listing-local}), replace \texttt{local} by
@@ -626,7 +626,7 @@ ssh://localhost${PWD} \end{lstlisting} % dummy $
 If all goes well, you should see the same directory contents as before,
 but now viewed through SSH.
 
-\section{Example usage of \texttt{local} and \texttt{ssh} adaptors}
+\section{Example usage of local and SSH adaptors}
 
 \Needspace{6\baselineskip} We have compiled a list of examples
 demonstrating various uses of the \texttt{local} adaptor
@@ -770,26 +770,26 @@ time : 18:42:04.689 (+219 ms) thread : main level : ERROR class :
 nl.esciencecenter.xenon.examples.files.DirectoryListing:51 message:
 Example requires a URI as parameter!  \end{lstlisting}
 
-So somehow we have to tell Eclipse about the URI (including both its
-scheme and its path) that we want to use to get to the contents of
-a directory of our chosing. You can do this through so-called `Run
-configurations'\index{Eclipse!run configurations}. You can make a new
-run configuration by selecting \textsf{Run} from the Eclipse menu, then
-\textsf{Run configurations...}. In the left pane of the dialog that
-pops up, select \textsf{Java Application}, then press the \textsf{New
-launch configuration} button in the top left of the dialog. A new
-run configuration item should now become visible under \textsf{Java
-Application}. By default, the name of the run configuration will be
-the name of the class, but you can change the name to whatever you
-like. When you select the \textsf{DirectoryListing} run configuration
-in the left pane, the right pane changes to show the details of the
-run configuration. The information is divided over a few tabs. Select
-the tab labeled \textsf{Arguments}. You should see a field named
-\textsf{Program arguments} where you can provide the arguments that
-you would normally pass through the command line. Earlier, we passed
-the string \texttt{local:\$\{PWD\}}, but that won't work here, since
-\texttt{\$\{PWD\}} is a Bash environment variable, and thus not directly
-available from within Eclipse. Eclipse does provide a workaround
+So somehow we have to tell Eclipse about the URI (including both
+its scheme and its path) that we want to use to get to the contents
+of a directory of our chosing. You can do this through so-called
+\textit{Run configurations}\index{Eclipse!run configuration}. You
+can make a new run configuration by selecting \textsf{Run} from
+the Eclipse menu, then \textsf{Run configurations...}. In the left
+pane of the dialog that pops up, select \textsf{Java Application},
+then press the \textsf{New launch configuration} button in the top
+left of the dialog. A new run configuration item should now become
+visible under \textsf{Java Application}. By default, the name of the
+run configuration will be the name of the class, but you can change the
+name to whatever you like. When you select the \textsf{DirectoryListing}
+run configuration in the left pane, the right pane changes to show the
+details of the run configuration. The information is divided over a few
+tabs. Select the tab labeled \textsf{Arguments}. You should see a field
+named \textsf{Program arguments} where you can provide the arguments
+that you would normally pass through the command line. Earlier, we
+passed the string \texttt{local:\$\{PWD\}}, but that won't work here,
+since \texttt{\$\{PWD\}} is a Bash environment variable, and thus not
+directly available from within Eclipse. Eclipse does provide a workaround
 for this by way of the \texttt{env\_var} variable. \texttt{env\_var}
 takes exactly one argument, namely the name of an environment variable,
 such as \texttt{PWD}. The correct text to enter into \textsf{Program
@@ -822,10 +822,11 @@ Set a breakpoint at the line
 \begin{lstlisting}[style=basic,style=bash,language=java,escapeinside={(*@}{@*)}]
 URI uri = new URI(args[0]); \end{lstlisting}
 
-Now we need to set the debug configuration in a similar manner as we
-did for the run configuration. Select \textsf{Run} from the menu, select
-\textsf{Debug configurations...} (not \textsf{Run configurations...}),
-then select the configuration we used previously.
+Now we need to set the \textit{debug configuration}\index{Eclipse!debug
+configuration} in a similar manner as we did for the run
+configuration. Select \textsf{Run} from the menu, select \textsf{Debug
+configurations...} (not \textsf{Run configurations...}), then select
+the configuration we used previously.
 
 Run the program up to the position of the breakpoint. There
 are various ways to start a debug run: e.g. by selecting
@@ -837,8 +838,8 @@ then select \textsf{Show view}, then select \textsf{Other...}. Select
 whatever tools you like, but make sure to select the \textsf{Variables}
 tool from \textsf{Debug}. This tool allows you to view information about
 your variables while you're debugging. Use drag and drop to lay out the
-Eclipse window to suit your needs. Eclipse refers to its window layout
-as a `perspective'\index{Eclipse!perspective}; perspectives can be
+Eclipse window to suit your needs. Eclipse refers to its window layout as
+a \textit{perspective}\index{Eclipse!perspective}; perspectives can be
 saved by subsequently selecting \textsf{Window}, \textsf{Perspective},
 and \textsf{Save perspective as...}. This allows you to have custom
 perspectives for development in different languages (Java, Python, C,
@@ -901,10 +902,10 @@ you can add command line parameters to the java program, such as
 
 \section{Live systems} \label{sec:live-systems}
 
-Earlier, we set up passwordless \texttt{ssh} to connect to
-\url{localhost}. Obviously, using \texttt{ssh} to connect to your own
-system is a bit silly. Normally, you'll want to connect to a physically
-remote system. In the next two sections, I'll explain how to connect to
+Earlier, we set up passwordless SSH to connect to
+\url{localhost}. Obviously, using SSH to connect to your own system is
+a bit silly. Normally, you'll want to connect to a physically remote
+system. In the next two sections, I'll explain how to connect to
 SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster,
 respectively. If you want to follow along, you need to make sure you
 have an account on at least one of these systems. Check their respective
