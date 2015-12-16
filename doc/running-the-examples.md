@@ -34,7 +34,7 @@ For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.exa
 java -cp build/libs/Xenon-examples-all.jar nl.esciencecenter.xenon.examples.files.DirectoryListing file:///tmp
 ```
 
-'[run-examples.sh](https://github.com/NLeSC/Xenon-examples/blob/master/run-examples.sh)' is a Bash script that contains a number of example calls; execute `./run-examples.sh` at the command line to run them all. Note that some of the examples require passwordless ssh login to localhost (read [this](doc/passwordless-ssh-to-localhost.md) if you don't know how to set that up).
+'[run-examples.sh](https://github.com/NLeSC/Xenon-examples/blob/master/run-examples.sh)' is a Bash script that contains a number of example calls; execute `./run-examples.sh` at the command line to run them all. Note that some of the examples require passwordless ssh login to localhost (read [this](passwordless-ssh-to-localhost.md) if you don't know how to set that up).
 
 Running examples from the IDE
 -----------------------------
@@ -43,4 +43,4 @@ Generate IDE-specific project files with `./gradlew eclipse` or `./gradlew idea`
 
 Example files can be opened and run from inside the IDE, without the need to re-compile using `./gradlew`. You do need to have run ``./gradlew`` at least once though before you can run any of the examples from within the IDE, just to make sure that all the dependencies have been downloaded from the internet.
 
-If you checked out the source code of both [Xenon](https://github.com/NLeSC/Xenon) and [Xenon-examples](https://github.com/NLeSC/Xenon-examples), subsequently made changes to Xenon's code, and now want to re-run the examples, check [this](doc/running-the-examples-using-xenon-library-with-local-changes.md) document.
+If you checked out the source code of both [Xenon](https://github.com/NLeSC/Xenon) and [Xenon-examples](https://github.com/NLeSC/Xenon-examples), subsequently made changes to Xenon's code, and now want to re-run the examples, check [this](running-the-examples-using-xenon-library-with-local-changes.md) document.
