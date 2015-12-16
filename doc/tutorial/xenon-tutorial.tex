@@ -903,17 +903,24 @@ docker run hello-world
 \index{Docker}
 \index{Docker!development using containers}
 
+In this section, I'll show you how you can \texttt{ssh} into a Docker container instead of \url{localhost}. The advantage of this approach is that the configuration of the server is nicely separated from that of the client, making it easier to deal with conflicting configurations (as long as each is contained in its own Docker container).
 
+While you could configure your own Docker container, there's no need---you can simply re-use one of the Docker containers we use for integration testing of the Xenon library. There's a whole bunch of them on DockerHub\footnote{\url{https://hub.docker.com/search/?q=xenon}}. In this section and the next, I'll be using the container named \url{nlesc/xenon-torque}.
+
+\Needspace{5\baselineskip}
+Download and start \url{nlesc/xenon-torque} with:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker run -d --cap-add=SYS_RESOURCE -p 2222:22 \
---name torque  nlesc/xenon-torque
+--name tremendous-torque  nlesc/xenon-torque
 \end{lstlisting}
+
+% FIXME this is where I left off
 
 List all known Docker containers:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker ps --all
 \end{lstlisting}
-Note that the \texttt{STATUS} of the container named \texttt{torque} is \texttt{up}. This is because we started it as a daemon process (by way of the \texttt{-d} flag).
+Note that the \texttt{STATUS} of the container named \texttt{tremendous-torque} is \texttt{up}. This is because we started it as a daemon process (by way of the \texttt{-d} flag).
 
 Under \texttt{PORTS}, you can see what ports are open on the container, and how the host port numbers map to the container's port number. For example, you can see how \url{0.0.0.0}'s port \texttt{2222} maps to the container's port \texttt{22}.
 
@@ -936,19 +943,19 @@ drwxr-xr-x 4 xenon xenon 4096 Sep 30 09:24 xenon_test
 
 Now that you've verified that the Docker container works, \texttt{logout} of it.
 
-Docker containers are identified either by their \texttt{NAME}, such as \texttt{torque}, or by their \texttt{CONTAINER\_ID}, such as \texttt{902ab7ee1143}. Containers can be stopped by:
+Docker containers are identified either by their \texttt{NAME}, such as \texttt{tremendous-torque}, or by their \texttt{CONTAINER\_ID}, such as \texttt{902ab7ee1143}. Containers can be stopped by:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker stop (*@\textit{<identifier>}@*)
 \end{lstlisting}
 for example:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker stop torque
+docker stop tremendous-torque
 \end{lstlisting}
 
-You can remove old Docker containers by their name (e.g. \texttt{torque}) or by their (abbreviated) \texttt{CONTAINER\_ID} such as \texttt{902ab7ee1143}, as follows:
+You can remove old Docker containers by their name (e.g. \texttt{tremendous-torque}) or by their (abbreviated) \texttt{CONTAINER\_ID} such as \texttt{902ab7ee1143}, as follows:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 # remove Docker container by NAME
-docker rm torque
+docker rm tremendous-torque
 
 # remove Docker container by CONTAINER_ID
 docker rm 902ab7ee1143
@@ -979,7 +986,7 @@ Credential credential = credentials.newPasswordCredential(theScheme,
         theUsername, thePassword, null);
 \end{lstlisting}
 
-Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to run \texttt{./gradlew} if you're testing at the command line). If all goes well, you should see the directory contents of \texttt{xenon}'s home directory in the Docker container named \url{torque}.
+Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to run \texttt{./gradlew} if you're testing at the command line). If all goes well, you should see the directory contents of \texttt{xenon}'s home directory in the Docker container named \url{tremendous-torque}.
 
 \section{Xenon's Torque adaptor}
 
