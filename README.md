@@ -42,7 +42,7 @@ After the jar has been generated, examples can be executed using the following f
 java -cp <jar file> <fully qualified example main class> <arguments required by example>
 ```
 
-For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.examples.files` package can be run with (Linux):
+For example the `DirectoryListing` example from the `nl.esciencecenter.xenon.examples.files` package can be run with:
 ```
 # (in Xenon-examples/)
 java -cp build/libs/Xenon-examples-all.jar nl.esciencecenter.xenon.examples.files.DirectoryListing file:///tmp
