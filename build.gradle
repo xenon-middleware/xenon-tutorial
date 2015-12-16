@@ -17,7 +17,7 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0-beta2'
+    compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0'
 }
 
 
