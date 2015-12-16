@@ -18,7 +18,6 @@ package nl.esciencecenter.xenon.examples;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class RunExamplesTest {
         pb.redirectError(ProcessBuilder.Redirect.INHERIT);
         Process p = pb.start();
 
-        p.waitFor(5, TimeUnit.MINUTES);
+        p.waitFor();
 
         assertEquals(0, (int) p.exitValue());
     }
