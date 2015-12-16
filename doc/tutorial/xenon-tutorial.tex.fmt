@@ -1279,19 +1279,48 @@ to run \texttt{./gradlew} if you're testing at the command line). If
 all goes well, you should see the directory contents of \texttt{xenon}'s
 home directory in the Docker container named \url{torque}.
 
+\section{Xenon's Torque adaptor}
+
+Torque\footnote{\url{http://www.adaptivecomputing.com/products/open-source/torque/}}
+is a so-called \textit{resource manager}\index{resource
+manager}. There are quite a few resource managers, but the most
+important ones are Torque\index{resource manager!Torque} and
+SLURM\footnote{\url{http://slurm.schedmd.com/}}\index{resource
+manager!SLURM}. Strictly speaking, Torque is
+just one member a closely related group of resource
+managers, including for example PBS\index{resource manager!PBS},
+OpenPBS\footnote{\url{http://www.pbsgridworks.com/Default.aspx}}\footnote{\url{http://www.mcs.anl.gov/research/projects/openpbs/}}\index{resource
+manager!openPBS}, Sun Grid
+Engine (SGE)\index{resource manager!SGE}, Oracle Grid
+Engine\footnote{\url{http://www.oracle.com/us/products/tools/oracle-grid-engine-075549.html}}\footnote{\url{http://www.univa.com/oracle.php}},
+Open Grid Engine\footnote{\url{http://gridscheduler.sourceforge.net/}},
+and Torque\index{resource manager!Torque} itself.
+
+A resource manager is a program that typically runs on remote systems
+such as clusters, clouds, or supercomputers. As the name implies, the
+resource manager's job is to manage how the remote system's resources
+are allocated to the users. In doing so, it takes into account what
+type of resources are available, and what type of resources are needed
+in terms of processing power, number of cores, network speeds, etc. The
+resource manager works together with a \textit{scheduler}\index{scheduler}
+to determine when the required resources will be made available to the
+user. Note that schedulers can prioritize certain users' jobs, for example
+if these users have paid more than others to make use of the system.
+
+To make a job's requirements known to Torque,
+a user typically writes a plain text file (a
+\textit{jobscript}\index{scheduler!jobscript}\index{jobscript}) laying
+out the required walltime, number of cores, number of nodes, and so
+on. Perhaps most importantly, the jobscript also defines the name of
+an executable, i.e. the work that the user wants done. The jobscript is
+then submitted to the resource manager, who together with the scheduler
+finds a time slot during which the required resources are available
+simultaneously.
 
 
 
-
-% issue #50
-
-% TODO now add an example: % start the container(s) % something like %
-docker run -ti ubuntu:14.04 /bin/bash % ssh to it (with ssh from command
-line) % adapt DirectoryListing URI to list dir contents of container,
-both % from the java command line and from within eclipse
-
-
-
+% TODO mention some typical commands that you normally use to do torque
+stuff
 
 
 
