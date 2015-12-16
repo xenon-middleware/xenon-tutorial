@@ -488,15 +488,15 @@ chmod 700 (*@\textit{<filename>@*)}
 
 On the server-side, verify that permissions are set correctly on the following files and directories:
 \begin{enumerate}
-\item{\url{${HOME}/} should be writable only by owner, not by `group' or `all'. On my system, I have octal permission 700. } % dummy $
-\item{\url{${HOME}/.ssh} should be writable only by owner, not by `group' or `all'. On my system, I have octal permission 700. } % dummy $
-\item{\url{${HOME}/.ssh/authorized_keys} should be writable only by owner, not by `group' or `all'. On my system, I have octal permission 600. } % dummy $
+\item{\url{${HOME}/} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/.ssh} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/.ssh/authorized_keys} should be writable only by owner, not by group or all. On my system, I have octal permission 600. } % dummy $
 \end{enumerate}
 
 On the client-side, verify that permissions are set correctly on the following files and directories:
 \begin{enumerate}
-\item{\url{${HOME}/}} should be writable only by owner, not by `group' or `all'. On my system, I have octal permission 700. } % dummy $
-\item{\url{${HOME}/.ssh} should be writable only by owner, not by `group' or `all'. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/}} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/.ssh} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
 \item{\url{${HOME}/.ssh/id_rsa} should be octal permission 600. \texttt{ssh-copy-id} should have set the permissions correctly.} % dummy $
 \item{\url{${HOME}/.ssh/id_rsa.pub} should be octal permission 644. \texttt{ssh-copy-id} should have set the permissions correctly.} % dummy $
 \end{enumerate}
