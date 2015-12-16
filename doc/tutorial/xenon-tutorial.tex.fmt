@@ -1184,39 +1184,42 @@ docker group@the \texttt{docker} group} with:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] sudo
 usermod -G docker -a <name-of-user> \end{lstlisting} Log out and back in.
 
-We will use multiple Docker containers simultanenously. To
+%We will use multiple Docker containers simultanenously. To
 coordinate how individual Docker containers talk to each other,
 we need a tool called \texttt{docker-compose}\footnote{For
 more information on installation, see:
 \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}.
 
-To install the \texttt{docker-compose} program, first check
+%To install the \texttt{docker-compose} program, first check
 \url{https://github.com/docker/compose/releases} to see what the latest
 stable version of \texttt{docker-compose} is. This determines the
 \texttt{VERSION\_NUM} in the command below. Mine is \texttt{1.5.0}.
 
-\Needspace{6\baselineskip} Download
+%\Needspace{6\baselineskip} %Download
 \texttt{docker-compose}\index{Docker!docker-compose@\texttt{docker-compose}}
 using \texttt{curl} form the terminal:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] cd
-(*@\mytilde@*) curl -L https://github.com/docker/compose/releases/downlo\
-ad/VERSION_NUM/docker-compose-`uname -s`-`uname -m` > docker-compose
-\end{lstlisting}
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] %cd
+(*@\mytilde@*) %curl -L https://github.com/docker/compose/releases/downlo\
+%ad/VERSION_NUM/docker-compose-`uname -s`-`uname -m` > docker-compose
+%\end{lstlisting}
 
-Then move the downloaded file into the right directory on your system
-with: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd (*@\mytilde@*) sudo mv docker-compose /usr/local/bin/ \end{lstlisting}
+%Then move the downloaded file into the right directory on your system
+with: %\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%cd (*@\mytilde@*) %sudo mv docker-compose /usr/local/bin/
+%\end{lstlisting}
 
-Apply executable permissions to the binary:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-sudo chmod +x /usr/local/bin/docker-compose \end{lstlisting}
+%Apply executable permissions to the binary:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%sudo chmod +x /usr/local/bin/docker-compose %\end{lstlisting}
 
-And verify that it worked:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker-compose --version \end{lstlisting} Mine says:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker-compose version: 1.5.0 \end{lstlisting}
+%And verify that it worked:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%docker-compose --version %\end{lstlisting} %Mine says:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%docker-compose version: 1.5.0 %\end{lstlisting}
 
+
+\section{Development using Docker containers}
 
 
 % TODO now add an example: % start the container(s) % something like %
