@@ -137,52 +137,35 @@
 
 \chapter{Introduction}
 
-Many scientific applications require far more computation or data storage than can be handled on a regular PC or laptop. For such applications, access to remote storage and compute facilities is essential. Unfortunately, there is not a single standardized way to access these facilities. There are many competing protocols and tools in use by the various scientific data centers and commercial online providers.
+Many scientific applications require far more computation or data storage than can be handled on a regular PC or laptop. For such applications, access to remote storage and compute facilities is essential. Unfortunately, there is not a single standardized way to access such facilities. There are many competing protocols and tools in use by the various scientific data centers and commercial online providers.
 
 As a result, application developers are forced to either select a few protocols they wish to support, thereby limiting which remote resources their application can use, or implement support for all of them, leading to excessive development time.
 
-Xenon is a library designed to solve this problem. It offers a simple, unified programming interface to many remote computation and data storage facilities, and hides the complicated protocol and tool specific details from the application. By using Xenon, the application developer can focus on the application itself, without having to worry about which protocols to support, resulting in faster application development.
+Xenon is a library designed to solve this problem. It offers a simple, unified programming interface to many remote computation and data storage facilities, and hides the complicated protocol and tool specific details from the application.
 
-% TODO examples of what you can do with it
-
-\section{Purpose of this document}
-
-This document aims to help users without much prior knowledge about Java programming and without much experience in using remote systems to understand how to use the Xenon library.
-
-\section{Version information}
-
-It is assumed that you are using one of the Ubuntu-based operating systems (I'm using Linux Lubuntu 14.04.3 LTS). Nonetheless, most of the material covered in this manual should be usable on other Linux distributions with minor changes. The manual is written to be consistent with Xenon release 1.1.0\footnote{For releases, see \url{https://github.com/NLeSC/Xenon/releases}}.
-
-
-\section{Conceptual overview}
-
-% TODO what is middleware
-
-
-
-
-Xenon consists of three pillars: `credentials'\index{Xenon!pillars!credentials}, `files'\index{Xenon!pillars!files}, and `jobs'\index{Xenon!pillars!jobs}.
+Xenon consists of three pillars: \textit{credentials}\index{Xenon!pillars!credentials}, \textit{files}\index{Xenon!pillars!files}, and \textit{jobs}\index{Xenon!pillars!jobs} (Figure~\ref{fig:xenon-design}).
 %
-The credentials pillar contains functionality pertaining to credentials. Credentials (such as a name and password combination) are often required to gain access to files or to submit jobs.
+The credentials pillar contains functionality pertaining to gaining access to (remote) systems, for example by using passwords, public/private keys, certificates, etc.
 %
-The files pillar contains all functionality relating to files, such as creation, deletion, copying, reading, writing, obtaining a directory listing, etc.
+The files pillar contains all functionality relating to the filesystem: creation, deletion, and copying of files and directories, checking if a file or directory exists, listing directory contents, etc.
 %
-Lastly, the jobs pillar contains functionality relating to jobs, e.g. submitting, polling, cancelling, etc.
-
-% TODO explain the notion of files (files interface)
-% TODO explain the notion of jobs (jobs interface)
-% TODO explain the notion of credentials (credential interface)
-% TODO explain the notion of adaptors
+Lastly, the jobs pillar contains functionality relating to jobs, such as submitting and cancelling a job, checking a job's status (\textit{polling}\index{polling}), etc.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=1.0\columnwidth]{images/xenon-design}
-\caption{\label{fig:xenon-design} Xenon is built on 3 pillars: `credentials'\index{Xenon!pillars!credentials}, `files'\index{Xenon!pillars!files} and `jobs'\index{Xenon!pillars!jobs}. Each pillar consists of an interface\index{Xenon!interface}, an engine\index{Xenon!engine}, and an adaptor\index{Xenon!adaptor}.}
+\caption{\label{fig:xenon-design} Xenon is built on 3 pillars: credentials\index{Xenon!pillars!credentials}, files\index{Xenon!pillars!files} and jobs\index{Xenon!pillars!jobs}. Each pillar consists of an interface\index{Xenon!interface}, an engine\index{Xenon!engine}, and multiple adaptors\index{Xenon!adaptor}.}
 \end{figure}
 
+% TODO issue #23 examples of what you can do with it
 
+\section{Purpose of this document}
 
+This document aims to help users without much prior knowledge about Java programming and without much experience in using remote systems to understand the basics of how to use the Xenon library. At the end of the tutorial you should have enough information to be able to start exploring on your own.
 
+\section{Version information}
+
+It is assumed that you are using one of the Ubuntu-based operating systems (I'm using Linux Lubuntu 14.04.3 LTS). Nonetheless, most of the material covered in this manual should be usable on other Linux distributions with minor changes. The manual is written to be consistent with Xenon release 1.1.0\footnote{For releases, see \url{https://github.com/NLeSC/Xenon/releases}}.
 
 
 
@@ -392,7 +375,7 @@ time   : 11:49:58.481 (+323 ms)
 thread : main
 level  : INFO
 class  : nl.esciencecenter.xenon.examples.files.DirectoryListing:95
-message: Directory local:/home/daisycutter/github/nlesc/xenon-examples exists
+message: Directory local:/home/daisycutter/Xenon-examples exists
          and contains the following:
          .travis-ssh.sh
          run-examples.sh
@@ -411,7 +394,7 @@ Up till now, you've used Xenon to perform tasks on your own system (by means of 
 
 To keep things simple, we'll first set up an SSH connection to \url{localhost}, thus effectively connecting ourselves with ourselves. Later on in this document we'll also look at using SSH to connect to a remote system (see Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}). Additionally, we'll set up Docker to run virtual remote systems on your local machine. That way, you can emulate the behavior of one or more remote machines (see Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the need for any additional hardware besides your own machine. Anyway, that's all for later---let's get started on setting up SSH to \url{localhost} first.
 
-\subsection{\texttt{ssh} to \texttt{localhost}}
+\subsection{\texttt{ssh} to \url{localhost}}
 
 SSH uses the server-client model. Normally, your system is the client, while the remote system is the server. Since we will connect to \url{localhost} however, your system will play the part of both client and server.
 
@@ -449,7 +432,7 @@ On the server side, file \mytilde/\url{.ssh/authorized_keys} should now contain 
 
 
 
-When you did \texttt{ssh-copy-id}, SSH tried to connect the current user (whose credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the `remote' system \url{localhost}. If that was successful, there should be a new file \mytilde/\url{.ssh/known_hosts}, that contains a list of machines that we have connected to previously; i.e. these are systems we trust.
+When you did \texttt{ssh-copy-id}, SSH tried to connect the current user (whose credentials are found in \mytilde/\url{.ssh/id_rsa.pub}) to the `remote' system \url{localhost}. If that was successful, there should now be a new file \mytilde/\url{.ssh/known_hosts} on the client, that contains a list of machines that we have connected to previously; i.e. these are systems we trust.
 
 \Needspace{10\baselineskip}
 Each line in  \url{known_hosts} is formatted according to: \\
@@ -464,19 +447,8 @@ The number that \texttt{ssh-keygen} returns should be the same number that was d
 \end{itemize}
 Xenon uses \texttt{known\_hosts} to automatically connect to a (known) remote system, without having to ask for credentials every time.
 
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-# now try to log in without entering key:
-ssh ${USER}@localhost
-\end{lstlisting} % dummy $
-If all goes well, you should be logged in automatically without having to enter a password. You can log out of the session with:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-# log out (of localhost)
-logout
-\end{lstlisting}
-
-
 \Needspace{7\baselineskip}
-For passwordless SSH to work, permissions are important\index{ssh@\texttt{ssh}!permissions}. You can check the octal representation of a file's permissions by:
+For passwordless SSH to work correctly, permissions are important\index{ssh@\texttt{ssh}!permissions}. You can check the octal representation of a file's permissions by:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 stat -c "%a" (*@\textit{<filename>@*)}
 \end{lstlisting}
@@ -488,18 +460,27 @@ chmod 700 (*@\textit{<filename>@*)}
 
 On the server-side, verify that permissions are set correctly on the following files and directories:
 \begin{enumerate}
-\item{\url{${HOME}/} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
-\item{\url{${HOME}/.ssh} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/} and \url{${HOME}/.ssh/} should be writable only by owner, not by group or all. On my system, I have octal permission 700. }
 \item{\url{${HOME}/.ssh/authorized_keys} should be writable only by owner, not by group or all. On my system, I have octal permission 600. } % dummy $
 \end{enumerate}
 
 On the client-side, verify that permissions are set correctly on the following files and directories:
 \begin{enumerate}
-\item{\url{${HOME}/}} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
-\item{\url{${HOME}/.ssh} should be writable only by owner, not by group or all. On my system, I have octal permission 700. } % dummy $
+\item{\url{${HOME}/}} and \url{${HOME}/.ssh/} should be writable only by owner, not by group or all. On my system, I have octal permission 700. }
 \item{\url{${HOME}/.ssh/id_rsa} should be octal permission 600. \texttt{ssh-copy-id} should have set the permissions correctly.} % dummy $
 \item{\url{${HOME}/.ssh/id_rsa.pub} should be octal permission 644. \texttt{ssh-copy-id} should have set the permissions correctly.} % dummy $
 \end{enumerate}
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# now try to log in without entering key:
+ssh ${USER}@localhost
+\end{lstlisting} % dummy $
+
+If all goes well, you should be logged in automatically without having to enter a password. You can log out of the SSH session with:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+logout
+\end{lstlisting}
+
 
 
 \section{\texttt{DirectoryListing} through SSH}
@@ -530,28 +511,19 @@ Note that you can edit the loglevel by changing the parameter \texttt{LOGLEVEL} 
 
 
 
-
-
-
-
-
-
-
-
-%\chapter{Eclipse}
+\section{A minimal Eclipse installation}
+\index{Eclipse!minimal installation}
 
 So now that we've verified that everything works, we can start thinking about doing some development work. Let's first look at the Java editor Eclipse.
 
 Eclipse\index{Eclipse} is a very powerful, free, open-source, integrated development environment for Java (and many other languages). It is available in most Linuxes from their respective repositories. By default, Eclipse comes with many features, such as Git (version control)\index{Git}, Mylyn (task management)\index{Mylyn}, Maven (building)\index{Maven}, Ant (building)\index{Ant}, an XML editor, as well as some other stuff. While these features are nice, they can get in the way if you're new to code development with Java using Eclipse. We will therefore set up a minimal Eclipse installation which includes only the Eclipse platform and the Java related tools (most importantly, the debugger). Feel free to skip this next part if you're already familiar with Eclipse.
 
-\section{A minimal Eclipse installation}
-\index{Eclipse!minimal installation}
 
 Go to \url{http://download.eclipse.org/eclipse/downloads/}. Under `Latest release', click on the link with the highest version number. It will take you to a website that has a menu in the upper left corner. From that menu, select the item `Platform Runtime binary', then download the file corresponding to your platform (for me, that is \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz}). Go back to the menu by scrolling up, then select the item `JDT Runtime binary', and download the file (there should be only one; for me that is \url{org.eclipse.jdt-4.5.zip}).
 
 Now go to where you downloaded those two files to. Uncompress \url{eclipse-platform-4.5-linux-gtk-x86_64.tar.gz} and move the uncompressed files to a new directory \mytilde\url{/opt/minimal-eclipse/} (they can be anywhere, really, but \mytilde\url{/opt} is the conventional place to install user-space programs on Linux). Start Eclipse by running \url{eclipse} from \mytilde\url{/opt/minimal-eclipse/eclipse}.
 
-In Eclipse's menu go to \textsf{Help}, then select \textsf{Install New Software...}. Near the bottom of the dialog, uncheck \textsf{Group items by category}. Then click the top-right button labeled \textsf{Add...} and click \textsf{Archive...}. Then navigate to the second file you downloaded, \url{org.eclipse.jdt-4.5.zip} and select it. In the dialog, a new item \textsf{Eclipse Java Development Tools} should appear. Make sure it's checked, then click \textsf{Next} and \textsf{Finish}. When Eclipse restarts, you should have everything you need for Java development, without any of the clutter!
+In Eclipse's menu go to \textsf{Help}, then select \textsf{Install New Software...} . Near the bottom of the dialog, uncheck \textsf{Group items by category}. Then click the top-right button labeled \textsf{Add...} and click \textsf{Archive...} . Then navigate to the second file you downloaded, \url{org.eclipse.jdt-4.5.zip} and select it. In the dialog, a new item \textsf{Eclipse Java Development Tools} should appear. Make sure it's checked, then click \textsf{Next} and \textsf{Finish}. When Eclipse restarts, you should have everything you need for Java development, without any of the clutter!
 
 \index{Bash!alias}
 \index{Bash!alias!miniclipse@\texttt{miniclipse}}
@@ -704,8 +676,6 @@ Warning: Permanently added 'lisa.surfsara.nl,145.100.29.210' (RSA) to
 and asks for my password.
 
 The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includes a line for the Lisa system.
-
-% FIXME Even with authorized_keys on the server and the lisa system as known host, I can't do passwordless login for some reason
 
 In Eclipse, go to \texttt{DirectoryListing}'s \textsf{Debug configurations} like you did before and bring up the \textsf{Arguments} tab. Instead of connecting to \url{localhost}, we now want to connect to the Lisa cluster's head node at \url{lisa.surfsara.nl}. The full URI\footnote{see page~\pageref{footnote:format-uri} for URI's format specification} should now be \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}, although you can get away with leaving the \texttt{port} value (\texttt{22}) and the \texttt{path} value (\texttt{/home/jspaaks}) unspecified, because they are the same as the default settings for the Lisa system.
 
@@ -910,8 +880,6 @@ sudo usermod -G docker -a <name-of-user>
 Log out and back in.
 
 We will use multiple Docker containers simultanenously. To coordinate how individual Docker containers talk to each other, we need a tool called \texttt{docker-compose}\footnote{For more information on installation, see: \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}.
-%
-%It uses a so-called compose file\index{Docker!compose file} to configure a container's services. Xenon's compose file is \url{docker-compose.yml} located in \url{src/integrationTest/docker/}.
 
 To install the \texttt{docker-compose} program, first check \url{https://github.com/docker/compose/releases} to see what the latest stable version of \texttt{docker-compose} is. This determines the \texttt{VERSION\_NUM} in the command below. Mine is \texttt{1.5.0}.
 
