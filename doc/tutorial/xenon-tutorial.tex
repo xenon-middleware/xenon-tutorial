@@ -249,12 +249,6 @@ this will install the open-source variant of Java (`OpenJDK'\index{Java!OpenJDK}
 
 
 
-
-
-
-
-
-
 \section{Building with \texttt{gradlew}}
 
 To check if everything works, we first need to build the example from source and then run the example from the command line.
@@ -679,34 +673,20 @@ The result of this connection is that \mytilde\url{/.ssh/known_hosts} now includ
 
 In Eclipse, go to \texttt{DirectoryListing}'s \textsf{Debug configurations} like you did before and bring up the \textsf{Arguments} tab. Instead of connecting to \url{localhost}, we now want to connect to the Lisa cluster's head node at \url{lisa.surfsara.nl}. The full URI\footnote{see page~\pageref{footnote:format-uri} for URI's format specification} should now be \url{ssh://jspaaks@lisa.surfsara.nl:22/home/jspaaks}, although you can get away with leaving the \texttt{port} value (\texttt{22}) and the \texttt{path} value (\texttt{/home/jspaaks}) unspecified, because they are the same as the default settings for the Lisa system.
 
-However, if you now run \texttt{DirectoryListing}, it still won't work, because we must supply a password somehow. Though you could set up passwordless login like we did for \texttt{localhost}, there is another way: Xenon \texttt{Credentials}.
+However, if you now run \texttt{DirectoryListing}, it still won't work, because we still have to set up passwordless login using a public/private key pair.
 
-\Needspace{5\baselineskip}
-For the purposes of the exercise, make a copy of \texttt{DirectoryListing} and call it something like \texttt{DirectoryListingWithPwd}. In \texttt{DirectoryListingWithPwd}, find the lines that say:
-\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
-String scheme = uri.getScheme();
-String auth = uri.getAuthority();
-FileSystem fs = files.newFileSystem(scheme, auth, null, null);
+Add your public key information to \url{~/.ssh/authorized_keys} on the Lisa system with:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# (from your own system)
+ssh-copy-id jspaaks@lisa.surfsara.nl
 \end{lstlisting}
-
-\Needspace{10\baselineskip}
-and add the following code just above it to specify a credential:
-\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
-LOGGER.debug("Getting the credentials interface...");
-// Retrieve the Credentials API
-Credentials credentials = xenon.credentials();
-
-LOGGER.debug("Creating a password credential...");
-// Create a password credential
-Credential credential = credentials.newPasswordCredential("ssh", "jspaaks",
-        "secretpassword".toCharArray(), null);
+Verify that you can now log in without being asked for a password by:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+ssh jspaaks@lisa.surfsara.nl
 \end{lstlisting}
+You should now be able to list the directory contents of your home directory on the Lisa using \texttt{DirectoryListing}.
 
-Obviously, you need to replace \texttt{jspaaks} and \texttt{secretpassword} with your own name and password to the Lisa system.
 
-At the risk of stating the obvious, \textbf{make sure not to accidentally publish this code because it now contains your password}. Finally, make sure to actually use the \texttt{credential} as the third argument to \texttt{files.newFileSystem()}.
-
-Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to run \texttt{./gradlew} if you're testing at the command line). If all goes well, you should see the directory contents of your home directory on the Lisa.
 
 
 \subsection{\texttt{ssh} to DAS-4 cluster computer}
@@ -714,19 +694,17 @@ Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to ru
 Connecting to DAS-4 works in a similar way as connecting to Lisa, except that DAS's headnode is located at \url{fs0.das4.cs.vu.nl}, so the full URI becomes:\\ \url{ssh://jspaaks@fs0.das4.cs.vu.nl:22/home/jspaaks}. Due to the default settings on DAS-4, only the port number is superfluous here; omitting the path will result in listing the directory contents of \url{/}.
 
 
-\section{Docker}
-\label{sec:docker}
-\index{Docker}
+\subsection{Installing Docker}
 
+\index{Docker}
+\index{Docker!installing}
+\label{sec:docker}
 
 
 
 So far, we've been using SSH to connect to \url{localhost} as well as to some live systems. Each option comes with its own drawbacks: live systems require additional hardware, and they may be temporarily unavailable (for instance when you are on a flaky wireless network, or when other users have higher-priority jobs). On the other hand, development on \url{localhost} can be tricky as well, for example when one job requires software that conflicts with that of another job.
 
 With Docker, you can combine the pros of running on \url{localhost} with the pros of running on live systems, with few of the drawbacks.
-
-\subsection{Installing Docker}
-\index{Docker!installing}
 
 We will set up an environment in which a \textit{virtual} remote system\index{virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one \textit{physical} machine. For now, let's just install the Docker software that we'll use to set up virtual remote systems. Note that much of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's where you need to go if you want to learn more.
 
@@ -741,7 +719,7 @@ Mine is \texttt{3.13.0-67-generic}.
 
 The Ubuntu repositories contain an older version of Docker, which you should not use. Instead, use the newer version from Docker's own PPA\index{Docker!PPA}.
 
-\Needspace{4\baselineskip}
+\Needspace{6\baselineskip}
 First check if you have the older version by:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker -v
@@ -751,6 +729,7 @@ Mine says:
 Docker version 1.9.0, build 76d6bc9
 \end{lstlisting}
 
+\Needapce{4\baselineskip}
 If your version is lower, go ahead and uninstall as follows. First find out where your Docker program lives with:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 which docker
@@ -762,7 +741,8 @@ and then find out which package your Docker is a part of with:
 dpkg -S `which docker`
 \end{lstlisting}
 
-If you already had Docker installed, then the package name is likely either \texttt{docker.io}\index{Docker!docker.io@\texttt{docker.io}} or \texttt{lxc-docker}\index{Docker!lxc-docker@\texttt{lxc-docker}}. Either way uninstall the entire package, including its settings with
+If you already had Docker installed, then the package name is likely either \texttt{docker.io}\index{Docker!docker.io@\texttt{docker.io}} or \texttt{lxc-docker}\index{Docker!lxc-docker@\texttt{lxc-docker}}. Either way uninstall the entire package, including its settings with:
+\Needspace{6\baselineskip}
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 sudo apt-get remove --purge docker.io
 \end{lstlisting}
@@ -788,7 +768,7 @@ Open or create the file \url{/etc/apt/sources.list.d/docker.list} in an editor s
 sudo nano /etc/apt/sources.list.d/docker.list
 \end{lstlisting}
 
-\Needspace{6\baselineskip}
+\Needspace{12\baselineskip}
 Delete any existing entries in \url{/etc/apt/sources.list.d/docker.list}, then add one of the following options:
 \begin{enumerate}
 \item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-precise main}}
@@ -797,6 +777,7 @@ Delete any existing entries in \url{/etc/apt/sources.list.d/docker.list}, then a
 \item{\texttt{deb https://apt.dockerproject.org/repo ubuntu-wily main}}
 \end{enumerate}
 (I chose the second because I'm on trusty).
+
 
 Next, save and close \url{/etc/apt/sources.list.d/docker.list}.
 
@@ -877,52 +858,140 @@ Add yourself to the \texttt{docker} group\index{Docker!the docker group@the \tex
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 sudo usermod -G docker -a <name-of-user>
 \end{lstlisting}
-Log out and back in.
-
-We will use multiple Docker containers simultanenously. To coordinate how individual Docker containers talk to each other, we need a tool called \texttt{docker-compose}\footnote{For more information on installation, see: \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}.
-
-To install the \texttt{docker-compose} program, first check \url{https://github.com/docker/compose/releases} to see what the latest stable version of \texttt{docker-compose} is. This determines the \texttt{VERSION\_NUM} in the command below. Mine is \texttt{1.5.0}.
-
-\Needspace{6\baselineskip}
-Download \texttt{docker-compose}\index{Docker!docker-compose@\texttt{docker-compose}} using \texttt{curl} form the terminal:
+Log out and back in. You should now be able to re-run the \texttt{hello-world} example without the need for \texttt{sudo}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd (*@\mytilde@*)
-curl -L https://github.com/docker/compose/releases/downlo\
-ad/VERSION_NUM/docker-compose-`uname -s`-`uname -m` > docker-compose
-\end{lstlisting}
-
-Then move the downloaded file into the right directory on your system with:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-cd (*@\mytilde@*)
-sudo mv docker-compose /usr/local/bin/
-\end{lstlisting}
-
-Apply executable permissions to the binary:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-sudo chmod +x /usr/local/bin/docker-compose
-\end{lstlisting}
-
-And verify that it worked:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker-compose --version
-\end{lstlisting}
-Mine says:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker-compose version: 1.5.0
+docker run hello-world
 \end{lstlisting}
 
 
 
-% TODO now add an example:
-% start the container(s)
-% something like
-% docker run -ti ubuntu:14.04 /bin/bash
-% ssh to it (with ssh from command line)
-% adapt DirectoryListing URI to list dir contents of container, both
-% from the java command line and from within eclipse
+%We will use multiple Docker containers simultanenously. To coordinate how individual Docker containers talk to each other, we need a tool called \texttt{docker-compose}\footnote{For more information on installation, see: \url{https://docs.docker.com/compose/install/}}\index{Docker!docker-compose@\texttt{docker-compose}}.
+
+%To install the \texttt{docker-compose} program, first check \url{https://github.com/docker/compose/releases} to see what the latest stable version of \texttt{docker-compose} is. This determines the \texttt{VERSION\_NUM} in the command below. Mine is \texttt{1.5.0}.
+
+%\Needspace{6\baselineskip}
+%Download \texttt{docker-compose}\index{Docker!docker-compose@\texttt{docker-compose}} using \texttt{curl} form the terminal:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%cd (*@\mytilde@*)
+%curl -L https://github.com/docker/compose/releases/downlo\
+%ad/VERSION_NUM/docker-compose-`uname -s`-`uname -m` > docker-compose
+%\end{lstlisting}
+
+%Then move the downloaded file into the right directory on your system with:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%cd (*@\mytilde@*)
+%sudo mv docker-compose /usr/local/bin/
+%\end{lstlisting}
+
+%Apply executable permissions to the binary:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%sudo chmod +x /usr/local/bin/docker-compose
+%\end{lstlisting}
+
+%And verify that it worked:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%docker-compose --version
+%\end{lstlisting}
+%Mine says:
+%\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+%docker-compose version: 1.5.0
+%\end{lstlisting}
+
+
+\section{Development using Docker containers}
+
+\index{Docker}
+\index{Docker!development using containers}
+
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker run -d --cap-add=SYS_RESOURCE -p 2222:22 \
+--name torque  nlesc/xenon-torque
+\end{lstlisting}
+
+List all known Docker containers:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker ps --all
+\end{lstlisting}
+Note that the \texttt{STATUS} of the container named \texttt{torque} is \texttt{up}. This is because we started it as a daemon process (by way of the \texttt{-d} flag).
+
+Under \texttt{PORTS}, you can see what ports are open on the container, and how the host port numbers map to the container's port number. For example, you can see how \url{0.0.0.0}'s port \texttt{2222} maps to the container's port \texttt{22}.
+
+Let's try if we can \texttt{ssh} into the container. For this we need to identify ourselves with a username/password combination. For this container, the username is \texttt{xenon} and the password is \texttt{javagat}. Run:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+ssh xenon@localhost -p 2222
+\end{lstlisting}
+and fill in the password when prompted.
+
+\Needspace{8\baselineskip}
+An \texttt{ls -l} should yield something like this:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+Last login: Wed Dec 16 13:07:17 2015 from 172.17.0.1
+[xenon@localhost ~]$ ls -l
+total 12
+-rw-r--r-- 1 root  root  1165 Dec 16 13:08 supervisord.log
+-rw-r--r-- 1 root  root     2 Dec 16 13:05 supervisord.pid
+drwxr-xr-x 4 xenon xenon 4096 Sep 30 09:24 xenon_test
+\end{lstlisting} % dummy $
+
+Now that you've verified that the Docker container works, \texttt{logout} of it.
+
+Docker containers are identified either by their \texttt{NAME}, such as \texttt{torque}, or by their \texttt{CONTAINER\_ID}, such as \texttt{902ab7ee1143}. Containers can be stopped by:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker stop (*@\textit{<identifier>}@*)
+\end{lstlisting}
+for example:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker stop torque
+\end{lstlisting}
+
+You can remove old Docker containers by their name (e.g. \texttt{torque}) or by their (abbreviated) \texttt{CONTAINER\_ID} such as \texttt{902ab7ee1143}, as follows:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# remove Docker container by NAME
+docker rm torque
+
+# remove Docker container by CONTAINER_ID
+docker rm 902ab7ee1143
+\end{lstlisting} % dummy $
+
+
+\Needspace{5\baselineskip}
+In Eclipse, make a copy of \texttt{DirectoryListing} and call it something like \texttt{DirectoryListingWithPwd}. In \texttt{DirectoryListingWithPwd}, find the lines that say:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+String scheme = uri.getScheme();
+String auth = uri.getAuthority();
+FileSystem fs = files.newFileSystem(scheme, auth, null, null);
+\end{lstlisting}
+
+\Needspace{10\baselineskip}
+and add the following code just above it to specify a credential:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+// Next, we retrieve the Credentials API
+LOGGER.debug("Getting the credentials interface...");
+Credentials credentials = xenon.credentials();
+
+// Create a password credential
+LOGGER.debug("Creating a password credential...");
+String theScheme = "ssh";
+String theUsername = "xenon";
+char[] thePassword = "javagat".toCharArray();
+Credential credential = credentials.newPasswordCredential(theScheme,
+        theUsername, thePassword, null);
+\end{lstlisting}
+
+Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to run \texttt{./gradlew} if you're testing at the command line). If all goes well, you should see the directory contents of \texttt{xenon}'s home directory in the Docker container named \url{torque}.
+
+\section{Xenon's Torque adaptor}
+
+Torque\footnote{\url{http://www.adaptivecomputing.com/products/open-source/torque/}} is a so-called \textit{resource manager}\index{resource manager}. There are quite a few resource managers, but the most important ones are Torque\index{resource manager!Torque} and SLURM\footnote{\url{http://slurm.schedmd.com/}}\index{resource manager!SLURM}. Strictly speaking, Torque is just one member a closely related group of resource managers, including for example PBS\index{resource manager!PBS}, OpenPBS\footnote{\url{http://www.pbsgridworks.com/Default.aspx}}\footnote{\url{http://www.mcs.anl.gov/research/projects/openpbs/}}\index{resource manager!openPBS}, Sun Grid Engine (SGE)\index{resource manager!SGE}, Oracle Grid Engine\footnote{\url{http://www.oracle.com/us/products/tools/oracle-grid-engine-075549.html}}\footnote{\url{http://www.univa.com/oracle.php}}, Open Grid Engine\footnote{\url{http://gridscheduler.sourceforge.net/}}, and Torque\index{resource manager!Torque} itself.
+
+A resource manager is a program that typically runs on remote systems such as clusters, clouds, or supercomputers. As the name implies, the resource manager's job is to manage how the remote system's resources are allocated to the users. In doing so, it takes into account what type of resources are available, and what type of resources are needed in terms of processing power, number of cores, network speeds, etc. The resource manager works together with a \textit{scheduler}\index{scheduler} to determine when the required resources will be made available to the user. Note that schedulers can prioritize certain users' jobs, for example if these users have paid more than others to make use of the system.
+
+To make a job's requirements known to Torque, a user typically writes a plain text file (a \textit{jobscript}\index{scheduler!jobscript}\index{jobscript}) laying out the required walltime, number of cores, number of nodes, and so on. Perhaps most importantly, the jobscript also defines the name of an executable, i.e. the work that the user wants done. The jobscript is then submitted to the resource manager, who together with the scheduler finds a time slot during which the required resources are available simultaneously.
 
 
 
+% TODO mention some typical commands that you normally use to do torque stuff
 
 
 
