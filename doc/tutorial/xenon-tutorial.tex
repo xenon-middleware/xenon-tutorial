@@ -405,9 +405,9 @@ message: Directory local:/home/daisycutter/github/nlesc/xenon-examples exists
 
 
 
-\section{Xenon's \texttt{ssh} adaptor}
+\section{Xenon's SSH adaptor}
 
-Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's \texttt{local} adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). To do so, you first need to connect to them. You can use Xenon's \texttt{ssh} adaptor\index{Xenon!adaptor!\ssh@\texttt{ssh}} to do so. The \texttt{ssh} adaptor works in a similar way as the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}} on the Linux command line. Through SSH, you can connect to a remote system and do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator).
+Up till now, you've used Xenon to perform tasks on your own system (by means of Xenon's \texttt{local} adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though, you'll want to use Xenon to perform tasks on remote systems, such as the Amazon cloud, the Lisa cluster computer, the Cartesius supercomputer, or perhaps just a single machine (but not your own). To do so, you first need to connect to them. You can use Xenon's SSH adaptor\index{Xenon!adaptor!SSH} to do so. The SSH adaptor works in a similar way as the so-called \textit{secure shell}\index{secure shell} program \texttt{ssh}\index{ssh@\texttt{ssh}} on the Linux command line. Through SSH, you can connect to a remote system and do all the things a user is allowed to do on that system (which in turn is defined by the remote system's administrator).
 
 To keep things simple, we'll first set up an SSH connection to \url{localhost}, thus effectively connecting ourselves with ourselves. Later on in this document we'll also look at using SSH to connect to a remote system (see Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}). Additionally, we'll set up Docker to run virtual remote systems on your local machine. That way, you can emulate the behavior of one or more remote machines (see Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the need for any additional hardware besides your own machine. Anyway, that's all for later---let's get started on setting up SSH to \url{localhost} first.
 
@@ -502,9 +502,9 @@ On the client-side, verify that permissions are set correctly on the following f
 \end{enumerate}
 
 
-\section{\texttt{DirectoryListing} through \texttt{ssh}}
+\section{\texttt{DirectoryListing} through SSH}
 
-So now that we have configured passwordless \texttt{ssh} to \texttt{localhost}, listing the contents of a directory on \texttt{localhost} is actually pretty simple. In the URI that you pass as a command line argument to \texttt{DirectoryListing} (see page~\pageref{snip:directory-listing-local}), replace \texttt{local} by \texttt{ssh}, and supply \url{localhost} as the domain name. Also note that the inclusion of a domain makes it necessary to include \texttt{//} between \texttt{ssh} and \texttt{localhost} (see footnote on formatting URIs on page~\pageref{footnote:format-uri}). So the complete call becomes:
+So now that we have configured passwordless SSH to \texttt{localhost}, listing the contents of a directory on \texttt{localhost} is actually pretty simple. In the URI that you pass as a command line argument to \texttt{DirectoryListing} (see page~\pageref{snip:directory-listing-local}), replace \texttt{local} by \texttt{ssh}, and supply \url{localhost} as the domain name. Also note that the inclusion of a domain makes it necessary to include \texttt{//} between \texttt{ssh} and \texttt{localhost} (see footnote on formatting URIs on page~\pageref{footnote:format-uri}). So the complete call becomes:
 
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples
@@ -515,7 +515,7 @@ ssh://localhost${PWD}
 
 If all goes well, you should see the same directory contents as before, but now viewed through SSH.
 
-\section{Example usage of \texttt{local} and \texttt{ssh} adaptors}
+\section{Example usage of local and SSH adaptors}
 
 \Needspace{6\baselineskip}
 We have compiled a list of examples demonstrating various uses of the \texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now configured correctly to run all of them. This is most easily accomplished by starting the \texttt{run-examples.sh} script we have prepared:
@@ -671,7 +671,7 @@ Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{jav
 \section{Live systems}
 \label{sec:live-systems}
 
-Earlier, we set up passwordless \texttt{ssh} to connect to \url{localhost}. Obviously, using \texttt{ssh} to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In the next two sections, I'll explain how to connect to SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster, respectively. If you want to follow along, you need to make sure you have an account on at least one of these systems. Check their respective websites\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}}\footnote{\url{http://www.cs.vu.nl/das4/}} to see how you can apply for an account.
+Earlier, we set up passwordless SSH to connect to \url{localhost}. Obviously, using SSH to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In the next two sections, I'll explain how to connect to SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster, respectively. If you want to follow along, you need to make sure you have an account on at least one of these systems. Check their respective websites\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}}\footnote{\url{http://www.cs.vu.nl/das4/}} to see how you can apply for an account.
 
 If for some reason you can not or do not want to connect to these systems, make sure to check Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}} to learn about using virtual remote systems.
 
