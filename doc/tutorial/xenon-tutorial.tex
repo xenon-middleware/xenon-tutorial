@@ -157,7 +157,21 @@ Lastly, the jobs pillar contains functionality relating to jobs, such as submitt
 \caption{\label{fig:xenon-design} Xenon is built on 3 pillars: credentials\index{Xenon!pillars!credentials}, files\index{Xenon!pillars!files} and jobs\index{Xenon!pillars!jobs}. Each pillar consists of an interface\index{Xenon!interface}, an engine\index{Xenon!engine}, and multiple adaptors\index{Xenon!adaptor}.}
 \end{figure}
 
-% TODO issue #23 examples of what you can do with it
+
+\section{Use cases}
+
+Xenon is used by several projects at the Netherlands eScience Center. We use it either directly, or via the Python (pyXenon\footnote{\url{https://github.com/NLeSC/pyxenon}}) or JavaScript (Osmium\footnote{\url{https://github.com/NLeSC/osmium}}) interfaces. Most of these projects use Xenon to remotely run computations that are too large to run locally, or to distribute a collection of such computations over multiple remote machines. Xenon is also used to copy the input files required by these computations to the remote machines, and to collect the results afterwards. Below are some real-life examples of what Xenon is used for:
+\begin{enumerate}
+\item{MAGMa\footnote{\url{http://www.emetabolomics.org/magma}} is a web application for the automatic annotation of mass spectrometry data. MAGMa uses Osmium to start calculations from the web interface.}
+\item{AMUSE\footnote{\url{http://amusecode.org/}} is a software framework for astrophysical simulations. Using AMUSE, existing astrophysical models can be easily coupled into larger simulations. The AMUSE framework uses Xenon to transparently provide distributed computing.}
+\item{ABC-MUSE\footnote{\url{https://www.esciencecenter.nl/project/abc-muse}} uses the AMUSE software framework described above to couple various types of ocean simulations. Like AMUSE, ABC-MUSE uses Xenon to transparently provide distributed computing.}
+\item{eSalsa-Deploy is an application that can be used to run an ensemble of large ocean simulations on a set of supercomputers. For each simulation in the ensemble, a target supercomputer must be selected, and the input and configuration files prepared on that target. Each simulation requires a large amount of time to complete, and cannot be run in one go as this would exceed the maximum allowed walltime. Instead they are started, stopped and restarted several times. All file transfers, job submission and monitoring in eSalsa-Deploy is handled by Xenon.}
+\item{JSync is a tool used in the Via Appia project\footnote{\url{https://www.esciencecenter.nl/project/mapping-the-via-appia-in-3d}} to synchronize archeological data between archeologists' laptops and a centralized server located in Germany. This allows the archeologists to view data offline (e.g. during fieldwork) on their laptops. The necessary remote file inspection and file transfer is handled by Xenon.}
+\item{Noodles\footnote{\url{https://github.com/NLeSC/noodles}} is a Python based workflow engine that uses pyXenon to run workflow elements in a distributed fashion.}
+\item{In the SIM-CITY project\footnote{\url{https://www.esciencecenter.nl/project/sim-city}}, pyXenon is used as part of a webservice allowing traffic simulations to be started on demand.}
+\end{enumerate}
+
+
 
 \section{Purpose of this document}
 
