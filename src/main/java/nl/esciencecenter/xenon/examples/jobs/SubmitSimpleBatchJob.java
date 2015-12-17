@@ -56,14 +56,14 @@ public class SubmitSimpleBatchJob {
             LOGGER.debug("Creating a new Xenon...");
             Xenon xenon = XenonFactory.newXenon(null);
 
-            LOGGER.debug("Retrieving the Jobs API...");
-            Jobs jobs = xenon.jobs();
-
             LOGGER.debug("Creating a JobDescription for the job we want to run...");
             JobDescription description = new JobDescription();
             description.setExecutable("/bin/sleep");
-            description.setArguments("5");
+            description.setArguments("30");
 
+            LOGGER.debug("Retrieving the Jobs API...");
+            Jobs jobs = xenon.jobs();
+            
             LOGGER.debug("Creating a scheduler to run the job...");
             Scheduler scheduler = jobs.newScheduler(location.getScheme(), location.getAuthority(), null, null);
 
