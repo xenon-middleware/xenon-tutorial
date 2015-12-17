@@ -23,8 +23,13 @@ import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.XenonFactory;
 import nl.esciencecenter.xenon.jobs.Job;
 import nl.esciencecenter.xenon.jobs.JobDescription;
+import nl.esciencecenter.xenon.jobs.JobStatus;
 import nl.esciencecenter.xenon.jobs.Jobs;
 import nl.esciencecenter.xenon.jobs.Scheduler;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * An example of how to retrieve a list of jobs from a scheduler.
@@ -40,53 +45,74 @@ import nl.esciencecenter.xenon.jobs.Scheduler;
  */
 public class ListJobs {
 
+	final static Logger LOGGER = LoggerFactory.getLogger(ListJobs.class);
+	
     public static void main(String[] args) {
 
+    	LOGGER.info(ListJobs.class.getSimpleName() + " starting...");
+    	
         if (args.length != 1) {
-            System.out.println("Example required a scheduler URI as a parameter!");
+        	LOGGER.error("Example required a scheduler URI as a parameter!");
             System.exit(1);
         }
 
         try {
-            // Convert the command line parameter to a URI
+
+        	LOGGER.debug("Convert the command line location to a URI...");
             URI location = new URI(args[0]);
 
-            // Next, we create a new Xenon using the XenonFactory (without providing any properties).
+            LOGGER.debug("Create a new Xenon instance...");
             Xenon xenon = XenonFactory.newXenon(null);
 
-            // Next, we retrieve the Jobs and Credentials API
+            LOGGER.debug("Retrieve the Jobs API...");
             Jobs jobs = xenon.jobs();
 
-            // Create a scheduler to run the job
+            LOGGER.debug("Creating a scheduler to run the job...");
             Scheduler scheduler = jobs.newScheduler(location.getScheme(), location.getAuthority(), null, null);
 
-            // Submit a job
+            LOGGER.debug("Creating the job description...");
             JobDescription description = new JobDescription();
             description.setExecutable("/bin/sleep");
-            description.setArguments("5");
+            description.setArguments("20");
+            
+            LOGGER.debug("Submitting the job...");
             Job job = jobs.submitJob(scheduler, description);
 
-            // Retrieve all jobs of all queues.
+            LOGGER.debug("Retrieving all jobs from all queues...");
             Job[] result = jobs.getJobs(scheduler);
-
-            // Print the result
-            System.out.println("The scheduler at " + location + " has " + result.length + " jobs:");
+            
+            
+            String resultString = "";
+            String indent = "         ";
+            resultString  +=  "The scheduler at " + location + " has " + result.length + " jobs:" + "\n";
 
             for (Job j : result) {
-                System.out.println("  " + j.getIdentifier());
+            	resultString  +=  indent  + j.getIdentifier() + "\n";
             }
 
-            // Wait for the job to finish
-            jobs.waitUntilDone(job, 60000);
+            LOGGER.info(resultString);
+            
+            
+            int waitDurationMilliSeconds = 60 * 1000;
+            LOGGER.debug("Start waiting for a maximum of " + waitDurationMilliSeconds / 1000 + " seconds");
+        	JobStatus jobStatus = jobs.waitUntilDone(job, waitDurationMilliSeconds);
 
-            // Close the scheduler
+        	LOGGER.debug("Closing the scheduler to free up resources...");
             jobs.close(scheduler);
 
-            // Finally, we end Xenon to release all resources 
+            LOGGER.debug("Ending the Xenon instance to free up resources..."); 
             XenonFactory.endXenon(xenon);
 
+            if (jobStatus.isDone()) {
+            	LOGGER.info(ListJobs.class.getSimpleName() + " completed successfully.");
+            }
+        	else {
+        		LOGGER.info(ListJobs.class.getSimpleName() + " timed out but otherwise completed successfully.");
+        	}
+            
+            
         } catch (URISyntaxException | XenonException e) {
-            System.out.println("ListJobs example failed: " + e.getMessage());
+            LOGGER.error(ListJobs.class.getSimpleName() + " example failed: " + e.getMessage());
             e.printStackTrace();
         }
     }

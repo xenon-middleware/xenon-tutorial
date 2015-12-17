@@ -46,6 +46,8 @@ public class DirectoryListing {
 	
     public static void main(String[] args) {
 
+        LOGGER.info("Starting " + DirectoryListing.class.getSimpleName() + "..."); 
+        
         if (args.length != 1) {
             LOGGER.error("Example requires a URI as parameter!");
             System.exit(1);
@@ -107,6 +109,8 @@ public class DirectoryListing {
             // Finally, we end Xenon to release all resources 
             LOGGER.debug("Closing the Xenon instance to free resources...");
             XenonFactory.endXenon(xenon);
+            
+            LOGGER.info(DirectoryListing.class.getSimpleName() + " completed.");
 
         } catch (URISyntaxException | XenonException e) {
             LOGGER.error("DirectoryListing example failed: " + e.getMessage());
