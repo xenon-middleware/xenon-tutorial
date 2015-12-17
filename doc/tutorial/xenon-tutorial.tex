@@ -656,7 +656,7 @@ Earlier, we looked at how to pass custom \texttt{loglevel} values to \texttt{jav
 
 Earlier, we set up passwordless SSH to connect to \url{localhost}. Obviously, using SSH to connect to your own system is a bit silly. Normally, you'll want to connect to a physically remote system. In the next two sections, I'll explain how to connect to SURFsara's cluster computer, Lisa, and VU University's DAS-4 cluster, respectively. If you want to follow along, you need to make sure you have an account on at least one of these systems. Check their respective websites\footnote{\url{https://userinfo.surfsara.nl/systems/lisa}}\footnote{\url{http://www.cs.vu.nl/das4/}} to see how you can apply for an account.
 
-If for some reason you can not or do not want to connect to these systems, make sure to check Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}} to learn about using virtual remote systems.
+If for some reason you can not or do not want to connect to these systems, make sure to check Sections~\ref{sec:docker}:~\textit{\nameref{sec:docker}} and \ref{sec:docker-development}:~\textit{\nameref{sec:docker-development}} to learn about using virtual remote systems.
 
 \subsection{\texttt{ssh} to SURFsara's Lisa cluster computer}
 
@@ -720,9 +720,9 @@ Connecting to DAS-4 works in a similar way as connecting to Lisa, except that DA
 
 
 So far, we've been using SSH to connect to \url{localhost} as well as to some live systems. Each option comes with its own drawbacks: live systems require additional hardware, and they may be temporarily unavailable (for instance when you are on a flaky wireless network, or when other users have higher-priority jobs). On the other hand, development on \url{localhost} can be tricky as well, for example when one job requires software that conflicts with that of another job.
-
+%
 With Docker, you can combine the pros of running on \url{localhost} with the pros of running on live systems, with few of the drawbacks.
-
+%
 We will set up an environment in which a virtual remote system\index{virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one physical machine, because each is running in its own \textit{container}\index{Docker!container}.
 
 For now, let's just install the Docker software that we'll use to set up virtual remote systems. Note that much of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's where you need to go if you want to learn more.
@@ -990,6 +990,10 @@ char[] thePassword = "javagat".toCharArray();
 Credential credential = credentials.newPasswordCredential(theScheme,
         theUsername, thePassword, null);
 \end{lstlisting}
+\label{credentials-snippet}
+
+
+Make a new run/debug configuration. For \textsf{Program arguments}, use \url{ssh://xenon@localhost:2222/home/xenon}.\label{eclipse-ssh-to-tremendous-torque}
 
 Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget to re-run \texttt{./gradlew} if you're testing at the command line). If all goes well, you should see the directory contents of \texttt{xenon}'s home directory in the Docker container named \url{tremendous-torque}.
 
@@ -1079,8 +1083,54 @@ At some point, the job's status will be listed as \texttt{C} for `completed'. Yo
 
 \subsection{Submitting jobs to Torque with Xenon}
 
+The example \url{SubmitSimpleBatchJob} from package \url{nl.esciencecenter.xenon.examples.jobs} does more or less the same as what you just did manually (although it still requires a few small changes to make it work).
 
-sdds
+Open \url{SubmitSimpleBatchJob} in Eclipse. As you can see, the beginning and the end are much the same as we had for \url{DirectoryListing}, but the middle is a bit different. In particular, we now retrieve the \texttt{Jobs} interface instead of the \texttt{Files} interface, and we do some stuff with it. The middle part also includes a \url{JobDescription}, that defines what useful work we want done (although here, we are using the not-so-useful \texttt{sleep} again to simulate doing useful work).
+
+We then submit the \url{JobDescription} to the \url{scheduler} using \url{jobs.submitJob()}, and then wait until it's either done, or until the job times out. Here, \url{jobs.waitUntilDone()} takes care of the polling for us. After \url{waitUntilDone} returns, we check its \texttt{status} to see if the job was successful or timed out.
+
+For the SSH adaptor, we used \url{ssh://xenon@localhost:2222/home/xenon} to list the directory contents of \texttt{xenon}'s home (see p.~\pageref{eclipse-ssh-to-tremendous-torque}). For submitting jobs, we simply replace the scheme value \texttt{ssh} by \texttt{torque}, and remove the now obsolete path value (\url{/home/xenon}), so the \textsf{Program arguments} in our run/debug configuration should now become \url{torque://xenon@lisa.surfsara.nl:2222}.
+
+However, if you try to run the program as is, you'll get the error below:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+time   : 16:54:56.932 (+837 ms)
+thread : main
+level  : ERROR
+class  : nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJob:97
+message: SubmitSimpleBatchJob example failed: ssh adaptor: Auth cancel
+\end{lstlisting}
+
+This is because you still need to gain access to the Docker container named \url{tremendous-torque}. While you could set up passwordless login again, let's try something different for a change: Xenon Credentials\index{Xenon!Credentials}.
+
+Make a copy of \url{SubmitSimpleBatchJob} and call it \url{SubmitSimpleBatchJobWithPwd} or something. Adapt the script to let it use \texttt{Credentials} like you did before (see page~\pageref{credentials-snippet}). You should now be able to run \url{SubmitSimpleBatchJobWithPwd} and have it return something like:
+
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+time   : 17:00:16.571 (+310 ms)
+thread : main
+level  : INFO
+class  : nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJobWithPwd:53
+message: Starting the SubmitSimpleBatchJobWithPwd example.
+
+time   : 17:00:48.479 (+32218 ms)
+thread : main
+level  : INFO
+class  : nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJobWithPwd:103
+message: Job ran succesfully!
+
+time   : 17:00:48.485 (+32224 ms)
+thread : main
+level  : INFO
+class  : nl.esciencecenter.xenon.examples.jobs.SubmitSimpleBatchJobWithPwd:112
+message: SubmitSimpleBatchJobWithPwd completed.
+\end{lstlisting}
+
+This concludes the tutorial. For further exploration, the JavaDoc\index{Java!JavaDoc}\index{JavaDoc} is an excellent starting point. You can find it online at \url{http://nlesc.github.io/Xenon/versions/1.1.0/javadoc/}. You can also generate a local copy by running:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+# (in Xenon-examples)
+./gradlew javadoc
+\end{lstlisting}
+After this, open your browser and navigate to the local file \url{build/doc/javadoc/index.html} to inspect the JavaDoc.
+
 
 \backmatter
 
