@@ -27,6 +27,10 @@ import nl.esciencecenter.xenon.jobs.JobStatus;
 import nl.esciencecenter.xenon.jobs.Jobs;
 import nl.esciencecenter.xenon.jobs.Scheduler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * An example of how to create and submit a simple batch job that does not produce output. 
  * 
@@ -39,50 +43,58 @@ import nl.esciencecenter.xenon.jobs.Scheduler;
  */
 public class SubmitSimpleBatchJob {
 
+	final static Logger LOGGER = LoggerFactory.getLogger(SubmitSimpleBatchJob.class);
+	
     public static void main(String[] args) {
         try {
-            // Convert the command line parameter to a URI
+        	
+        	LOGGER.info("Starting the " + SubmitSimpleBatchJob.class.getSimpleName() + " example.");
+        	
+            LOGGER.debug("Convert the command line parameter to a URI...");
             URI location = new URI(args[0]);
 
-            // We create a new Xenon using the XenonFactory (without providing any properties).
+            LOGGER.debug("Creating a new Xenon...");
             Xenon xenon = XenonFactory.newXenon(null);
 
-            // Next, we retrieve the Jobs API
+            LOGGER.debug("Retrieving the Jobs API...");
             Jobs jobs = xenon.jobs();
 
-            // We can now create a JobDescription for the job we want to run.
+            LOGGER.debug("Creating a JobDescription for the job we want to run...");
             JobDescription description = new JobDescription();
             description.setExecutable("/bin/sleep");
             description.setArguments("5");
 
-            // Create a scheduler to run the job
+            LOGGER.debug("Creating a scheduler to run the job...");
             Scheduler scheduler = jobs.newScheduler(location.getScheme(), location.getAuthority(), null, null);
 
-            // Submit the job
+            LOGGER.debug("Submitting the job...");
             Job job = jobs.submitJob(scheduler, description);
 
-            // Wait for the job to finish
-            JobStatus status = jobs.waitUntilDone(job, 60000);
+            int nMilliSecondsWait = 60000;
+            LOGGER.debug("Waiting for the job to finish using timeout of " + nMilliSecondsWait / 1000 + " seconds..."); 
+            JobStatus status = jobs.waitUntilDone(job, nMilliSecondsWait);
 
-            // Check if the job was successful. 
+            LOGGER.debug("Checking if the job was successful..."); 
             if (!status.isDone()) {
-                System.out.println("Job failed to run within deadline.");
+                LOGGER.info("Job timed out but otherwise completed successfully.");
             } else if (status.hasException()) {
                 Exception e = status.getException();
-                System.out.println("Job produced an exception: " + e.getMessage());
+                LOGGER.info("Job produced an exception: " + e.getMessage());
                 e.printStackTrace();
             } else {
-                System.out.println("Job ran succesfully!");
+            	LOGGER.info("Job ran succesfully!");
             }
 
-            // Close the scheduler
+            LOGGER.debug("Closing the scheduler to free up resources...");
             jobs.close(scheduler);
 
-            // Finally, we end Xenon to release all resources 
+            LOGGER.debug("Ending Xenon to release all resources..."); 
             XenonFactory.endXenon(xenon);
+            
+            LOGGER.info(SubmitSimpleBatchJob.class.getSimpleName() + " completed.");
 
         } catch (URISyntaxException | XenonException e) {
-            System.out.println("SubmitBatchJob example failed: " + e.getMessage());
+            LOGGER.error(SubmitSimpleBatchJob.class.getSimpleName() + " example failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
