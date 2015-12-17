@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/NLeSC/Xenon-examples.svg)](https://travis-ci.org/NLeSC/Xenon-examples)
 
-This repository contains the source of the [Xenon](https://nlesc.github.io/Xenon) examples
-and a build file to compile and run them.
+This repository contains the source code of the [Xenon](https://nlesc.github.io/Xenon) examples, as well as a tutorial PDF about Xenon targeting inexperienced users.
 
 Requirements:
 * A copy of this repository
@@ -10,4 +9,4 @@ Requirements:
 
 For information on how to run the examples, read [this](doc/running-the-examples.md).
 
-A tutorial PDF targeting inexperienced users is available [here](https://github.com/NLeSC/Xenon-examples/raw/master/doc/tutorial/xenon-tutorial.pdf).
+The tutorial is available [here](https://github.com/NLeSC/Xenon-examples/raw/master/doc/tutorial/xenon-tutorial.pdf).
