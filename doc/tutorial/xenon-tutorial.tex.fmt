@@ -903,12 +903,12 @@ such as \texttt{-Dloglevel=DEBUG} (see section
 line parameters is also possible in Eclipse, by altering the debug
 configuration (or run configuration) as follows. In Eclipse's menu,
 go to \textsf{Run} and select either \textsf{Run configurations...}
-or \textsf{Debug configurations...} as appropriate. Then, in the left
-pane, select the Java application whose configuration you want to
-adapt. In the right-hand pane, subsequently select the tab labeled
-\textsf{Arguments}. The second text field from the top should be
-labeled \textsf{VM~arguments}\index{Eclipse!VM arguments}. Here
-you can add command line parameters to the java program, such as
+or \textsf{Debug configurations...} as appropriate. Then, in the
+left pane, select the Java application whose configuration you want
+to adapt. In the right-hand pane, subsequently select the tab labeled
+\textsf{Arguments}. The second text field from the top should be labeled
+\textsf{VM~arguments}\index{Eclipse!VM~arguments@\textsf{VM~arguments}}.
+Here you can add command line parameters to the java program, such as
 \texttt{-Dloglevel=DEBUG}.
 
 
@@ -1159,9 +1159,9 @@ Install Docker with\index{Docker!installing}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 sudo apt-get install docker-engine \end{lstlisting}
 
-\Needspace{4\baselineskip} The Docker service
-should have started; if for some reason it hasn't,
-you can start it manually by\index{Docker!start service}:
+\Needspace{4\baselineskip} The Docker service should have
+started; if for some reason it hasn't, you can start it
+manually by\index{Docker!start service@\texttt{start service}}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 sudo service docker start \end{lstlisting}
 
