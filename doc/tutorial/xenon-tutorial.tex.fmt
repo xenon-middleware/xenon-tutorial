@@ -47,6 +47,10 @@ by name \usepackage{nameref}
 
 \newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\sim$}}
 
+% use alphabetic characters for footnotes
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+
 
 \fancypagestyle{plain}{% \fancyhf{} % clear all header and footer fields
 \renewcommand{\headrulewidth}{0pt} \renewcommand{\headrulewidth}{0pt}
@@ -1024,11 +1028,13 @@ one job requires software that conflicts with that of another job.
 With Docker, you can combine the pros of running on \url{localhost}
 with the pros of running on live systems, with few of the drawbacks.
 
-We will set up an environment in which a \textit{virtual} remote
+We will set up an environment in which a virtual remote
 system\index{virtual remote system} is used. Multiple virtual remote
-systems may in actual fact run on one \textit{physical} machine. For
-now, let's just install the Docker software that we'll use to set up
-virtual remote systems. Note that much of this section is based on:
+systems may in actual fact run on one physical machine, because each is
+running in its own \textit{container}\index{Docker!container}.
+
+For now, let's just install the Docker software that we'll use to set
+up virtual remote systems. Note that much of this section is based on:
 \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's
 where you need to go if you want to learn more.
 
@@ -1177,8 +1183,8 @@ Docker images\index{Docker!image}. Just to be clear, an `image' in this
 context refers to an image of an operating system---it has nothing to
 do with a picture.
 
-% TODO add what is a container When the container runs, it prints an
-informational message. Then, it exits.
+When the container runs, it prints an informational message. Then,
+it exits.
 
 You can check where docker images are stored
 by\index{Docker!docker info@\texttt{docker info}}:
@@ -1244,9 +1250,8 @@ with: %\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 %docker-compose version: 1.5.0 %\end{lstlisting}
 
 
-\section{Development using Docker containers}
-\label{sec:docker-development} \index{Docker} \index{Docker!development
-using containers}
+\section{Using Docker containers} \label{sec:docker-development}
+\index{Docker} \index{Docker!development using containers}
 
 In this section, I'll show you how you can \texttt{ssh} into a Docker
 container instead of \url{localhost}. The advantage of this approach

@@ -74,6 +74,10 @@
 
 \newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\sim$}}
 
+% use alphabetic characters for footnotes
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+
 
 \fancypagestyle{plain}{%
 \fancyhf{} % clear all header and footer fields
@@ -719,7 +723,9 @@ So far, we've been using SSH to connect to \url{localhost} as well as to some li
 
 With Docker, you can combine the pros of running on \url{localhost} with the pros of running on live systems, with few of the drawbacks.
 
-We will set up an environment in which a \textit{virtual} remote system\index{virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one \textit{physical} machine. For now, let's just install the Docker software that we'll use to set up virtual remote systems. Note that much of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's where you need to go if you want to learn more.
+We will set up an environment in which a virtual remote system\index{virtual remote system} is used. Multiple virtual remote systems may in actual fact run on one physical machine, because each is running in its own \textit{container}\index{Docker!container}.
+
+For now, let's just install the Docker software that we'll use to set up virtual remote systems. Note that much of this section is based on: \url{https://docs.docker.com/engine/installation/ubuntulinux/}, so that's where you need to go if you want to learn more.
 
 Docker requires that your operating system (the host system) is 64-bit. Also, it needs a minimum Linux kernel version of 3.10 (on the host).
 
@@ -855,7 +861,6 @@ sudo docker run hello-world
 
 This command downloads a test image \texttt{hello-world} from DockerHub\index{Docker!DockerHub}, an external repository for storing Docker images\index{Docker!image}. Just to be clear, an `image' in this context refers to an image of an operating system---it has nothing to do with a picture.
 
-% TODO add what is a container
 When the container runs, it prints an informational message. Then, it exits.
 
 You can check where docker images are stored by\index{Docker!docker info@\texttt{docker info}}:
@@ -912,7 +917,7 @@ docker run hello-world
 %\end{lstlisting}
 
 
-\section{Development using Docker containers}
+\section{Using Docker containers}
 \label{sec:docker-development}
 \index{Docker}
 \index{Docker!development using containers}
