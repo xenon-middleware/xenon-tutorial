@@ -429,8 +429,8 @@ as an INFO message.
 
 Xenon uses the
 logback\footnote{\url{http://logback.qos.ch/}}\index{logback
-library}\index{logger} library for much of the output. For
-this, developers have sprinkled the code with so-called
+library}\index{logger} library for much of its verbose
+output. For this, developers have sprinkled the code with so-called
 \textit{logger}\index{logger} statements that produce messages. Each
 message has been annotated as an error, a warning, debugging information,
 or as a plain informational message. The logback library lets the user
@@ -511,9 +511,11 @@ Section~\ref{sec:live-systems}:~\textit{\nameref{sec:live-systems}}).
 Additionally, we'll set up Docker to run virtual
 remote systems on your local machine. That way, you can
 emulate the behavior of one or more remote machines (see
-Section~\ref{sec:docker}:~\textit{\nameref{sec:docker}}) without the need
-for any additional hardware besides your own machine. Anyway, that's all
-for later---let's get started on setting up SSH to \url{localhost} first.
+Sections~\ref{sec:docker}:~\textit{\nameref{sec:docker}} and
+\ref{sec:docker-development}:~\textit{\nameref{sec:docker-development}})
+without the need for any additional hardware besides your own
+machine. Anyway, that's all for later---let's get started on setting up
+SSH to \url{localhost} first.
 
 \subsection{\texttt{ssh} to \url{localhost}}
 
@@ -653,10 +655,9 @@ but now viewed through SSH.
 
 \section{Example usage of local and SSH adaptors}
 
-\Needspace{6\baselineskip} We have compiled a list of examples
-demonstrating various uses of the \texttt{local} adaptor
-and the \texttt{ssh} adaptor. Your system is now configured
-correctly to run all of them. This is most easily accomplished
+We have compiled a list of examples demonstrating various uses of the
+\texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now
+configured correctly to run all of them. This is most easily accomplished
 by starting the \texttt{run-examples.sh} script we have prepared:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples ./run-examples.sh \end{lstlisting} % dummy $
@@ -875,7 +876,7 @@ pane. Expand the object to inspect it in more detail.
 
 When you're done inspecting, press \textsf{F8} to make Eclipse evaluate
 your program, either up to the next breakpoint, or if there are no
-breakpoints, up to the end your program.
+breakpoints, up to the end of your program.
 
 Finally, you can terminate a debug run by pressing
 \textsf{Ctrl+F2}. Table~\ref{tab:key-bindings-eclipse} summarizes some
@@ -1006,7 +1007,7 @@ here; omitting the path will result in listing the directory contents
 of \url{/}.
 
 
-\subsection{Installing Docker}
+\section{Installing Docker}
 
 \index{Docker} \index{Docker!installing} \label{sec:docker}
 
@@ -1049,7 +1050,7 @@ docker -v \end{lstlisting} Mine says:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 Docker version 1.9.0, build 76d6bc9 \end{lstlisting}
 
-\Needapce{4\baselineskip} If your version is lower, go ahead and
+\Needspace{4\baselineskip} If your version is lower, go ahead and
 uninstall as follows. First find out where your Docker program lives
 with: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 which docker \end{lstlisting}
@@ -1109,7 +1110,8 @@ sudo apt-get update \end{lstlisting}
 Check if your are now using the right
 docker\index{Docker!docker-engine@\texttt{docker-engine}}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-apt-cache policy docker-engine \end{lstlisting} Mine says:
+apt-cache policy docker-engine \end{lstlisting}
+Mine says: \Needspace{12\baselineskip}
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker-engine: Installed: 1.9.0-0~trusty Candidate: 1.9.0-0~trusty
 Version table: ***1.9.0-0~trusty 0
@@ -1180,10 +1182,11 @@ informational message. Then, it exits.
 
 You can check where docker images are stored
 by\index{Docker!docker info@\texttt{docker info}}:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] docker
-info \end{lstlisting} Mine are stored under \url{/var/lib/docker};
-whatever the location, make sure you have enough disk space there,
-as Docker will download any new containers to that location.
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker info \end{lstlisting} Mine are stored under \url{/var/lib/docker};
+whatever the location, make sure you have enough disk space there, as
+Docker will download any new containers to that location. Docker images
+are typically less than 1~GB each.
 
 The Docker daemon binds to a Unix socket instead of a TCP port. By
 default, that Unix socket is owned by the user \texttt{root} and other
@@ -1197,8 +1200,8 @@ the Unix socket read/writable by the \texttt{docker} group.
 
 Add yourself to the \texttt{docker} group\index{Docker!the
 docker group@the \texttt{docker} group} with:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-sudo usermod -G docker -a <name-of-user> \end{lstlisting}
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] sudo
+usermod -G docker -a (*@\textit{<name-of-user>}@*) \end{lstlisting}
 Log out and back in. You should now be able to re-run the
 \texttt{hello-world} example without the need for \texttt{sudo}:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
@@ -1242,8 +1245,8 @@ with: %\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 
 
 \section{Development using Docker containers}
-
-\index{Docker} \index{Docker!development using containers}
+\label{sec:docker-development} \index{Docker} \index{Docker!development
+using containers}
 
 In this section, I'll show you how you can \texttt{ssh} into a Docker
 container instead of \url{localhost}. The advantage of this approach
@@ -1258,28 +1261,36 @@ on DockerHub\footnote{\url{https://hub.docker.com/search/?q=xenon}}. In
 this section and the next, I'll be using the container named
 \url{nlesc/xenon-torque}.
 
-\Needspace{5\baselineskip} Download and start \url{nlesc/xenon-torque}
+\Needspace{7\baselineskip} Download and start \url{nlesc/xenon-torque}
 with: \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 docker run -d --cap-add=SYS_RESOURCE -p 2222:22 \ --name tremendous-torque
 nlesc/xenon-torque \end{lstlisting}
 
-% FIXME this is where I left off
+The \texttt{docker} command breaks down as follows: basically we want
+\texttt{docker} to \texttt{run} the container \texttt{nlesc/xenon-torque}
+for us, using some options: \begin{itemize} \item{\texttt{-d} to
+signify that we want the Docker container to run in the background;}
+\item{\texttt{--cap-add=SYS\_RESOURCE} to tell \texttt{docker} that
+the container can use all the resources that are physically available
+given the hardware it's running on;} \item{\texttt{-p 2222:22} to tell
+\texttt{docker} that the host system's port \texttt{2222} should map
+to port number \texttt{22} inside the container;} \item{and finally,
+\texttt{--name tremendous-torque} to set the container's name.}
+\end{itemize}
 
-List all known Docker containers:
+
+You can get an overview of all Docker
+containers that your system knows about with:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker ps --all \end{lstlisting} Note that the \texttt{STATUS} of the
-container named \texttt{tremendous-torque} is \texttt{up}. This is because
-we started it as a daemon process (by way of the \texttt{-d} flag).
+docker ps --all \end{lstlisting} The Docker container named
+\texttt{tremendous-torque} should be running in the background (because
+we started it with the \texttt{-d} flag). Verify that its \texttt{STATUS}
+is~\texttt{up} and that the port numbers have been mapped correctly.
 
-Under \texttt{PORTS}, you can see what ports are open on the container,
-and how the host port numbers map to the container's port number. For
-example, you can see how \url{0.0.0.0}'s port \texttt{2222} maps to the
-container's port \texttt{22}.
-
-Let's try if we can \texttt{ssh} into the container. For this
-we need to identify ourselves with a username/password
-combination. For this container, the username is
-\texttt{xenon} and the password is \texttt{javagat}. Run:
+Let's try if we can \texttt{ssh} into the container. For this we
+need to identify ourselves with a username/password combination. The
+\texttt{tremendous-torque} container has a user whose username
+is \texttt{xenon} and whose password is \texttt{javagat}. Run:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 ssh xenon@localhost -p 2222 \end{lstlisting} and fill in the password
 when prompted.
@@ -1294,28 +1305,13 @@ xenon 4096 Sep 30 09:24 xenon_test \end{lstlisting} % dummy $
 Now that you've verified that the Docker container works, \texttt{logout}
 of it.
 
-Docker containers are identified either by their \texttt{NAME}, such
-as \texttt{tremendous-torque}, or by their \texttt{CONTAINER\_ID},
-such as \texttt{902ab7ee1143}. Containers can be stopped by:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker stop (*@\textit{<identifier>}@*) \end{lstlisting} for example:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
-docker stop tremendous-torque \end{lstlisting}
-
-You can remove old Docker containers by their name
-(e.g. \texttt{tremendous-torque}) or by their (abbreviated)
-\texttt{CONTAINER\_ID} such as \texttt{902ab7ee1143}, as follows:
-\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] #
-remove Docker container by NAME docker rm tremendous-torque
-
-# remove Docker container by CONTAINER_ID docker rm 902ab7ee1143
-\end{lstlisting} % dummy $
-
-
-\Needspace{5\baselineskip} In Eclipse, make a
-copy of \texttt{DirectoryListing} and call it
-something like \texttt{DirectoryListingWithPwd}. In
-\texttt{DirectoryListingWithPwd}, find the lines that say:
+\Needspace{5\baselineskip} In Eclipse, make a copy
+of \texttt{DirectoryListing} and call it something
+like \texttt{DirectoryListingWithPwd}. We'll use
+\texttt{DirectoryListingWithPwd} to demonstrate a second way of
+logging in to a remote machine, namely using a name and password
+combination. For this, we need to create a \texttt{credential}, as
+follows. In \texttt{DirectoryListingWithPwd}, find the lines that say:
 \begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}] String
 scheme = uri.getScheme(); String auth = uri.getAuthority(); FileSystem
 fs = files.newFileSystem(scheme, auth, null, null); \end{lstlisting}
@@ -1323,8 +1319,8 @@ fs = files.newFileSystem(scheme, auth, null, null); \end{lstlisting}
 \Needspace{10\baselineskip} and add the
 following code just above it to specify a credential:
 \begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
-// Next, we retrieve the Credentials API LOGGER.debug("Getting the
-credentials interface..."); Credentials credentials = xenon.credentials();
+// Retrieve the Credentials API LOGGER.debug("Getting the credentials
+interface..."); Credentials credentials = xenon.credentials();
 
 // Create a password credential LOGGER.debug("Creating a password
 credential..."); String theScheme = "ssh"; String theUsername = "xenon";
@@ -1334,9 +1330,27 @@ credentials.newPasswordCredential(theScheme,
 \end{lstlisting}
 
 Now try to run the new file \texttt{DirectoryListingWithPwd} (don't forget
-to run \texttt{./gradlew} if you're testing at the command line). If
+to re-run \texttt{./gradlew} if you're testing at the command line). If
 all goes well, you should see the directory contents of \texttt{xenon}'s
 home directory in the Docker container named \url{tremendous-torque}.
+
+Containers can be stopped by:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker stop (*@\textit{<identifier>}@*) \end{lstlisting}
+
+Where \texttt{\textit{<identifier>}} can be a container's
+\texttt{NAME}, such as \texttt{tremendous-torque}, or its
+\texttt{CONTAINER\_ID}, such as \texttt{902ab7ee1143}, for example:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
+docker stop tremendous-torque \end{lstlisting}
+
+Removing Docker containers from your system works in a similar manner:
+\begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}] #
+remove Docker container by NAME docker rm tremendous-torque
+
+# remove Docker container by CONTAINER_ID docker rm 902ab7ee1143
+\end{lstlisting} % dummy $
+
 
 \section{Xenon's Torque adaptor} \index{Xenon!adaptor!Torque}
 
@@ -1381,6 +1395,7 @@ simultaneously.
 % TODO mention some typical commands that you normally use to do torque
 stuff
 
+% make sure that nlesc/xenon-torque is up
 
 
 \backmatter
