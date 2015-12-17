@@ -3,10 +3,8 @@
 This repository contains the source of the [Xenon](https://nlesc.github.io/Xenon) examples
 and a build file to compile and run them.
 
-Requirements
-------------
-
-* Copy of this repository
+Requirements:
+* A copy of this repository
 * Java JDK version 7 or greater.
 * An internet connection to download dependencies
 
