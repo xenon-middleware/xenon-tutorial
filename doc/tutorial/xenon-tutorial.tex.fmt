@@ -1338,7 +1338,7 @@ to run \texttt{./gradlew} if you're testing at the command line). If
 all goes well, you should see the directory contents of \texttt{xenon}'s
 home directory in the Docker container named \url{tremendous-torque}.
 
-\section{Xenon's Torque adaptor}
+\section{Xenon's Torque adaptor} \index{Xenon!adaptor!Torque}
 
 Torque\footnote{\url{http://www.adaptivecomputing.com/products/open-source/torque/}}
 is a so-called \textit{resource manager}\index{resource
