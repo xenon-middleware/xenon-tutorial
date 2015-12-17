@@ -1022,12 +1022,65 @@ A resource manager is a program that typically runs on remote systems such as cl
 
 To make a job's requirements known to Torque, a user typically writes a plain text file (a \textit{jobscript}\index{scheduler!jobscript}\index{jobscript}) laying out the required walltime, number of cores, number of nodes, and so on. Perhaps most importantly, the jobscript also defines the name of an executable, i.e. the work that the user wants done. The jobscript is then submitted to the resource manager, who together with the scheduler finds a time slot during which the required resources are available simultaneously.
 
+\clearpage
+\subsection{Submitting jobs to Torque}
+
+Here is an example of a very simple jobscript:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:10:00
+#PBS -o stdout.txt
+#PBS -e stderr.txt
+
+# print the start time
+echo `date`: starting the job
+
+# the actual work I want done:
+/bin/sleep 30
+
+# print the end time
+echo `date`: job completed
+\end{lstlisting}
 
 
-% TODO mention some typical commands that you normally use to do torque stuff
+At the top of the script, there are a few lines that start with \texttt{\#PBS}. Those lines define options to the resource manager. Note that these are options to Torque---the \texttt{\#PBS} part is just part of Torque's inheritance from its parent~PBS.
 
-% make sure that nlesc/xenon-torque is up
+With the options used here, I ask the resource manager for one machine \mbox{(\texttt{-l nodes=1})}, on which I will run 1 process (\texttt{ppn=1}), which I estimate will take less than 10 minutes (\texttt{-l walltime=00:10:00}). I further ask Torque to print any standard output message to a file \url{stdout.txt} (\texttt{-o stdout.txt}), and any standard error messages to a file \url{stderr.txt} (\texttt{-o stderr.txt}). Note that there are many more PBS options, the ones I'm using here are just a few of the more common ones. In the last line of the jobscript, I'm simulating doing some useful work by \texttt{sleep}ing for 30~seconds.
 
+The normal workflow for executing a job is as follows:
+\begin{enumerate}
+\item{\texttt{ssh} to the remote system;}
+\item{copy the required program to the remote machine or copy its source code and compile on the remote machine;}
+\item{open a command line editor like \texttt{nano} or \texttt{vi} and write a jobscript;}
+\item{submit the jobscript to the resource manager;}
+\item{wait for the job to start;}
+\item{wait for the walltime to pass while repeatedly asking the resource manager about the status of the job (\textit{polling}\index{polling}) in hopes of it finishing sooner;}
+\item{copy the results back to your own system for further analysis.}
+\end{enumerate}
+
+Let's see if we can follow these steps and submit the job to the Torque resource manager inside \url{tremendous-torque}.
+
+Check that \url{tremendous-torque} is still up and running and \texttt{ssh} into it. The container has just 1 command line editor program, called \texttt{vi}\index{vi@\texttt{vi}}. Start it with \texttt{vi}. Write the jobscript (you may need to refer to the \texttt{vi} cheatsheet\footnote{\url{http://www.lagmonster.org/docs/vi.html}}). Save the jobscript as \url{jobscript} by first getting into `command mode'\index{vi@\texttt{vi}!command mode} by pressing \textsf{Esc}, then typing \texttt{:w} and pressing \textsf{Enter}. Pressing \textsf{i} while in command mode will get you back to normal mode (`insert mode'\index{vi@\texttt{vi}!insert mode}). When you're done, get into command mode again and type \texttt{:q} to quit the program.
+
+After verifying that you now have a new file \url{jobscript} in \texttt{xenon}'s home directory, submit the jobscript to Torque as follows:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+qsub jobscript
+\end{lstlisting}
+If all goes well, \texttt{qsub} should reply with the name of the job that was just submitted to the \textit{queue}\index{resource manager!queue} (most likely something like \url{0.localhost}).
+
+Since you're the only user on this virtual remote system, the job will start almost immediately. You can ask the resource manager about the status of your jobs by:
+\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+# qstat -u (*@\textit{<username>}@*)
+qstat -u xenon
+\end{lstlisting}
+which will give you an overview of user \texttt{xenon}'s jobs.
+
+At some point, the job's status will be listed as \texttt{C} for `completed'. You should then also have two new files, \url{stderr.txt} and \url{stdout.txt}. The latter should contain the start and end times of your job, as written by the jobscript's \texttt{echo} statements.
+
+\subsection{Submitting jobs to Torque with Xenon}
+
+
+sdds
 
 \backmatter
 
