@@ -47,13 +47,13 @@ public class ListJobs {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListJobs.class);
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
     	LOGGER.info(ListJobs.class.getSimpleName() + " starting...");
     	
         if (args.length != 1) {
-        	LOGGER.error("Example required a scheduler URI as a parameter!");
-            System.exit(1);
+        	LOGGER.error("Example requires a scheduler URI as a parameter!");
+            throw new Exception("Example requires a scheduler URI as a parameter!");
         }
 
         try {

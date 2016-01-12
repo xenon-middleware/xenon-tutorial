@@ -37,11 +37,11 @@ import nl.esciencecenter.xenon.files.RelativePath;
  */
 public class CopyFile {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 2) {
             System.out.println("Example requires source and target URI as parameters!");
-            System.exit(1);
+            throw new Exception("Example requires source and target URI as parameters!");
         }
 
 		Xenon xenon = null;

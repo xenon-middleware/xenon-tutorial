@@ -36,11 +36,11 @@ import nl.esciencecenter.xenon.files.Files;
  */
 public class CreateFileSystem {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
         if (args.length != 1) {
             System.out.println("Example requires a URI as parameter!");
-            System.exit(1);
+            throw new Exception("Example requires a URI as parameter!");
         }
 
         try {

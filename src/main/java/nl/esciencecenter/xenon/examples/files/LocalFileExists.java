@@ -34,11 +34,11 @@ import nl.esciencecenter.xenon.util.Utils;
  */
 public class LocalFileExists {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 1) {
             System.out.println("Example required an absolute file path as a parameter!");
-            System.exit(1);
+            throw new Exception("Example required an absolute file path as a parameter!");
         }
 
         // This should be a valid local path!
