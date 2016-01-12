@@ -142,19 +142,23 @@ to jobs, such as submitting and cancelling a job, checking a job's status
 files\index{Xenon!pillars!files} and jobs\index{Xenon!pillars!jobs}. Each
 pillar consists of an interface\index{Xenon!interface}, an
 engine\index{Xenon!engine}, and multiple adaptors\index{Xenon!adaptor}.}
-\end{figure}
+\index{jobs interface@\texttt{Jobs} interface} \index{files
+interface@\texttt{Files} interface} \index{credentials
+interface@\texttt{Credentials} interface} \index{local adaptor} \index{SSH
+adaptor} \index{Torque adaptor} \end{figure}
 
 
 \section{Use cases}
 
 Xenon is used by several projects at the Netherlands
 eScience Center. We use it either directly, or via the Python
-(pyXenon\footnote{\url{https://github.com/NLeSC/pyxenon}}) or JavaScript
-(Osmium\footnote{\url{https://github.com/NLeSC/osmium}}) interfaces. Most
-of these projects use Xenon to remotely run computations that are
-too large to run locally, or to distribute a collection of such
-computations over multiple remote machines. Xenon is also used to
-copy the input files required by these computations to the remote
+(pyXenon\footnote{\url{https://github.com/NLeSC/pyxenon}}) or
+JavaScript (Osmium\footnote{\url{https://github.com/NLeSC/osmium}})
+interfaces\index{PyXenon}\index{Osmium}. Most of these projects
+use Xenon to remotely run computations that are too large to
+run locally, or to distribute a collection of such computations
+over multiple remote machines. Xenon is also used to copy
+the input files required by these computations to the remote
 machines, and to collect the results afterwards. Below are some
 real-life examples of what Xenon is used for: \begin{enumerate}
 \item{MAGMa\footnote{\url{http://www.emetabolomics.org/magma}} is
@@ -491,12 +495,11 @@ Directory local:/home/daisycutter/Xenon-examples exists
 
 
 
-\section{Xenon's SSH adaptor}
+\section{Xenon's SSH adaptor} \index{SSH adaptor}
 
-Up till now, you've used Xenon to perform tasks on
-your own system (by means of Xenon's \texttt{local}
-adaptor\index{Xenon!adaptor!local@\texttt{local}}). Usually though,
-you'll want to use Xenon to perform tasks on remote systems,
+Up till now, you've used Xenon to perform tasks on your own system (by
+means of Xenon's local adaptor\index{Xenon!adaptor!local}). Usually
+though, you'll want to use Xenon to perform tasks on remote systems,
 such as the Amazon cloud, the Lisa cluster computer, the Cartesius
 supercomputer, or perhaps just a single machine (but not your own). To
 do so, you first need to connect to them. You can use Xenon's SSH
@@ -659,9 +662,9 @@ but now viewed through SSH.
 
 \section{Example usage of local and SSH adaptors}
 
-We have compiled a list of examples demonstrating various uses of the
-\texttt{local} adaptor and the \texttt{ssh} adaptor. Your system is now
-configured correctly to run all of them. This is most easily accomplished
+We have compiled a list of examples demonstrating various uses of
+the local adaptor and the SSH adaptor. Your system is now configured
+correctly to run all of them. This is most easily accomplished
 by starting the \texttt{run-examples.sh} script we have prepared:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples ./run-examples.sh \end{lstlisting} % dummy $
@@ -753,8 +756,8 @@ to generate a standard project setup for us:
 \begin{lstlisting}[style=basic,style=bash,escapeinside={(*@}{@*)}]
 cd ${HOME}/Xenon-examples ./gradlew eclipse \end{lstlisting} % dummy $
 
-\section{Opening the Xenon examples in Eclipse} \index{Xenon examples!in
-Eclipse} \index{Eclipse!new project}
+\section{Opening the Xenon examples in Eclipse} \index{Xenon!examples
+(in Eclipse)} \index{Eclipse!new project}
 
 After the Eclipse files have been generated, start Eclipse by typing the
 Bash alias \texttt{miniclipse} at the command line. From Eclipse's menu,
@@ -1321,8 +1324,9 @@ follows. In \texttt{DirectoryListingWithPwd}, find the lines that say:
 scheme = uri.getScheme(); String auth = uri.getAuthority(); FileSystem
 fs = files.newFileSystem(scheme, auth, null, null); \end{lstlisting}
 
-\Needspace{10\baselineskip} and add the
-following code just above it to specify a credential:
+\Needspace{10\baselineskip} and add the following code just above it to
+specify a credential:\index{credentials interface@\texttt{Credentials}
+interface!newPasswordCredential@\texttt{newPasswordCredential}}
 \begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
 // Retrieve the Credentials API LOGGER.debug("Getting the credentials
 interface..."); Credentials credentials = xenon.credentials();
@@ -1483,17 +1487,23 @@ The example \url{SubmitSimpleBatchJob} from package
 as what you just did manually (although it still requires a few small
 changes to make it work).
 
-Open \url{SubmitSimpleBatchJob} in Eclipse. As you can see, the beginning
-and the end are much the same as we had for \url{DirectoryListing},
-but the middle is a bit different. In particular, we now retrieve the
-\texttt{Jobs} interface instead of the \texttt{Files} interface, and we do
-some stuff with it. The middle part also includes a \url{JobDescription},
+Open \url{SubmitSimpleBatchJob} in Eclipse. As you can see,
+the beginning and the end are much the same as we had for
+\url{DirectoryListing}, but the middle is a bit different. In
+particular, we now retrieve the \texttt{Jobs} interface\index{jobs
+interface@\texttt{Jobs} interface} instead of the \texttt{Files}
+interface\index{files interface@\texttt{Files} interface},
+and we do some stuff with it. The middle part also includes a
+\url{JobDescription}\index{JobDescription@\texttt{JobDescription}},
 that defines what useful work we want done (although here, we are using
 the not-so-useful \texttt{sleep} again to simulate doing useful work).
 
-We then submit the \url{JobDescription} to the \url{scheduler} using
-\url{jobs.submitJob()}, and then wait until it's either done, or until the
-job times out. Here, \url{jobs.waitUntilDone()} takes care of the polling
+We then submit the \url{JobDescription} to the \url{scheduler}
+using \url{jobs.submitJob()}\index{jobs interface@\texttt{Jobs}
+interface!submitJob@\texttt{submitJob}}, and then wait
+until it's either done, or until the job times out. Here,
+\url{jobs.waitUntilDone()}\index{jobs interface@\texttt{Jobs}
+interface!waitUntilDone@\texttt{waitUntilDone}} takes care of the polling
 for us. After \url{waitUntilDone} returns, we check its \texttt{status}
 to see if the job was successful or timed out.
 
