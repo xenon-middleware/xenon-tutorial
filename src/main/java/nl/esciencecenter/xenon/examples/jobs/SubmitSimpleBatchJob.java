@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SubmitSimpleBatchJob {
 
-	final static Logger LOGGER = LoggerFactory.getLogger(SubmitSimpleBatchJob.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SubmitSimpleBatchJob.class);
 	
     public static void main(String[] args) {
         try {

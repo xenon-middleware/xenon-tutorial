@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ListJobs {
 
-	final static Logger LOGGER = LoggerFactory.getLogger(ListJobs.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ListJobs.class);
 	
     public static void main(String[] args) {
 

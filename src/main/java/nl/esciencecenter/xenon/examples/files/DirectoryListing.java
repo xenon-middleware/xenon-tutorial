@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DirectoryListing {
 
-	final static Logger LOGGER = LoggerFactory.getLogger(DirectoryListing.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryListing.class);
 	
     public static void main(String[] args) {
 
