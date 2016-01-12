@@ -40,11 +40,11 @@ import nl.esciencecenter.xenon.jobs.Scheduler;
  */
 public class ListJobStatus {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 1) {
-            System.out.println("Example required a scheduler URI as a parameter!");
-            System.exit(1);
+            System.out.println("Example requires a scheduler URI as a parameter!");
+            throw new Exception("Example requires a scheduler URI as a parameter!");
         }
 
         try {

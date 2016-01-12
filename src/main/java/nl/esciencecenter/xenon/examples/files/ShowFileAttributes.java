@@ -38,11 +38,11 @@ import nl.esciencecenter.xenon.files.RelativePath;
  */
 public class ShowFileAttributes {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 1) {
-            System.out.println("Example requires an URI a parameter!");
-            System.exit(1);
+            System.out.println("Example requires a URI as parameter!");
+            throw new Exception("Example requires a URI as parameter!");
         }
 
         try {
