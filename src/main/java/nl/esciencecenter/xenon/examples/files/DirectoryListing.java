@@ -44,13 +44,13 @@ public class DirectoryListing {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryListing.class);
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         LOGGER.info("Starting " + DirectoryListing.class.getSimpleName() + "..."); 
         
         if (args.length != 1) {
             LOGGER.error("Example requires a URI as parameter!");
-            System.exit(1);
+            throw new Exception("Example requires a URI as parameter!");
         }
 
         try {
