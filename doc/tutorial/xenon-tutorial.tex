@@ -1030,7 +1030,7 @@ To make a job's requirements known to Torque, a user typically writes a plain te
 \subsection{Submitting jobs to Torque}
 
 Here is an example of a very simple jobscript:
-\begin{lstlisting}[style=basic,style=java,escapeinside={(*@}{@*)}]
+\begin{lstlisting}[style=basic,style=java,numbers=left,escapeinside={(*@}{@*)}]
 #PBS -l nodes=1:ppn=1
 #PBS -l walltime=00:10:00
 #PBS -o stdout.txt
@@ -1049,7 +1049,7 @@ echo `date`: job completed
 
 At the top of the script, there are a few lines that start with \texttt{\#PBS}. Those lines define options to the resource manager. Note that these are options to Torque---the \texttt{\#PBS} part is just part of Torque's inheritance from its parent~PBS.
 
-With the options used here, I ask the resource manager for one machine \mbox{(\texttt{-l nodes=1})}, on which I will run 1 process (\texttt{ppn=1}), which I estimate will take less than 10 minutes (\texttt{-l walltime=00:10:00}). I further ask Torque to print any standard output message to a file \url{stdout.txt} (\texttt{-o stdout.txt}), and any standard error messages to a file \url{stderr.txt} (\texttt{-o stderr.txt}). Note that there are many more PBS options, the ones I'm using here are just a few of the more common ones. In the last line of the jobscript, I'm simulating doing some useful work by \texttt{sleep}ing for 30~seconds.
+With the options used here, I ask the resource manager for one machine \mbox{(\texttt{-l nodes=1})}, on which I will run 1 process (\texttt{ppn=1}), which I estimate will take less than 10 minutes (\texttt{-l walltime=00:10:00}). I further ask Torque to print any standard output message to a file \url{stdout.txt} (\texttt{-o stdout.txt}), and any standard error messages to a file \url{stderr.txt} (\texttt{-o stderr.txt}). Note that there are many more PBS options, the ones I'm using here are just a few of the more common ones. In line 10 of the jobscript, I'm simulating doing some useful work by \texttt{sleep}ing for 30~seconds.
 
 The normal workflow for executing a job is as follows:
 \begin{enumerate}
