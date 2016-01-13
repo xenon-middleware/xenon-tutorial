@@ -25,8 +25,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70888142"
-     inkscape:cx="197.12377"
-     inkscape:cy="528.46375"
+     inkscape:cx="372.04724"
+     inkscape:cy="526.18109"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -43,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,21 +55,21 @@
        xml:space="preserve"
        id="flowRoot2985"
        style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
-       transform="translate(60.746616,88.872411)"><flowRegion
+       transform="translate(135.30712,124.13924)"><flowRegion
          id="flowRegion2987"><rect
            id="rect2989"
-           width="475.39688"
-           height="246.86783"
+           width="327.27618"
+           height="224.29706"
            x="71.944328"
            y="246.8678" /></flowRegion><flowPara
          id="flowPara2991"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold">Tutorial</flowPara><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold">Tutorial</flowPara><flowPara
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
          id="flowPara3182">Distributed Computing with Xenon 1.1.0</flowPara></flowRoot>    <g
-       id="g3503"
-       transform="translate(28.213463,29.624137)">
+       id="g3046"
+       transform="translate(-10.671603,0)">
       <flowRoot
-         transform="translate(220.83398,642.95352)"
+         transform="translate(261.72426,672.57766)"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
          id="flowRoot2985-2"
          xml:space="preserve"><flowRegion
@@ -79,9 +79,9 @@
              height="77.587067"
              width="218.65436"
              id="rect2989-8" /></flowRegion><flowPara
-           style="font-size:24px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
            id="flowPara2991-1">Author:</flowPara></flowRoot>      <flowRoot
-         transform="translate(388.99264,642.95352)"
+         transform="translate(417.2061,672.57766)"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
          id="flowRoot2985-2-5"
          xml:space="preserve"><flowRegion
@@ -92,16 +92,16 @@
              height="83.229759"
              width="392.16718"
              id="rect2989-8-4" /></flowRegion><flowPara
-           style="font-size:24px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
            id="flowPara2991-1-2">Jurriaan H. Spaaks</flowPara></flowRoot>      <rect
-         y="760.35284"
-         x="440.13004"
+         y="789.97699"
+         x="468.34351"
          height="201.72626"
          width="21.160097"
          id="rect3085"
          style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.245;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <flowRoot
-         transform="translate(232.08397,684.44039)"
+         transform="translate(269.22426,697.60584)"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
          id="flowRoot2985-2-2"
          xml:space="preserve"><flowRegion
@@ -111,9 +111,9 @@
              height="77.587067"
              width="218.65436"
              id="rect2989-8-3" /></flowRegion><flowPara
-           style="font-size:24px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
            id="flowPara2991-1-0">Date:</flowPara></flowRoot>      <flowRoot
-         transform="translate(388.99263,684.44039)"
+         transform="translate(417.20609,697.60584)"
          style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Akkurat-Bold;-inkscape-font-specification:Akkurat-Bold Bold"
          id="flowRoot2985-2-5-9"
          xml:space="preserve"><flowRegion
@@ -124,7 +124,7 @@
              height="83.229759"
              width="392.16718"
              id="rect2989-8-4-0" /></flowRegion><flowPara
-           style="font-size:24px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;font-family:Akkurat-Light;-inkscape-font-specification:Akkurat-Light Bold"
            id="flowPara2991-1-2-8">January 2016</flowPara></flowRoot>    </g>
     <g
        transform="matrix(3.0194048,0,0,-3.0194048,128.92024,141.82406)"
