@@ -3,7 +3,7 @@
 % Inclusion of packages:
 
 % The geometry package is used to alter the margins of each page
-\usepackage[inner=5cm,outer=2cm,ignoreheadfoot,top=4cm,bottom=5cm,footskip=4cm]{geometry}
+\usepackage[ignoreheadfoot,footskip=4cm]{geometry}
 % the url package is used ot include URLs without messing up the rest
 % of the latex
 \usepackage[hyphens]{url}
@@ -103,7 +103,7 @@
 
 \author{Jurriaan H. Spaaks}
 
-\title{\textbf{Distributed Computing with Xenon} \\ tutorial}
+\title{\textbf{Tutorial Distributed Computing with Xenon 1.1.0}}
 
 \input{snippets/hyphenation}
 
@@ -114,28 +114,22 @@
 
 \begin{document}
 
+\newgeometry{inner=0cm,outer=0cm,top=0cm,bottom=0cm}
+
+\pagestyle{empty}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1.0\columnwidth]{images/cover}
+\end{figure}
+
+\clearpage
+\newgeometry{inner=5cm,outer=2cm,top=4cm,bottom=5cm}
 \frontmatter
-
-\maketitle
-
-\insertemptypage{}
-
 \pagestyle{plain}
-
-
 \tableofcontents
-\insertemptypage{}
 
 \mainmatter
-
-
-
-
-
-
-
-
-
 
 
 

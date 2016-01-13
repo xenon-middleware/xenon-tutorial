@@ -3,15 +3,14 @@
 % Inclusion of packages:
 
 % The geometry package is used to alter the margins of each page
-\usepackage[inner=5cm,outer=2cm,ignoreheadfoot,top=4cm,bottom=5cm,footskip=4cm]{geometry}
-% the url package is used ot include URLs without messing up
-the rest % of the latex \usepackage[hyphens]{url} % the graphicx
-package lets me include figures \usepackage{graphicx} % the listings
-package lets me include program listings \usepackage{listings}
-% the caption package lets me specify float caption properties
-\usepackage[]{caption} % the color package lets me define colors
-as strings \usepackage{color} % the url package lets me include
-urls \usepackage{url} % use package upquote to make all verbatim
+\usepackage[ignoreheadfoot,footskip=4cm]{geometry} % the url package
+is used ot include URLs without messing up the rest % of the latex
+\usepackage[hyphens]{url} % the graphicx package lets me include figures
+\usepackage{graphicx} % the listings package lets me include program
+listings \usepackage{listings} % the caption package lets me specify
+float caption properties \usepackage[]{caption} % the color package lets
+me define colors as strings \usepackage{color} % the url package lets me
+include urls \usepackage{url} % use package upquote to make all verbatim
 quotes straight quotes \usepackage{upquote} % the needspace package
 helps to keep command line block together \usepackage{needspace}
 % \usepackage[hang,flushmargin,multiple,perpage]{footmisc} %
@@ -68,7 +67,7 @@ by name \usepackage{nameref}
 
 \author{Jurriaan H. Spaaks}
 
-\title{\textbf{Distributed Computing with Xenon} \\ tutorial}
+\title{\textbf{Tutorial Distributed Computing with Xenon 1.1.0}}
 
 \input{snippets/hyphenation}
 
@@ -79,27 +78,17 @@ by name \usepackage{nameref}
 
 \begin{document}
 
-\frontmatter
+\newgeometry{inner=0cm,outer=0cm,top=0cm,bottom=0cm}
 
-\maketitle
+\pagestyle{empty}
 
-\insertemptypage{}
+\begin{figure}[ht] \centering
+\includegraphics[width=1.0\columnwidth]{images/cover} \end{figure}
 
-\pagestyle{plain}
-
-
-\tableofcontents \insertemptypage{}
+\clearpage \newgeometry{inner=5cm,outer=2cm,top=4cm,bottom=5cm}
+\frontmatter \pagestyle{plain} \tableofcontents
 
 \mainmatter
-
-
-
-
-
-
-
-
-
 
 
 
