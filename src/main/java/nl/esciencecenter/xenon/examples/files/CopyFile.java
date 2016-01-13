@@ -73,15 +73,13 @@ public class CopyFile {
         } catch (URISyntaxException | XenonException e) {
             System.out.println("CopyFile example failed: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-			if (xenon != null) {
-				try {
-					// Finally, we end Xenon to release all resources
-					XenonFactory.endXenon(xenon);
-				} catch (XenonException ex) {
-					System.exit(1);
-				}
-			}
-		}
-    }
-}
+        }
+        
+        if (xenon != null) {
+        	// Finally, we end Xenon to release all resources
+			XenonFactory.endXenon(xenon);
+
+		} // if
+        
+    } // method main
+} // class CopyFile
