@@ -35,10 +35,6 @@ pdflatex -interaction=batchmode ${str}.tex 1> /dev/null
 pdflatex -interaction=batchmode ${str}.tex
 echo
 
-echo "Making a copy of '${str}.tex' with added line breaks for easier diff in git"
-fmt -u ${str}.tex > ${str}.tex.fmt
-
-
 grep -nE "\bTODO|\bFIXME" ${str}.tex
 
 nTodos=`grep TODO ${str}.tex.fmt | wc -l`
