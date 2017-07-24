@@ -9,6 +9,8 @@ sudo dnf install -y docker-ce
 sudo usermod -aG docker $USER
 sudo systemctl enable docker
 sudo systemctl start docker
+# make current shell aware that the user joined the docker group
+newgrp docker
 
 # install docker-compose
 sudo sh -c "curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
@@ -23,5 +25,5 @@ tar -xf xenon-cli-shadow-*.tar
 rm *.tar
 mv xenon-cli-shadow* xenon-cli
 
-# put xenon-cli/bin in PATH at login
-echo 'export PATH=$PATH:$HOME/xenon/xenon-cli/bin' > .bashrc
+# add xenon-cli/bin to PATH at login
+echo 'export PATH=$PATH:$HOME/xenon/xenon-cli/bin' >> .bashrc

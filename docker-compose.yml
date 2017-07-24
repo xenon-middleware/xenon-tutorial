@@ -32,4 +32,4 @@ services:
     depends_on:
     - mysql
     ports:
-    - 2222:22 # ssh
+    - '2222:22' # ssh
