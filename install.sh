@@ -14,8 +14,8 @@ sudo systemctl start docker
 sudo sh -c "curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
 sudo chmod +x /usr/local/bin/docker-compose
 
-# start slurm batch scheduler Docker container
-sudo docker-compose up -d
+# pull slurm batch scheduler Docker container
+sudo docker-compose pull
 
 # download/untar van xenon-cli
 wget https://github.com/NLeSC/xenon-cli/releases/download/v1.0.3/xenon-cli-shadow-1.0.3.tar
@@ -25,3 +25,6 @@ mv xenon-cli-shadow* xenon-cli
 
 # add xenon-cli/bin to PATH at login
 echo 'export PATH=$PATH:$HOME/xenon/xenon-cli/bin' >> ~/.bashrc
+
+# Correct permissions of unsafe id_rsa private key, so it can be used to login to Docker containers
+chmod go-rw unsafe-id_rsa
