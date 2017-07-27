@@ -1,3 +1,4 @@
+```bash
 # check if xenon cli can be found and works (should print a line about usage)
 xenon
 
@@ -77,15 +78,4 @@ dd if=/dev/urandom of=testfile1024.txt bs=1024 count=1
 xenon file copy /home/daisycutter/tmp/testfile1024.txt /home/daisycutter/tmp/testfile1024.copy.txt
 # nope, same behavior.
 
-
-
-
-
-
-
-
-
-
-
-
-
+```
