@@ -11,8 +11,6 @@ xenon --help
 xenon --version
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# xenon file list
-
 # usage line suggests I need to pick at least one from {file,ftp,gridengine,
 # local,sftp,slurm,ssh,torque,webdav}
 # not sure what ot do yet, let's keep it simple and ask for help on (local) 
@@ -33,7 +31,6 @@ xenon file list --help
 # --location LOCATION you get when doing 'xenon file --help')
 # FIXME ls -1 gives 14 lines of results, xenon 15 for the same dir. It looks
 # like xenon-cli adds an empty line
-# FIXME what determines the order of printing
 # valid syntax, absolute paths
 xenon file list .
 xenon file list $PWD
@@ -52,6 +49,11 @@ xenon file list ./build
 xenon file list build/install
 xenon file list build/install/..
 
+# additional options
+xenon file list --hiddden .
+xenon file list --recursive .
+xenon file list --hidden --recursive .
+
 # I have a /tmp and a /home/daisycutter/tmp
 cd /home/daisycutter
 xenon file --location / list tmp
@@ -69,7 +71,6 @@ xenon file --location '' list tmp
 # TODO xenon file --location doesn't do much on linux (one fs root); try on windows
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# xenon file copy
 
 # let's try to copy a file, first make it
 cd /home/daisycutter/tmp
@@ -84,15 +85,31 @@ xenon file copy --help
 
 # first try without any optional arguments
 xenon file copy testfile.txt textfile.copy.txt
-# (doesnt work as expected, possibly because xenon expects absolute paths
-# (FIXME not mentioned in the usage)
-xenon file copy /home/daisycutter/tmp/testfile.txt testfile.copy.txt
-# fails in the same way
+# absolute paths
 xenon file copy /home/daisycutter/tmp/testfile.txt /home/daisycutter/tmp/testfile.copy.txt
-# copies, but hangs! because file is size zero perhaps?
-dd if=/dev/urandom of=testfile1024.txt bs=1024 count=1
-xenon file copy /home/daisycutter/tmp/testfile1024.txt /home/daisycutter/tmp/testfile1024.copy.txt
-# nope, same behavior.
+
+# try recursive copy...works
+xenon file copy --recursive thedir thecopieddir
+# try again:
+xenon file copy --recursive thedir thecopieddir
+returns an error (on the first existing path?)
+# try again, with overwrite option (FIXME doesn't overwrite anything, seems to ignore --overwrite altogether)
+xenon file copy --recursive --overwrite thedir thecopieddir
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+xenon file mkdir xenoncli-made-this-dir
+xenon file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+xenon file copy --recursive xenoncli-made-this-dir xenoncli-copied-this-dir
+xenon file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+xenon file remove --recursive xenoncli-moved-this-dir/
+xenon file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 
 
