@@ -150,14 +150,11 @@ xenon scheduler slurm --username xenon --password javagat --location localhost:1
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls 
 # says dir doesn't exist
 
-
-# try with arguments to the executable
-xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls -l
-# FIXME says xenon: error: unrecognized arguments: '-l'
-
-# try with quotes
-xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture '/bin/ls -l'
-# FIXME returns an error: salloc: error: Unable to exec command "/bin/ls -l"
+# try with arguments to the executable (prepend -l option with ' -- ') 
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -l
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -la
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -lR
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -l --human-readable
 
 # these two work as expected:
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec which sleep
