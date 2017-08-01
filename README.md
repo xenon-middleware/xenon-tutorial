@@ -15,7 +15,6 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 
 After which 
 * the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var.
-* Slurm batch scheduler is running as Docker container, to login use `ssh -p 2222 xenon@localhost` and password `javagat`.
 
 ### Test
 
@@ -24,11 +23,16 @@ If the install was run in same shell then relogin so user is joined the docker g
 newgrp docker
 ```
 
-To test if the Docker container and xenon works run
+Slurm batch scheduler is running as Docker container, to login use `ssh -p 2222 xenon@localhost` and password `javagat`, it can be started with:
 
 ```
 docker-compose up -d
 # wait until containers are up and healty by running
 docker ps
+```
+
+To test if the xenon works run
+
+```
 xenon --username xenon --password javagat slurm --location localhost:2222 --prop=xenon.adaptors.slurm.ignore.version=true submit hostname
 ```
