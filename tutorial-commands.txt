@@ -3,34 +3,28 @@
 xenon
 
 # get some help
-# FIXME adaptor documentation some longer lines are wrapped incorrectly
-# FIXME sort adaptor first by type, then by adaptorname
 xenon --help
 
 # check the version (should return 2.x.x)
 xenon --version
 
+# I want to do something with files
+xenon filesystem --help
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# usage line suggests I need to pick at least one from {file,ftp,gridengine,
-# local,sftp,slurm,ssh,torque,webdav}
+# usage line suggests I need to pick at least one from {file,ftp,sftp,webdav}
 # not sure what ot do yet, let's keep it simple and ask for help on (local) 
 # file manipulation
 # FIXME add longer --help alternative to existing -h option for 'xenon file' 
 # command (functionality seems to exist, but not included in usage line)
-xenon file --help
+xenon filesystem file --help
 
-# --location option says both c: and <drive letter>:, maybe change to just 
-# <windows drive letter>:  . Also, what about lowercase/uppercase?
-
-# 'xenon file' usage line seems to suggest that I need to pick one from {copy,
-# list,remove}. simplest one is probably 'list', so:
-xenon file list --help
+# 'xenon filesystem file' usage line seems to suggest that I need to pick one
+# from {copy,list,mkdir,remove,rename}. simplest one is probably 'list', so:
+xenon filesystem file list --help
 # so I need a 'path' as final argument
 # TODO add examples of valid paths
-# FIXME 'path of location' what does that mean (update: location refers to the
-# --location LOCATION you get when doing 'xenon file --help')
-# FIXME ls -1 gives 14 lines of results, xenon 15 for the same dir. It looks
-# like xenon-cli adds an empty line
+
 # valid syntax, absolute paths
 xenon file list .
 xenon file list $PWD
@@ -41,8 +35,6 @@ xenon file list /tmp/
 xenon file list $NON_EXISTENT_ENV_VAR
 
 # valid syntax, relative paths
-# FIXME error states the name of the dir, but not that it doesn't exist. 
-# maybe add that? 
 xenon file list tmp
 xenon file list build
 xenon file list ./build
@@ -54,22 +46,6 @@ xenon file list --hiddden .
 xenon file list --recursive .
 xenon file list --hidden --recursive .
 
-# I have a /tmp and a /home/daisycutter/tmp
-cd /home/daisycutter
-xenon file --location / list tmp
-# gives me the contents of /home/daisycutter/tmp (I expected contents of /tmp; code
-# works correctly as long as you interpret location as filesytemroot, see below)
-
-# now I'm really trying to break it...
-xenon file --location /home/daisycutter list tmp
-# gives a useful error. all good. but we should maybe change the argument name 
-# 'location'...to fsroot/filesystemroot maybe?
-
-# this works, but meaning of empty string as file system root is not very clear
-xenon file --location '' list tmp
-
-# TODO xenon file --location doesn't do much on linux (one fs root); try on windows
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # let's try to copy a file, first make it
@@ -77,29 +53,32 @@ cd /home/daisycutter/tmp
 touch testfile.txt
 
 # check the help
-xenon file --help
+xenon filesystem file --help
 # so need 'copy' argument
-xenon file copy --help
-# TODO location is not mentioned at this level (it is mentioned one level
-# higher at xenon file --help)
+xenon filesystem file copy --help
 
 # first try without any optional arguments
-xenon file copy testfile.txt textfile.copy.txt
+xenon filesystem file copy testfile.txt testfile.copy.txt
 # absolute paths
-xenon file copy /home/daisycutter/tmp/testfile.txt /home/daisycutter/tmp/testfile.copy.txt
+rm testfile.copy.txt
+xenon filesystem file copy /home/daisycutter/tmp/testfile.txt /home/daisycutter/tmp/testfile.copy.txt
 
 # try recursive copy...works
-xenon file copy --recursive thedir thecopieddir
+xenon filesystem file copy --recursive thedir thecopieddir
 # try again:
-xenon file copy --recursive thedir thecopieddir
+xenon filesystem file copy --recursive thedir thecopieddir
 returns an error (on the first existing path?)
-# try again, with overwrite option (FIXME doesn't overwrite anything, seems to ignore --overwrite altogether)
-xenon file copy --recursive --overwrite thedir thecopieddir
+# try again, with --replace option (FIXME doesn't overwrite anything, seems to ignore --replace altogether)
+xenon filesystem file copy --recursive --replace thedir thecopieddir
+
+# standard in / out
+cat testfile1024.txt | xenon filesystem file copy - mystdin.txt
+xenon filesystem file copy testfile1024.txt - 1> mystdout.txt
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-xenon file mkdir xenoncli-made-this-dir
-xenon file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
+xenon filesystem file mkdir xenoncli-made-this-dir
+xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -125,76 +104,75 @@ xenon -p 10022 xenon@localhost
 # if that works, exit again
 
 # let's see what help is available for slurm
-xenon slurm --help
+xenon scheduler slurm --help
 
 # let's first ask what queues the slurm scheduler has. need to specify location, otherwise we don't 
 # know who to ask. location is any location supported by ssh or local scheduler.
-xenon slurm --location ssh://xenon@localhost queues # errors, invalid location string format I think
-xenon slurm --location ssh://localhost queues       # also errors
-xenon slurm --location localhost queues             # error because it tries to connect to default port 22 (should be 10022)
+xenon scheduler slurm --location ssh://xenon@localhost queues    # errors, invalid location string format I think
+xenon scheduler slurm --location ssh://localhost queues          # also errors
+xenon scheduler slurm --location localhost queues                # error because it tries to connect to default port 22 (should be 10022)
 # check the xenon ssh --help help to find out the valid syntax for location
-xenon ssh --help
-xenon slurm --location localhost:10022 queues       # immediately returns authentication timeout error (a bit confusing, it's not a timeout issue I think FIXME)
-# we need to also provide credentials, check the top level xenon help
-xenon --help
+# FIXME help text for xenon scheduler slurm could mention ssh scheduler adaptor under --location; now only says ssh
+xenon scheduler ssh --help
+xenon scheduler slurm --location localhost:10022 queues          # immediately returns authentication timeout error (a bit confusing, it's not a timeout issue I think FIXME)
+# we need to also provide credentials
+xenon scheduler slurm --help
 # so --username and --password
-xenon --username xenon --password javagat slurm --location localhost:10022 queues   # winning!
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 queues   # winning!
 # returns:
 Available queues: mypartition, otherpartition
 Default queue: mypartition
-# FIXME does not work as advertised in the help / doesn't do anything
-xenon --username xenon --password javagat slurm --location localhost:10022 queues --default
 
 # what else we got
-xenon slurm --help
+xenon scheduler slurm --help
 # listing job queues
-xenon --username xenon --password javagat slurm --location localhost:10022 list     # works, not very exciting because empty
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 list     # works, not very exciting because empty
 
 # let's try to run an executable 
-xenon --username xenon --password javagat slurm --location localhost:10022 exec     # returns error of course
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec     # returns error of course, but FIXME does not mention --password or --username
 
 # usage string suggests that I need to provide (the path of) an executable residing in the container. For example, /bin/hostname
 
-xenon --username xenon --password javagat slurm --location localhost:10022 exec /bin/hostname
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec /bin/hostname
 # returns the image id of the docker container, all good
 
 # what about an 'ls' (/bin/ls)
-xenon --username xenon --password javagat slurm --location localhost:10022 exec /bin/ls
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec /bin/ls
 # returns the listing for the current directory (the last WORKDIR? or the place where SSH ends up? not sure)
 
 # usage string suggests you can set the working directory:
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon /bin/ls     # all good
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon /bin/ls     # all good
 
 # try other directory
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls 
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls 
 
 # misspelled directory 
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls 
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls 
 # says dir doesn't exist
 
 
 # try with arguments to the executable
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls -l
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls -l
 # FIXME says xenon: error: unrecognized arguments: '-l'
 
 # try with quotes
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture '/bin/ls -l'
-# FIXME slurm adaptor raises error below about number of fields:
-# slurm adaptor: Expected 10 fields in output [JOBID, PARTITION, NAME, USER, STATE, TIME, TIME_LIMIT, NODES, NODELIST(REASON), COMMENT], got line with 11 values: 16 mypartition ls -l xenon RUNNING 0:00 15:00 1 node-0 a125960d-fc78-4290-98b4-09bdd9da355bparsed to: [16, mypartition, ls, -l, xenon, RUNNING, 0:00, 15:00, 1, node-0, a125960d-fc78-4290-98b4-09bdd9da355b] original input
-#
-# JOBID PARTITION NAME USER STATE TIME TIME_LIMIT NODES NODELIST(REASON) COMMENT
-# 16 mypartition ls -l xenon RUNNING 0:00 15:00 1 node-0 a125960d-fc78-4290-98b4-09bdd9da355b
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture '/bin/ls -l'
+# FIXME returns an error: salloc: error: Unable to exec command "/bin/ls -l"
 
 # these two work as expected:
-xenon --username xenon --password javagat slurm --location localhost:10022 exec which sleep
-xenon --username xenon --password javagat slurm --location localhost:10022 exec sleep 20
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec which sleep
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 20
 
-# not sure what --max-time and --wait-timeout do, looks like they have no effect
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --max-time 5 sleep 15
-xenon --username xenon --password javagat slurm --location localhost:10022 exec --wait-timeout 5 sleep 15
+# not sure about difference between --max-time and --wait-timeout (their time units differ by a factor 1000*60 which is confusing; maybe reflect the units in the name of the option)
+
+# doesn't look like --max-time does anything; could be due to how slurm is configured in the docker container:
+date;xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --max-time 1 sleep 600;date
+Tue Aug  1 15:13:51 CEST 2017
+Tue Aug  1 15:23:55 CEST 2017
 
 # let's try adding some verbosity
-xenon --verbose --username xenon --password javagat slurm --location localhost:10022 exec sleep 15
-
+xenon --verbose scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
+xenon -v scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
+xenon -vvvv scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
 
 ```
