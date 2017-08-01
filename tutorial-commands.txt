@@ -145,4 +145,56 @@ Default queue: mypartition
 # FIXME does not work as advertised in the help / doesn't do anything
 xenon --username xenon --password javagat slurm --location localhost:10022 queues --default
 
+# what else we got
+xenon slurm --help
+# listing job queues
+xenon --username xenon --password javagat slurm --location localhost:10022 list     # works, not very exciting because empty
+
+# let's try to run an executable 
+xenon --username xenon --password javagat slurm --location localhost:10022 exec     # returns error of course
+
+# usage string suggests that I need to provide (the path of) an executable residing in the container. For example, /bin/hostname
+
+xenon --username xenon --password javagat slurm --location localhost:10022 exec /bin/hostname
+# returns the image id of the docker container, all good
+
+# what about an 'ls' (/bin/ls)
+xenon --username xenon --password javagat slurm --location localhost:10022 exec /bin/ls
+# returns the listing for the current directory (the last WORKDIR? or the place where SSH ends up? not sure)
+
+# usage string suggests you can set the working directory:
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon /bin/ls     # all good
+
+# try other directory
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls 
+
+# misspelled directory 
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls 
+# says dir doesn't exist
+
+
+# try with arguments to the executable
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls -l
+# FIXME says xenon: error: unrecognized arguments: '-l'
+
+# try with quotes
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --working-directory /home/xenon/filesystem-test-fixture '/bin/ls -l'
+# FIXME slurm adaptor raises error below about number of fields:
+# slurm adaptor: Expected 10 fields in output [JOBID, PARTITION, NAME, USER, STATE, TIME, TIME_LIMIT, NODES, NODELIST(REASON), COMMENT], got line with 11 values: 16 mypartition ls -l xenon RUNNING 0:00 15:00 1 node-0 a125960d-fc78-4290-98b4-09bdd9da355bparsed to: [16, mypartition, ls, -l, xenon, RUNNING, 0:00, 15:00, 1, node-0, a125960d-fc78-4290-98b4-09bdd9da355b] original input
+#
+# JOBID PARTITION NAME USER STATE TIME TIME_LIMIT NODES NODELIST(REASON) COMMENT
+# 16 mypartition ls -l xenon RUNNING 0:00 15:00 1 node-0 a125960d-fc78-4290-98b4-09bdd9da355b
+
+# these two work as expected:
+xenon --username xenon --password javagat slurm --location localhost:10022 exec which sleep
+xenon --username xenon --password javagat slurm --location localhost:10022 exec sleep 20
+
+# not sure what --max-time and --wait-timeout do, looks like they have no effect
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --max-time 5 sleep 15
+xenon --username xenon --password javagat slurm --location localhost:10022 exec --wait-timeout 5 sleep 15
+
+# let's try adding some verbosity
+xenon --verbose --username xenon --password javagat slurm --location localhost:10022 exec sleep 15
+
+
 ```
