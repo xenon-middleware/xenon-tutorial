@@ -111,6 +111,38 @@ xenon file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
 xenon file remove --recursive xenoncli-moved-this-dir/
 xenon file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ 
+# now we let's see if we can use schedulers, starting with slurm
+# first need to bring up a 'remote' slurm
+# we'll use a slurm docker container called nlesc/xenon-slurm from dockerhub
+docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
 
+# use docker ps to check the state of the container
+docker ps
+# once the status is healthy, see if we can ssh into it as user 'xenon' with password 'javagat'
+xenon -p 10022 xenon@localhost
+# if that works, exit again
+
+# let's see what help is available for slurm
+xenon slurm --help
+
+# let's first ask what queues the slurm scheduler has. need to specify location, otherwise we don't 
+# know who to ask. location is any location supported by ssh or local scheduler.
+xenon slurm --location ssh://xenon@localhost queues # errors, invalid location string format I think
+xenon slurm --location ssh://localhost queues       # also errors
+xenon slurm --location localhost queues             # error because it tries to connect to default port 22 (should be 10022)
+# check the xenon ssh --help help to find out the valid syntax for location
+xenon ssh --help
+xenon slurm --location localhost:10022 queues       # immediately returns authentication timeout error (a bit confusing, it's not a timeout issue I think FIXME)
+# we need to also provide credentials, check the top level xenon help
+xenon --help
+# so --username and --password
+xenon --username xenon --password javagat slurm --location localhost:10022 queues   # winning!
+# returns:
+Available queues: mypartition, otherpartition
+Default queue: mypartition
+# FIXME does not work as advertised in the help / doesn't do anything
+xenon --username xenon --password javagat slurm --location localhost:10022 queues --default
 
 ```
