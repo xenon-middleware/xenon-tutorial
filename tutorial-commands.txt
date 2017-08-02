@@ -42,7 +42,7 @@ xenon filesystem file list build/install
 xenon filesystem file list build/install/..
 
 # additional options
-xenon filesystem file list --hiddden .
+xenon filesystem file list --hidden .
 xenon filesystem file list --recursive .
 xenon filesystem file list --hidden --recursive .
 
@@ -100,7 +100,7 @@ docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
 # use docker ps to check the state of the container
 docker ps
 # once the status is healthy, see if we can ssh into it as user 'xenon' with password 'javagat'
-xenon -p 10022 xenon@localhost
+ssh -p 10022 xenon@localhost
 # if that works, exit again
 
 # let's see what help is available for slurm
@@ -160,9 +160,9 @@ xenon scheduler slurm --username xenon --password javagat --location localhost:1
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec which sleep
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 20
 
-# not sure about difference between --max-time and --wait-timeout (their time units differ by a factor 1000*60 which is confusing; maybe reflect the units in the name of the option)
+# FIXME not sure about difference between --max-time and --wait-timeout (their time units differ by a factor 1000*60 which is confusing; maybe reflect the units in the name of the option)
 
-# doesn't look like --max-time does anything; could be due to how slurm is configured in the docker container:
+# FIXME doesn't look like --max-time does anything; could be due to how slurm is configured in the docker container:
 date;xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec --max-time 1 sleep 600;date
 Tue Aug  1 15:13:51 CEST 2017
 Tue Aug  1 15:23:55 CEST 2017
@@ -180,7 +180,6 @@ echo javagat > password.txt & xenon scheduler slurm --username xenon --password 
 # time to submit stuff, check the xenon scheduler slurm submit help
 xenon scheduler slurm submit --help
 # FIXME help text for --working-directory Path at location where executable should be executed. If not given will local working directory or when remove will use home directory
-# FIXME username and password no longer present, have to go one level up
 
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit ls -- -la
 xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit --env MYKEY=myvalue env
@@ -191,9 +190,8 @@ ssh -p 10022 xenon@localhost ls -l
 # see what's in it
 ssh -p 10022 xenon@localhost cat out.txt
 
-
 # let's copy it back to our local system 
-# can't use xenon filesystem file like before, because we're copying beteen file systems, so let's look at what other options are available
+# can't use xenon filesystem file like before, because we're copying between file systems, so let's look at what other options are available
 xenon filesystem --help
 # let's try sftp
 xenon filesystem sftp --help
@@ -280,4 +278,6 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 
 # xenon scheduler slurm --username xenon --password javagat --location localhost:10022 remove <something>
 
+
 ```
+
