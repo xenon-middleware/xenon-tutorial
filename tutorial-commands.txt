@@ -199,7 +199,25 @@ xenon filesystem --help
 xenon filesystem sftp --help
 # so basic syntax is
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <something>
-# the something is 'download', since we want to download /home/xenon/out.txt
+# we could list the contents of the remote system
+# but how:
+xenon filesystem sftp list --help
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
+
+# FIXME BTW list and list --hidden return the same result
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
+
+# let's see what --long brings
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
+
+# what about JSON format?
+xenon --json filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
+# returns a whole bunch of JSON
+
+# in combination with --recursive
+xenon --json filesystem sftp --location localhost:10022 --username xenon --password javagat list --long --recursive /home/xenon
+
+# let's try to download the log file /home/xenon/out.txt
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
 # FIXME help text for 'source' is a bit confusing re the meaning of 'local', maybe tie it to --location value
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
@@ -215,9 +233,50 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/
 # no on both accounts # TODO maybe we should add that
 
+# what about directories?
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+# complains about source being a directory, TODO maybe add a mention of --recursive?
 
-print on local system's standard out
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+# FIXME only copies files and directories, not links
+
+# FIXME --ignore help string does not specify what the copy behavior is
+
+# with relative target path
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt out.txt
+
+# with relative source path
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download out.txt /home/daisycutter/tmp/out.txt
+# says 
+# sftp adaptor: No such file out.txt
+
+# Q: is there a starting directory somehow? It's / I think
+
+# let's try to do recursively copy of whatever directory we land in to local system:
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive . thedir
+sftp adaptor: SFTP error (SSH_FX_PERMISSION_DENIED): Permission denied
+
+# not sure what . means in this context, from the error it could be / ...? at least this generates the same error
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive / thedir
+# and 
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list .
+# lists the contents of /
+# Q maybe disallow the use of . as a remote location
+# Q should we have a default value for path, such that xenon filesystem sftp list <empty location> returns list of / for example.
+
+# back to xenon filesystem sftp download, let
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive /home thedir
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive /home /home/daisycutter/tmp/thedir
+
+# TODO because we don't support directories in the location (I think), the source path is effectively always an absolute path. Maybe say so in the docs?
+
+# print on local system's standard out
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt -
+
+echo 'this is coming from stdin through a file' > stdin.txt
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload stdin.txt /home/xenon/stdin.txt
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat 
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/stdout.txt stdout.txt
 
 # xenon scheduler slurm --username xenon --password javagat --location localhost:10022 remove <something>
 
