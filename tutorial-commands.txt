@@ -319,12 +319,12 @@ counts (commit dcf9331)
  0 xenon filesystem sftp mkdir
  0 xenon filesystem sftp remove
  0 xenon filesystem sftp rename
-29 xenon scheduler 
-28 xenon scheduler slurm
+40 xenon scheduler 
+39 xenon scheduler slurm
 14 xenon scheduler slurm exec
- 5 xenon scheduler slurm submit
- 1 xenon scheduler slurm list
- 0 xenon scheduler slurm remove
+10 xenon scheduler slurm submit
+ 5 xenon scheduler slurm list
+ 2 xenon scheduler slurm remove
  5 xenon scheduler slurm queues
  1 xenon scheduler ssh
  0 xenon scheduler ssh exec
