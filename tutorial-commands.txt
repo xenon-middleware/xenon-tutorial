@@ -172,4 +172,53 @@ xenon --verbose scheduler slurm --username xenon --password javagat --location l
 xenon -v scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
 xenon -vvvv scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
 
+# check if you can provide passwords from a file
+echo javagat > password.txt & xenon scheduler slurm --username xenon --password @password.txt --location localhost:10022 exec /bin/hostname
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# time to submit stuff, check the xenon scheduler slurm submit help
+xenon scheduler slurm submit --help
+# FIXME help text for --working-directory Path at location where executable should be executed. If not given will local working directory or when remove will use home directory
+# FIXME username and password no longer present, have to go one level up
+
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit ls -- -la
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit --env MYKEY=myvalue env
+xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit --env MYKEY=myvalue --stdout=out.txt env
+
+# check to see if the output from 'env' was written to file /home/xenon/out.txt
+ssh -p 10022 xenon@localhost ls -l
+# see what's in it
+ssh -p 10022 xenon@localhost cat out.txt
+
+
+# let's copy it back to our local system 
+# can't use xenon filesystem file like before, because we're copying beteen file systems, so let's look at what other options are available
+xenon filesystem --help
+# let's try sftp
+xenon filesystem sftp --help
+# so basic syntax is
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <something>
+# the something is 'download', since we want to download /home/xenon/out.txt
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
+# FIXME help text for 'source' is a bit confusing re the meaning of 'local', maybe tie it to --location value
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+# what happens if local file exists
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+# error message and aborted # FIXME maybe we should use the term aborted for partially successful recursive copies
+# what happens if remote file does not exist
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/doesnotexist.txt /home/daisycutter/tmp/doesnotexist.txt
+# xenon says does not exist, nice
+
+# can we copy remote file to local dir?
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/
+# no on both accounts # TODO maybe we should add that
+
+
+print on local system's standard out
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt -
+
+# xenon scheduler slurm --username xenon --password javagat --location localhost:10022 remove <something>
+
 ```
