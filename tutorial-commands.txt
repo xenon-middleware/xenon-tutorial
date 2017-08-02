@@ -15,7 +15,7 @@ xenon filesystem --help
 # usage line suggests I need to pick at least one from {file,ftp,sftp,webdav}
 # not sure what ot do yet, let's keep it simple and ask for help on (local) 
 # file manipulation
-# FIXME add longer --help alternative to existing -h option for 'xenon file' 
+# FIXME add longer --help alternative to existing -h option for 'xenon filesystem file' 
 # command (functionality seems to exist, but not included in usage line)
 xenon filesystem file --help
 
@@ -26,25 +26,25 @@ xenon filesystem file list --help
 # TODO add examples of valid paths
 
 # valid syntax, absolute paths
-xenon file list .
-xenon file list $PWD
-xenon file list $HOME
-xenon file list /tmp
-xenon file list /tmp/
+xenon filesystem file list .
+xenon filesystem file list $PWD
+xenon filesystem file list $HOME
+xenon filesystem file list /tmp
+xenon filesystem file list /tmp/
 # valid, but returns error because env var is empty
-xenon file list $NON_EXISTENT_ENV_VAR
+xenon filesystem file list $NON_EXISTENT_ENV_VAR
 
 # valid syntax, relative paths
-xenon file list tmp
-xenon file list build
-xenon file list ./build
-xenon file list build/install
-xenon file list build/install/..
+xenon filesystem file list tmp
+xenon filesystem file list build
+xenon filesystem file list ./build
+xenon filesystem file list build/install
+xenon filesystem file list build/install/..
 
 # additional options
-xenon file list --hiddden .
-xenon file list --recursive .
-xenon file list --hidden --recursive .
+xenon filesystem file list --hiddden .
+xenon filesystem file list --recursive .
+xenon filesystem file list --hidden --recursive .
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -82,13 +82,13 @@ xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsub
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-xenon file copy --recursive xenoncli-made-this-dir xenoncli-copied-this-dir
-xenon file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
+xenon filesystem file copy --recursive xenoncli-made-this-dir xenoncli-copied-this-dir
+xenon filesystem file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-xenon file remove --recursive xenoncli-moved-this-dir/
-xenon file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
+xenon filesystem file remove --recursive xenoncli-moved-this-dir/
+xenon filesystem file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
  
@@ -111,7 +111,7 @@ xenon scheduler slurm --help
 xenon scheduler slurm --location ssh://xenon@localhost queues    # errors, invalid location string format I think
 xenon scheduler slurm --location ssh://localhost queues          # also errors
 xenon scheduler slurm --location localhost queues                # error because it tries to connect to default port 22 (should be 10022)
-# check the xenon ssh --help help to find out the valid syntax for location
+# check the xenon scheduler ssh --help help to find out the valid syntax for location
 # FIXME help text for xenon scheduler slurm could mention ssh scheduler adaptor under --location; now only says ssh
 xenon scheduler ssh --help
 xenon scheduler slurm --location localhost:10022 queues          # immediately returns authentication timeout error (a bit confusing, it's not a timeout issue I think FIXME)
