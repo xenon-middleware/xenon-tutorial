@@ -281,3 +281,32 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 
 ```
 
+counts (commit dcf9331)
+
+86 xenon
+57 xenon filesystem
+31 xenon filesystem file
+ 9 xenon filesystem file copy
+15 xenon filesystem file list
+ 2 xenon filesystem file mkdir
+ 2 xenon filesystem file remove
+ 1 xenon filesystem file rename
+24 xenon filesystem sftp
+ 0 xenon filesystem sftp copy
+ 1 xenon filesystem sftp upload
+16 xenon filesystem sftp download
+ 5 xenon filesystem sftp list
+ 0 xenon filesystem sftp mkdir
+ 0 xenon filesystem sftp remove
+ 0 xenon filesystem sftp rename
+29 xenon scheduler 
+28 xenon scheduler slurm
+14 xenon scheduler slurm exec
+ 5 xenon scheduler slurm submit
+ 1 xenon scheduler slurm list
+ 0 xenon scheduler slurm remove
+ 5 xenon scheduler slurm queues
+ 1 xenon scheduler ssh
+ 0 xenon scheduler ssh exec
+ 0 xenon scheduler ssh queues
+
