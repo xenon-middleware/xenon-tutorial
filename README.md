@@ -15,7 +15,7 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 
 After which 
 * the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var
-* Docker and docker-compose has been installed
+* Docker has been installed with Slurm image pulled
 
 ### Test
 
@@ -27,8 +27,8 @@ newgrp docker
 The Slurm batch scheduler can be started with:
 
 ```
-docker-compose up -d
-# wait until containers are up and healty by running
+docker run --detach --publish 2222:22 nlesc/xenon-slurm:17
+# wait until the container is up and healty by running
 docker ps
 ```
 
