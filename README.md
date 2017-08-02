@@ -4,7 +4,7 @@ Material for [Xenon](http://nlesc.github.io/Xenon/) tutorial for [Research Softw
 
 ## Installation
 
-Step to install tutorial material in to tutorial virtual machine.
+Step to install tutorial material into the tutorial virtual machine.
 
 ```bash
 # Login as tutorial user
@@ -14,16 +14,17 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 ```
 
 After which 
-* the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var.
+* the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var
+* Docker and docker-compose has been installed
 
 ### Test
 
-If the install was run in same shell then relogin so user is joined the docker group and adjusts the PATH env var then run
+If the install was run in same shell run following to update the users groups and refresh the PATH env var:
 ```
 newgrp docker
 ```
 
-Slurm batch scheduler is running as Docker container, to login use `ssh -p 2222 xenon@localhost` and password `javagat`, it can be started with:
+The Slurm batch scheduler can be started with:
 
 ```
 docker-compose up -d
@@ -31,8 +32,10 @@ docker-compose up -d
 docker ps
 ```
 
-To test if the xenon works run
+To login use `ssh -p 2222 xenon@localhost` and password `javagat`.
+
+To test if the Xenon CLI and the Slurm Docker container work, run
 
 ```
-xenon --username xenon --password javagat slurm --location localhost:2222 --prop=xenon.adaptors.slurm.ignore.version=true submit hostname
+xenon --username xenon --password javagat slurm --location localhost:2222 --prop=xenon.adaptors.slurm.ignore.version=true exec sinfo
 ```
