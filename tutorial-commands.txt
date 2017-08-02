@@ -276,8 +276,28 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat 
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/stdout.txt stdout.txt
 
-# xenon scheduler slurm --username xenon --password javagat --location localhost:10022 remove <something>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+# on return says job identifier is e.g. 10
+# while the sleep job is running, do
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list                         # this queue has job 10 in it
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition     # this queue has job 10 in it
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition  # this queue is empty
 
+# submit 3 sleep jobs one after the other
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+# check the response, job ids are 12-14
+
+# remove job id 13
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
+
+# check the queues
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list   # only has job 12 and 14
+
+# capturing job ids in scripts
+JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100)
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
 
 ```
 
