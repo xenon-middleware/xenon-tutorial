@@ -301,7 +301,7 @@ xenon scheduler slurm --location localhost:10022 --username xenon --password jav
 
 ```
 
-counts (commit dcf9331)
+counts (commit 10cff722c57e842e4380d1cbb7adc171208f9148)
 
 86 xenon
 57 xenon filesystem
