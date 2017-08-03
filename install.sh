@@ -12,6 +12,7 @@ sudo systemctl start docker
 
 # pull slurm batch scheduler Docker container
 sudo docker pull nlesc/xenon-slurm:17
+sudo docker pull nlesc/xenon-webdav
 
 # download/untar van xenon-cli
 wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc1/xenon-cli-shadow-1.1.0-rc1.tar
