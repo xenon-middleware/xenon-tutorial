@@ -37,5 +37,5 @@ To login use `ssh -p 2222 xenon@localhost` and password `javagat`.
 To test if the Xenon CLI and the Slurm Docker container work, run
 
 ```
-xenon --username xenon --password javagat slurm --location localhost:2222 --prop=xenon.adaptors.slurm.ignore.version=true exec sinfo
+xenon --username xenon --password javagat slurm --location localhost:2222 exec sinfo
 ```

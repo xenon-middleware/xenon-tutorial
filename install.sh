@@ -14,7 +14,7 @@ sudo systemctl start docker
 sudo docker pull nlesc/xenon-slurm:17
 
 # download/untar van xenon-cli
-wget https://github.com/NLeSC/xenon-cli/releases/download/v1.0.3/xenon-cli-shadow-1.0.3.tar
+wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc1/xenon-cli-shadow-1.1.0-rc1.tar
 tar -xf xenon-cli-shadow-*.tar
 rm *.tar
 mv xenon-cli-shadow* xenon-cli
