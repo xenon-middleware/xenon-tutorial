@@ -4,6 +4,8 @@ Material for [Xenon](http://nlesc.github.io/Xenon/) tutorial for [Research Softw
 
 ## Installation
 
+Requires a virtual machine with minimally 2 cpus.
+
 Step to install tutorial material into the tutorial virtual machine.
 
 ```bash
@@ -11,6 +13,7 @@ Step to install tutorial material into the tutorial virtual machine.
 cd xenon
 git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 ./install.sh
+# Enter sudo password when asked
 ```
 
 After which 
