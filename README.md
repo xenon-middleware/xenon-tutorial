@@ -18,7 +18,7 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 
 After which 
 * the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var
-* Docker has been installed with Slurm image pulled
+* Docker has been installed with Slurm, SSH, SFTP and Webdav enabled images.
 
 ### Test
 
@@ -42,3 +42,27 @@ To test if the Xenon CLI and the Slurm Docker container work, run
 ```
 xenon scheduler slurm --username xenon --password javagat --location localhost:2222 exec sinfo
 ```
+
+The docker Slurm image also contains an SSH/SFTP server, which can be tested with:
+
+```
+xenon filesystem sftp --username xenon --password javagat --location localhost:2222 list /home/xenon
+```
+
+To start the docker image of the webdav server use: 
+
+```
+docker run --detach --publish 2280:80 nlesc/xenon-webdav
+# wait until the container is up and healty by running
+docker ps
+```
+
+The Webdav server can be tested with:
+
+```
+xenon filesystem webdav --username xenon --password javagat --location http://localhost:2280 list ~xenon
+```
+
+
+
+
