@@ -13,7 +13,7 @@ xenon filesystem --help
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # usage line suggests I need to pick at least one from {file,ftp,sftp,webdav}
-# not sure what ot do yet, let's keep it simple and ask for help on (local) 
+# not sure what to do yet, let's keep it simple and ask for help on (local) 
 # file manipulation
 # FIXME add longer --help alternative to existing -h option for 'xenon filesystem file' 
 # command (functionality seems to exist, but not included in usage line)
@@ -68,16 +68,17 @@ xenon filesystem file copy --recursive thedir thecopieddir
 # try again:
 xenon filesystem file copy --recursive thedir thecopieddir
 returns an error (on the first existing path?)
-# try again, with --replace option (FIXME doesn't overwrite anything, seems to ignore --replace altogether)
 xenon filesystem file copy --recursive --replace thedir thecopieddir
 
 # standard in / out
 cat testfile1024.txt | xenon filesystem file copy - mystdin.txt
+# FIXME message is a bit strange, standard in is represented as '/-'
 xenon filesystem file copy testfile1024.txt - 1> mystdout.txt
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 xenon filesystem file mkdir xenoncli-made-this-dir
+# FIXME xenon filesystem file mkdir says location '/' while xenon filesystem file copy says location 'local'
 xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -92,7 +93,7 @@ xenon filesystem file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
  
-# now we let's see if we can use schedulers, starting with slurm
+# now let's see if we can use schedulers, starting with slurm
 # first need to bring up a 'remote' slurm
 # we'll use a slurm docker container called nlesc/xenon-slurm from dockerhub
 docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
@@ -202,7 +203,6 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 xenon filesystem sftp list --help
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
 
-# FIXME BTW list and list --hidden return the same result
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
 
 # let's see what --long brings
@@ -217,7 +217,6 @@ xenon --json filesystem sftp --location localhost:10022 --username xenon --passw
 
 # let's try to download the log file /home/xenon/out.txt
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
-# FIXME help text for 'source' is a bit confusing re the meaning of 'local', maybe tie it to --location value
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
 # what happens if local file exists
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
@@ -237,8 +236,6 @@ xenon filesystem sftp --location localhost:10022 --username xenon --password jav
 
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
 # FIXME only copies files and directories, not links
-
-# FIXME --ignore help string does not specify what the copy behavior is
 
 # with relative target path
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt out.txt
