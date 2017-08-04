@@ -27,7 +27,9 @@ If the install was run in same shell run following to update the users groups an
 newgrp docker
 ```
 
-To SFTP docker image can be started with:
+To test if Xenon CLI works we first need to start the provided docker containers. 
+
+The SFTP docker can then be started with:
 
 ```
 docker run --detach --publish 3322:22 nlesc/xenon-ssh
