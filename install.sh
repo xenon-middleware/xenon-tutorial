@@ -16,7 +16,7 @@ sudo docker pull nlesc/xenon-webdav
 sudo docker pull nlesc/xenon-ssh
 
 # download/untar van xenon-cli
-wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc1/xenon-cli-shadow-1.1.0-rc1.tar
+wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc2/xenon-cli-shadow-1.1.0-rc2.tar
 tar -xf xenon-cli-shadow-*.tar
 rm *.tar
 mv xenon-cli-shadow* xenon-cli
