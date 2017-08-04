@@ -10,9 +10,10 @@ sudo usermod -aG docker $USER
 sudo systemctl enable docker
 sudo systemctl start docker
 
-# pull slurm batch scheduler Docker container
+# pull slurm batch scheduler, webdav, and SSH docker containers
 sudo docker pull nlesc/xenon-slurm:17
 sudo docker pull nlesc/xenon-webdav
+sudo docker pull nlesc/xenon-ssh
 
 # download/untar van xenon-cli
 wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc1/xenon-cli-shadow-1.1.0-rc1.tar
