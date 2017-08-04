@@ -18,7 +18,7 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 
 After which 
 * the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var
-* Docker has been installed with Slurm, SSH, SFTP and Webdav enabled images.
+* Docker has been installed with SSH, SFTP, Webdav and Slurm enabled images.
 
 ### Test
 
@@ -27,29 +27,21 @@ If the install was run in same shell run following to update the users groups an
 newgrp docker
 ```
 
-The Slurm batch scheduler can be started with:
+To SFTP docker image can be started with:
 
 ```
-docker run --detach --publish 2222:22 nlesc/xenon-slurm:17
+docker run --detach --publish 3322:22 nlesc/xenon-ssh
 # wait until the container is up and healty by running
 docker ps
 ```
 
-To login use `ssh -p 2222 xenon@localhost` and password `javagat`.
-
-To test if the Xenon CLI and the Slurm Docker container work, run
+To test if the Xenon-CLI work and can access the container container use: 
 
 ```
-xenon scheduler slurm --username xenon --password javagat --location localhost:2222 exec sinfo
+xenon filesystem sftp --username xenon --password javagat --location localhost:3322 list /home/xenon
 ```
 
-The docker Slurm image also contains an SSH/SFTP server, which can be tested with:
-
-```
-xenon filesystem sftp --username xenon --password javagat --location localhost:2222 list /home/xenon
-```
-
-To start the docker image of the webdav server use: 
+The Webdav docker image can be started with:
 
 ```
 docker run --detach --publish 2280:80 nlesc/xenon-webdav
@@ -62,6 +54,21 @@ The Webdav server can be tested with:
 ```
 xenon filesystem webdav --username xenon --password javagat --location http://localhost:2280 list ~xenon
 ```
+
+The Slurm batch scheduler can be started with:
+
+```
+docker run --detach --publish 2222:22 nlesc/xenon-slurm:17
+# wait until the container is up and healty by running
+docker ps
+```
+
+To test if the Xenon CLI can access Slurm run:
+
+```
+xenon scheduler slurm --username xenon --password javagat --location localhost:2222 exec sinfo
+```
+
 
 
 
