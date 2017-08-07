@@ -10,15 +10,13 @@ sudo usermod -aG docker $USER
 sudo systemctl enable docker
 sudo systemctl start docker
 
-# install docker-compose
-sudo sh -c "curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
-sudo chmod +x /usr/local/bin/docker-compose
-
-# pull slurm batch scheduler Docker container
-sudo docker-compose pull
+# pull slurm batch scheduler, webdav, and SSH docker containers
+sudo docker pull nlesc/xenon-slurm:17
+sudo docker pull nlesc/xenon-webdav
+sudo docker pull nlesc/xenon-ssh
 
 # download/untar van xenon-cli
-wget https://github.com/NLeSC/xenon-cli/releases/download/v1.0.3/xenon-cli-shadow-1.0.3.tar
+wget https://github.com/NLeSC/xenon-cli/releases/download/v1.1.0-rc2/xenon-cli-shadow-1.1.0-rc2.tar
 tar -xf xenon-cli-shadow-*.tar
 rm *.tar
 mv xenon-cli-shadow* xenon-cli
