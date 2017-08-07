@@ -296,6 +296,31 @@ xenon scheduler slurm --location localhost:10022 --username xenon --password jav
 JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100)
 xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
 
+
+# moving remote files 
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload thefile.txt /home/xenon/thefile.txt
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+# FIXME returns authentication timeout
+
+# FIXME need to add the not-so optional --target-username and --target-password
+# TODO maybe keep --target-location --target-username --target-password together at one level?
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --target-username xenon --target-password javagat /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+
+# now try with a directory
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --target-username xenon --target-password javagat /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+sftp adaptor: Source path is a directory: /home/xenon/filesystem-test-fixture
+# all good, add --recursive
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --recursive --target-username xenon --target-password javagat /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+# works, except doesn't copy links
+
+# let's try with credentials FIXME
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --recursive --target-certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+sftp adaptor: Failed to retrieve username from credential
+
+xenon filesystem sftp --location localhost:10022 --certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa download /home/xenon/thefile.txt thefile.bak
+sftp adaptor: Failed to retrieve username from credential
+
+
 ```
 
 counts (commit 10cff722c57e842e4380d1cbb7adc171208f9148)
