@@ -1,6 +1,6 @@
 1. Start the RSE2017 Fedora virtual machine from VirtualBox, log in as user ``tutorial`` using password ``tutorial``
 1. In the VM, open a terminal and type ``ifconfig``. Look for an entry that has an ``inet`` value starting with ``10.`` (mine is ``10.0.2.15``). We will use this value as Guest IP later.
-1. In the terminal, start the SSH server with ``systemctl start sshd.service``
+1. In the terminal, start the SSH server with ``sudo systemctl start sshd.service``
 1. In VirtualBox, change the port forwarding settings, as follows:
     1. Go to menu item ``Machine``
     1. Go to ``Settings`` 
