@@ -93,7 +93,8 @@ html_theme_options = {
     'github_type': 'star',
     'github_button': True,
     'github_repo': 'NLeSC/Xenon',
-    'page_width': 1280,
+    'page_width': '1280px',
+    'sidebar_width': '220px',
     'code_font_size': '0.75em'
 }
 
