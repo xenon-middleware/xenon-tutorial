@@ -69,8 +69,44 @@ So I need a ``path`` as final argument
       xenon filesystem file list .
       xenon filesystem file list $PWD
       xenon filesystem file list $HOME
-      xenon filesystem file list /tmp
-      xenon filesystem file list /tmp/
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      xenon filesystem file list /home/tutorial/xenon
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+      import nl.esciencecenter.xenon.filesystems.PathAttributes;
+
+      public class DirectoryListing {
+
+          public static void main(String[] args) throws Exception {
+
+              String adaptor = "file";
+              FileSystem filesystem = FileSystem.create(adaptor);
+
+              Path dir = new Path("/home/tutorial/xenon");
+              boolean recursive = false;
+
+              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
+
+              for (PathAttributes elem : listing) {
+                  if (!elem.isHidden()) {
+                      System.out.println(elem.getPath());
+                  }
+              }
+
+          }
+      }
+
+.. tabs::
+
+   .. code-tab:: bash
+
       # valid, but returns error because env var is empty
       xenon filesystem file list $NON_EXISTENT_ENV_VAR
 
@@ -85,6 +121,37 @@ So I need a ``path`` as final argument
       xenon filesystem file list --hidden .
       xenon filesystem file list --recursive .
       xenon filesystem file list --hidden --recursive .
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      xenon filesystem file list --hidden /home/tutorial/xenon
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+      import nl.esciencecenter.xenon.filesystems.PathAttributes;
+
+      public class DirectoryListingShowHidden {
+
+          public static void main(String[] args) throws Exception {
+
+              String adaptor = "file";
+              FileSystem filesystem = FileSystem.create(adaptor);
+
+              Path dir = new Path("/home/tutorial/xenon");
+              boolean recursive = false;
+
+              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
+
+              for (PathAttributes elem : listing) {
+                  System.out.println(elem.getPath());
+              }
+
+          }
+      }
 
 Let's try to copy a file, first create it
 
@@ -252,7 +319,8 @@ So can choose from ``{exec,submit,list,remove,wait,queues}``. Let's try to list 
 
    .. code-tab:: bash
 
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 list     # works, not very exciting because empty
+      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 list
+      # works, not very exciting because empty
 
 Let's try to run an executable
 
@@ -356,11 +424,87 @@ we're copying between file systems, so let's look at what other options are avai
       # we could list the contents of the remote system, check how
       xenon filesystem sftp list --help
 
-      # so, 'list' command with a path
+.. tabs::
+
+   .. code-tab:: bash
+
+      # so 'list' command, followed by a path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+      import nl.esciencecenter.xenon.filesystems.PathAttributes;
+      import nl.esciencecenter.xenon.credentials.PasswordCredential;
+
+      public class DirectoryListingWithPasswordCredential {
+
+          public static void main(String[] args) throws Exception {
+
+              String username = "xenon";
+              char[] password = "javagat".toCharArray();
+              PasswordCredential credential = new PasswordCredential(username, password);
+
+              String adaptor = "sftp";
+              String location = "localhost:10022";
+
+              FileSystem filesystem = FileSystem.create(adaptor, location, credential);
+
+              Path dir = new Path("/home/xenon");
+              boolean recursive = false;
+
+              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
+
+              for (PathAttributes elem : listing) {
+                  if (!elem.isHidden) {
+                     System.out.println(elem.getPath());
+                  }
+              }
+          }
+      }
+
+.. tabs::
+
+   .. code-tab:: bash
 
       # also list hidden files
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+      import nl.esciencecenter.xenon.filesystems.PathAttributes;
+      import nl.esciencecenter.xenon.credentials.PasswordCredential;
+
+      public class DirectoryListingWithPasswordCredentialShowHidden {
+
+          public static void main(String[] args) throws Exception {
+
+              String username = "xenon";
+              char[] password = "javagat".toCharArray();
+              PasswordCredential credential = new PasswordCredential(username, password);
+
+              String adaptor = "sftp";
+              String location = "localhost:10022";
+
+              FileSystem filesystem = FileSystem.create(adaptor, location, credential);
+
+              Path dir = new Path("/home/xenon");
+              boolean recursive = false;
+
+              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
+
+              for (PathAttributes elem : listing) {
+                  System.out.println(elem.getPath());
+              }
+          }
+      }
+
+.. tabs::
+
+   .. code-tab:: bash
 
       # let's see what --long does
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
@@ -439,7 +583,8 @@ FIXME This next code block needs checking to see if the error is fixed
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list .
       # lists the contents of /
       # Q maybe disallow the use of . as a remote location
-      # Q should we have a default value for path, such that xenon filesystem sftp list <empty location> returns list of / for example.
+      # Q should we have a default value for path, such that xenon filesystem sftp list <empty location>
+      # returns list of / for example.
 
       # back to xenon filesystem sftp download, let
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
@@ -473,7 +618,8 @@ Now we can upload it:
 
    .. code-tab:: bash
 
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload stdin.txt /home/xenon/stdin.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload \
+          stdin.txt /home/xenon/stdin.txt
 
 Now we can submit a ``cat`` job using ``xenon scheduler slurm submit`` like before, taking the newly uploaded
 ``stdin.txt`` file as standard in to the ``cat`` program. We'll redirect ``cat``'s standard out to a file ``stdout.txt``
@@ -499,9 +645,14 @@ Checking on jobs
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
       # on return says job identifier is e.g. 10
       # while the sleep job is running, do
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list                         # this queue has job 10 in it
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition     # this queue has job 10 in it
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition  # this queue is empty
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+      # this queue has job 10 in it
+
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
+      # this queue has job 10 in it
+
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
+      # this queue is empty
 
       # submit 3 sleep jobs one after the other
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
@@ -513,7 +664,8 @@ Checking on jobs
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
 
       # check the queues
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list   # only has job 12 and 14
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+      # only has job 12 and 14
 
       # capturing job ids in scripts
       JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100)
