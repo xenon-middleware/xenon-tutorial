@@ -1,3 +1,4 @@
+```bash
 # get a copy of the repository
 git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git
 cd xenon-rse2017-tutorial
@@ -25,3 +26,4 @@ sphinx-build -b html ./source ./build
 
 # use a browser to look at the result, e.g.
 firefox build/index.html
+```
