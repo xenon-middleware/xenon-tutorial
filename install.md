@@ -3,9 +3,6 @@
 git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git
 cd xenon-rse2017-tutorial
 
-# make a Python (3) virtual environment
-python3 -m venv .venv3
-
 # install virtualenv from (ubuntu) repositories
 sudo apt install virtualenv
 
