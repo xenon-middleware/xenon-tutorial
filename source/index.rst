@@ -184,11 +184,97 @@ First try with absolute paths and without any optional arguments
 
    .. code-tab:: bash
 
-      # relative paths
-      xenon filesystem file copy thefile.txt thefile.bak
-      rm thefile.txt
       # absolute paths
-      xenon filesystem file copy /home/daisycutter/tmp/thefile.txt /home/daisycutter/tmp/thefile.bak
+      xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.CopyMode;
+      import nl.esciencecenter.xenon.filesystems.CopyStatus;
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+
+      public class CopyFileLocalToLocalAbsolutePaths {
+
+          public static void main(String[] args) throws Exception {
+
+              // use the local file system adaptor to create a file system representation
+              String adaptor = "file";
+              FileSystem filesystem = FileSystem.create(adaptor);
+
+              // create Paths for the source and destination files, using absolute paths
+              Path sourceFile = new Path("/home/tutorial/xenon/thefile.txt");
+              Path destFile = new Path("/home/tutorial/xenon/thefile.bak");
+
+              // create the destination file only if the destination path doesn't exist yet
+              CopyMode mode = CopyMode.CREATE;
+              boolean recursive = false;
+
+              // perform the copy and wait 1000 ms for the successful or otherwise
+              // completion of the operation
+              String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
+              long timeoutMilliSecs = 1000;
+              CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);
+
+              // print any exceptions
+              if (copyStatus.getException() != null) {
+                  System.out.println(copyStatus.getException().getMessage());
+              }
+          }
+      }
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      rm thefile.txt
+
+   Copying a file on the local file system using relative paths.
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      xenon filesystem file copy thefile.txt thefile.bak
+
+   .. code-tab:: java
+
+      import nl.esciencecenter.xenon.filesystems.CopyMode;
+      import nl.esciencecenter.xenon.filesystems.CopyStatus;
+      import nl.esciencecenter.xenon.filesystems.FileSystem;
+      import nl.esciencecenter.xenon.filesystems.Path;
+
+      public class CopyFileLocalToLocalRelativePaths {
+
+          public static void main(String[] args) throws Exception {
+
+              // use the local file system adaptor to create a file system representation
+              String adaptor = "file";
+              FileSystem filesystem = FileSystem.create(adaptor);
+
+              // create Paths for the source and destination files, using relative paths
+              Path sourceFile = new Path("thefile.txt");
+              Path destFile = new Path("thefile.bak");
+
+              // create the destination file only if the destination path doesn't exist yet
+              CopyMode mode = CopyMode.CREATE;
+              boolean recursive = false;
+
+              // perform the copy and wait 1000 ms for the successful or otherwise
+              // completion of the operation
+
+              // FIXME copy expects absolute paths? If so, say so in JavaDoc and convert sourceFile and destFile
+              String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
+              long timeoutMilliSecs = 1000;
+              CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);
+
+              // print any exceptions
+              if (copyStatus.getException() != null) {
+                  System.out.println(copyStatus.getException().getMessage());
+              }
+          }
+      }
+
 
 What about recursive copy?
 
