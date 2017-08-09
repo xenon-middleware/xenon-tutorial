@@ -484,9 +484,18 @@ Checking on jobs
       # remove job id 13
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
 
-      # check the queues
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
-      # only has job 12 and 14
+Let check the queues:
+
+.. tabs::
+
+    .. code-tab:: bash
+
+       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+       # only has job 12 and 14
+
+    .. include:: nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java.txt
+
+.. code-block:: bash
 
       # capturing job ids in scripts
       JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100)
