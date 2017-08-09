@@ -38,16 +38,22 @@
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="xenon-tutorial-rse-2017">
+  <div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/xenon-logo.png"><img alt="Xenon" class="align-center" src="_images/xenon-logo.png" style="width: 291.5px; height: 136.0px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="xenon-tutorial-rse-2017">
 <h1>Xenon tutorial RSE 2017<a class="headerlink" href="#xenon-tutorial-rse-2017" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>some introductory text</p>
-<div class="section" id="file-system-operations-with-xenon-filesystem-file">
-<h2>File system operations with <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code><a class="headerlink" href="#file-system-operations-with-xenon-filesystem-file" title="Permalink to this headline">¶</a></h2>
 <p>First, let’s check if the <code class="docutils literal"><span class="pre">xenon</span></code> command line interface program can be found on the system:</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon --help
 </pre></div>
@@ -369,11 +375,54 @@ a location, otherwise <code class="docutils literal"><span class="pre">xenon</sp
 Our dockerized SLURM machine is reachable as <code class="docutils literal"><span class="pre">localhost:10022</span></code>.
 We’ll also need to provide a <code class="docutils literal"><span class="pre">--username</span></code> and <code class="docutils literal"><span class="pre">--password</span></code>
 for that location, as follows:</p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
 <div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
 <span class="c1"># returns:</span>
 Available queues: mypartition, otherpartition
 Default queue: mypartition
 </pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.schedulers.Scheduler</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SlurmQueuesGetter</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;slurm&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;localhost:10022&quot;</span><span class="o">;</span>
+
+        <span class="c1">// make the password credential for user &#39;xenon&#39;</span>
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="n">PasswordCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+
+        <span class="c1">// create the SLURM scheduler</span>
+        <span class="n">Scheduler</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="n">Scheduler</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">);</span>
+
+        <span class="c1">// ask SLURM for its queues</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Available queues (starred queue is default):&quot;</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">queueName</span> <span class="o">:</span> <span class="n">scheduler</span><span class="o">.</span><span class="na">getQueueNames</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">queueName</span> <span class="o">==</span> <span class="n">scheduler</span><span class="o">.</span><span class="na">getDefaultQueueName</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">queueName</span> <span class="o">+</span> <span class="s">&quot;*&quot;</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">queueName</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>What else we got</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --help
@@ -741,35 +790,9 @@ sftp adaptor: Failed to retrieve username from credential
 </pre></div>
 </div>
 </div>
-</div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<p class="logo">
-  <a href="#">
-    <img class="logo" src="_static/xenon-logo.png" alt="Logo"/>
-    
-  </a>
-</p>
-
-
-
-
-
-<p>
-<iframe src="https://ghbtns.com/github-btn.html?user=&repo=NLeSC/Xenon&type=star&count=true&size=large"
-  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
-</p>
-
-
-
-
-
-        </div>
       </div>
       <div class="clearer"></div>
     </div>
