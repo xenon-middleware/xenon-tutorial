@@ -1,0 +1,16 @@
+Text
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      Bash code
+
+   .. code-tab:: java
+
+      Java code
+
+   .. code-tab:: py
+
+      Python code
+

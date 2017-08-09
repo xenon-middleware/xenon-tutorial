@@ -1,0 +1,792 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Xenon tutorial RSE 2017 &#8212; Xenon tutorial RSE 2017 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx_tabs/tabs.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.2.10/segment.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.2.10/menu.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.2.10/tab.min.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sphinx_tabs/tabs.js"></script>
+    <script type="text/javascript" src="_static/sphinx_tabs/semantic-ui-2.2.10/tab.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="xenon-tutorial-rse-2017">
+<h1>Xenon tutorial RSE 2017<a class="headerlink" href="#xenon-tutorial-rse-2017" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>some introductory text</p>
+<div class="section" id="file-system-operations-with-xenon-filesystem-file">
+<h2>File system operations with <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code><a class="headerlink" href="#file-system-operations-with-xenon-filesystem-file" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s check if the <code class="docutils literal"><span class="pre">xenon</span></code> command line interface program can be found on the system:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon --help
+</pre></div>
+</div>
+<p>So essentially, we can use <code class="docutils literal"><span class="pre">xenon</span></code> to manipulate files or to interact with schedulers. Let’s start simple and see if
+we can do something with files. First, check its help:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem --help
+</pre></div>
+</div>
+<p>The usage line suggests we need to pick one from <code class="docutils literal"><span class="pre">{file,ftp,sftp,webdav}</span></code>.
+Again, choose what seems to be the simplest option (<code class="docutils literal"><span class="pre">file</span></code>), and again, check its help.</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file --help
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code> usage line seems to suggest that I need to pick one
+from <code class="docutils literal"><span class="pre">{copy,list,mkdir,remove,rename}</span></code>. Simplest one is probably <code class="docutils literal"><span class="pre">list</span></code>, so:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file list --help
+</pre></div>
+</div>
+<p>So we need a <code class="docutils literal"><span class="pre">path</span></code> as final argument. Let’s try listing the contents of <code class="docutils literal"><span class="pre">/home/tutorial/xenon</span></code>.</p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file list /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListing</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">elem</span><span class="o">.</span><span class="na">isHidden</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span> <span class="pre">list</span></code> has a few options that let you specify the details of the list operation, e.g. <code class="docutils literal"><span class="pre">--hidden</span></code></p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file list --hidden /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingShowHidden</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and <code class="docutils literal"><span class="pre">--recursive</span></code></p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file list --recursive /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingRecursive</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">elem</span><span class="o">.</span><span class="na">isHidden</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s try to copy a file, first create it</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /home/tutorial/xenon
+touch thefile.txt
+</pre></div>
+</div>
+<p>Check the help</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file --help
+</pre></div>
+</div>
+<p>So need <code class="docutils literal"><span class="pre">copy</span></code> argument</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file copy --help
+</pre></div>
+</div>
+<p>First try with absolute paths and without any optional arguments</p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyMode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopyFileLocalToLocalAbsolutePaths</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// use the local file system adaptor to create a file system representation</span>
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="c1">// create Paths for the source and destination files, using absolute paths</span>
+        <span class="n">Path</span> <span class="n">sourceFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon/thefile.txt&quot;</span><span class="o">);</span>
+        <span class="n">Path</span> <span class="n">destFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon/thefile.bak&quot;</span><span class="o">);</span>
+
+        <span class="c1">// create the destination file only if the destination path doesn&#39;t exist yet</span>
+        <span class="n">CopyMode</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">CopyMode</span><span class="o">.</span><span class="na">CREATE</span><span class="o">;</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="c1">// perform the copy and wait 1000 ms for the successful or otherwise</span>
+        <span class="c1">// completion of the operation</span>
+        <span class="n">String</span> <span class="n">copyId</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">sourceFile</span><span class="o">,</span> <span class="n">filesystem</span><span class="o">,</span> <span class="n">destFile</span><span class="o">,</span> <span class="n">mode</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">timeoutMilliSecs</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+        <span class="n">CopyStatus</span> <span class="n">copyStatus</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">waitUntilDone</span><span class="o">(</span><span class="n">copyId</span><span class="o">,</span> <span class="n">timeoutMilliSecs</span><span class="o">);</span>
+
+        <span class="c1">// print any exceptions</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">().</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre>rm thefile.txt
+</pre></div>
+</div>
+<p>Copying a file on the local file system using relative paths.</p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file copy thefile.txt thefile.bak
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples.filesystem</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyMode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopyFileLocalToLocalRelativePaths</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// use the local file system adaptor to create a file system representation</span>
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="c1">// create Paths for the source and destination files, using absolute paths</span>
+        <span class="n">Path</span> <span class="n">sourceFile</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">getEntryPath</span><span class="o">().</span><span class="na">resolve</span><span class="o">(</span><span class="s">&quot;thefile.txt&quot;</span><span class="o">);</span>
+        <span class="n">Path</span> <span class="n">destFile</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">getEntryPath</span><span class="o">().</span><span class="na">resolve</span><span class="o">(</span><span class="s">&quot;thefile.bak&quot;</span><span class="o">);</span>
+
+        <span class="c1">// create the destination file only if the destination path doesn&#39;t exist yet</span>
+        <span class="n">CopyMode</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">CopyMode</span><span class="o">.</span><span class="na">CREATE</span><span class="o">;</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="c1">// perform the copy and wait 1000 ms for the successful or otherwise</span>
+        <span class="c1">// completion of the operation</span>
+        <span class="n">String</span> <span class="n">copyId</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">sourceFile</span><span class="o">,</span> <span class="n">filesystem</span><span class="o">,</span> <span class="n">destFile</span><span class="o">,</span> <span class="n">mode</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">timeoutMilliSecs</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+        <span class="n">CopyStatus</span> <span class="n">copyStatus</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">waitUntilDone</span><span class="o">(</span><span class="n">copyId</span><span class="o">,</span> <span class="n">timeoutMilliSecs</span><span class="o">);</span>
+
+        <span class="c1">// print any exceptions</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">().</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>What about recursive copy?</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file copy --recursive thedir thecopieddir
+<span class="c1"># try again:</span>
+xenon filesystem file copy --recursive thedir thecopieddir
+returns an error <span class="o">(</span>on the first existing path?<span class="o">)</span>
+xenon filesystem file copy --recursive --replace thedir thecopieddir
+</pre></div>
+</div>
+<p>Standard in / standard out</p>
+<div class="highlight-bash"><div class="highlight"><pre>cat testfile1024.txt <span class="p">|</span> xenon filesystem file copy - mystdin.txt
+xenon filesystem file copy testfile1024.txt - 1&gt; mystdout.txt
+</pre></div>
+</div>
+<p>Make a directory</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file mkdir xenoncli-made-this-dir
+xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
+</pre></div>
+</div>
+<p>Copy a directory recursively</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file copy --recursive xenoncli-made-this-dir xenoncli-copied-this-dir
+</pre></div>
+</div>
+<p>Rename/move a file</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
+</pre></div>
+</div>
+<p>Remove a directory</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
+</pre></div>
+</div>
+<p>Remove a directory (recursively)</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file remove --recursive xenoncli-moved-this-dir/
+</pre></div>
+</div>
+<p>Now let’s see if we can use schedulers, starting with SLURM.
+First need to bring up a ‘remote’ SLURM.
+We’ll use a SLURM docker container called <code class="docutils literal"><span class="pre">nlesc/xenon-slurm</span></code> from DockerHub.</p>
+<div class="highlight-bash"><div class="highlight"><pre>docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
+
+<span class="c1"># use docker ps to check the state of the container</span>
+docker ps
+
+<span class="c1"># once the status is healthy, see if we can ssh into it as</span>
+<span class="c1"># user &#39;xenon&#39; with password &#39;javagat&#39;</span>
+ssh -p <span class="m">10022</span> xenon@localhost
+
+<span class="c1"># if that works, exit again</span>
+<span class="nb">exit</span>
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># let&#39;s see what help is available for slurm</span>
+xenon scheduler slurm --help
+</pre></div>
+</div>
+<p>Let’s first ask what queues the SLURM scheduler has. For this, we need to specify
+a location, otherwise <code class="docutils literal"><span class="pre">xenon</span></code> does not know who to ask. According to the help,
+<code class="docutils literal"><span class="pre">LOCATION</span></code> is any location format supported by <code class="docutils literal"><span class="pre">ssh</span></code> or <code class="docutils literal"><span class="pre">local</span></code> scheduler.
+Our dockerized SLURM machine is reachable as <code class="docutils literal"><span class="pre">localhost:10022</span></code>.
+We’ll also need to provide a <code class="docutils literal"><span class="pre">--username</span></code> and <code class="docutils literal"><span class="pre">--password</span></code>
+for that location, as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
+<span class="c1"># returns:</span>
+Available queues: mypartition, otherpartition
+Default queue: mypartition
+</pre></div>
+</div>
+<p>What else we got</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --help
+</pre></div>
+</div>
+<p>So can choose from <code class="docutils literal"><span class="pre">{exec,submit,list,remove,wait,queues}</span></code>. Let’s try to list the scheduler’s queues.</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+<span class="c1"># works, not very exciting because empty</span>
+</pre></div>
+</div>
+<p>Let’s try to run an executable</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span>   <span class="c1"># doesn&#39;t work</span>
+</pre></div>
+</div>
+<p>Usage string suggests that I need to provide (the path of) an executable residing in the container. For example, <code class="docutils literal"><span class="pre">/bin/hostname</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> /bin/hostname
+<span class="c1"># returns the image id of the docker container, all good</span>
+
+<span class="c1"># what about an &#39;ls&#39; (/bin/ls)</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> /bin/ls
+<span class="c1"># returns the listing for the current directory (the last WORKDIR? or the place where SSH ends up? not sure)</span>
+
+<span class="c1"># usage string suggests you can set the working directory:</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+<span class="nb">exec</span> --working-directory /home/xenon /bin/ls     <span class="c1"># all good</span>
+
+<span class="c1"># try other directory</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+<span class="nb">exec</span> --working-directory /home/xenon/filesystem-test-fixture /bin/ls
+
+<span class="c1"># misspelled directory</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+<span class="nb">exec</span> --working-directory /home/xenon/filesystem-test-fxture /bin/ls
+<span class="c1"># says dir doesn&#39;t exist</span>
+
+<span class="c1"># try with arguments to the executable (prepend -l option with &#39; -- &#39;)</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -l
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -la
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -lR
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> <span class="se">\</span>
+ls -- -l --human-readable
+
+<span class="c1"># these two work as expected:</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> which sleep
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 20
+
+<span class="c1"># let&#39;s try adding some verbosity</span>
+xenon --verbose scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
+xenon -v scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
+<span class="c1"># very verbose</span>
+xenon -vvvv scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
+</pre></div>
+</div>
+<p>Check if you can provide passwords from a file</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> javagat &gt; password.txt <span class="p">&amp;</span> xenon scheduler slurm --username xenon --password @password.txt <span class="se">\</span>
+--location localhost:10022 <span class="nb">exec</span> /bin/hostname
+</pre></div>
+</div>
+<p>Time to submit stuff, check the <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> help</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm submit --help
+
+<span class="c1"># submit a plain &#39;ls -la&#39; job</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit ls -- -la
+
+<span class="c1"># submit an &#39;env&#39; job with environment variables</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --env <span class="nv">MYKEY</span><span class="o">=</span>myvalue env
+
+<span class="c1"># submit an &#39;env&#39; job with environment variables, and capture standard out so we know if it worked</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --env <span class="nv">MYKEY</span><span class="o">=</span>myvalue --stdout<span class="o">=</span>out.txt env
+
+<span class="c1"># check to see if the output from &#39;env&#39; was written to file /home/xenon/out.txt</span>
+ssh -p <span class="m">10022</span> xenon@localhost ls -l
+<span class="c1"># see what&#39;s in it</span>
+ssh -p <span class="m">10022</span> xenon@localhost cat out.txt
+</pre></div>
+</div>
+<p>Now how do we get the output file back to our local system? We can’t use <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code> like before, because
+we’re copying between file systems, so let’s look at what other options are available:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem --help
+
+<span class="c1"># let&#39;s try sftp</span>
+xenon filesystem sftp --help
+
+<span class="c1"># so basic syntax is</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat &lt;something&gt;
+
+<span class="c1"># we could list the contents of the remote system, check how</span>
+xenon filesystem sftp list --help
+</pre></div>
+</div>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># so &#39;list&#39; command, followed by a path</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingWithPasswordCredential</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="n">PasswordCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;sftp&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;localhost:10022&quot;</span><span class="o">;</span>
+
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/xenon&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">elem</span><span class="o">.</span><span class="na">isHidden</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># also list hidden files</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingWithPasswordCredentialShowHidden</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="n">PasswordCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;sftp&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;localhost:10022&quot;</span><span class="o">;</span>
+
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/xenon&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># let&#39;s see what --long does</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
+
+<span class="c1"># what about JSON format?</span>
+xenon --json filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
+<span class="c1"># returns a whole bunch of JSON</span>
+
+<span class="c1"># in combination with --recursive</span>
+xenon --json filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+list --long --recursive /home/xenon
+</pre></div>
+</div>
+<p>Nice, but we were trying to get a look at <code class="docutils literal"><span class="pre">/home/xenon/out.txt</span></code> to see if the <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> job
+worked. <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">sftp</span> <span class="pre">--help</span></code> also listed a <code class="docutils literal"><span class="pre">download</span></code> command, let’s see how that’s supposed to work.</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+
+<span class="c1"># repeat operation to see what happens if local file exists</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+<span class="c1"># error message and download aborted</span>
+
+<span class="c1"># what happens if remote file does not exist</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/doesnotexist.txt /home/daisycutter/tmp/doesnotexist.txt
+<span class="c1"># xenon says does not exist, nice</span>
+
+<span class="c1"># can we copy remote file to local dir?</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt /home/daisycutter/tmp
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt /home/daisycutter/tmp/
+<span class="c1"># no on both accounts</span>
+
+<span class="c1"># what about directories?</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+<span class="c1"># complains about source being a directory</span>
+
+<span class="c1"># add --recursive option</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+<span class="c1"># (only copies files and directories, not links)</span>
+
+<span class="c1"># with relative target path</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt out.txt
+</pre></div>
+</div>
+<p>FIXME This next code block needs checking to see if the error is fixed</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># with relative source path</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download out.txt /home/daisycutter/tmp/out.txt
+<span class="c1"># says</span>
+<span class="c1"># sftp adaptor: No such file out.txt</span>
+
+<span class="c1"># Q: is there a starting directory somehow? It&#39;s / I think</span>
+
+<span class="c1"># let&#39;s try to do recursively copy of whatever directory we land in to local system:</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive . thedir
+sftp adaptor: SFTP error <span class="o">(</span>SSH_FX_PERMISSION_DENIED<span class="o">)</span>: Permission denied
+
+<span class="c1"># not sure what . means in this context, from the error it could be / ...? at least this generates the same error</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive / thedir
+<span class="c1"># and</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list .
+<span class="c1"># lists the contents of /</span>
+<span class="c1"># Q maybe disallow the use of . as a remote location</span>
+<span class="c1"># Q should we have a default value for path, such that xenon filesystem sftp list &lt;empty location&gt;</span>
+<span class="c1"># returns list of / for example.</span>
+
+<span class="c1"># back to xenon filesystem sftp download, let</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download --recursive /home thedir
+
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download --recursive /home /home/daisycutter/tmp/thedir
+
+<span class="c1"># TODO because we don&#39;t support directories in the location (I think), the source path is effectively always an</span>
+<span class="c1"># absolute path. Maybe say so in the docs?</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">sftp</span> <span class="pre">download</span></code> can also download to the local system’s standard out, as follows (note the minus at
+the end)</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download <span class="se">\</span>
+/home/xenon/out.txt -
+</pre></div>
+</div>
+<p>Just like download, we can also upload a file. Let’s first make it by <code class="docutils literal"><span class="pre">echo</span></code>’ing some content into it:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="s1">&#39;this is coming from stdin through a file&#39;</span> &gt; stdin.txt
+</pre></div>
+</div>
+<p>Now we can upload it:</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload <span class="se">\</span>
+stdin.txt /home/xenon/stdin.txt
+</pre></div>
+</div>
+<p>Now we can submit a <code class="docutils literal"><span class="pre">cat</span></code> job using <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> like before, taking the newly uploaded
+<code class="docutils literal"><span class="pre">stdin.txt</span></code> file as standard in to the <code class="docutils literal"><span class="pre">cat</span></code> program. We’ll redirect <code class="docutils literal"><span class="pre">cat</span></code>’s standard out to a file <code class="docutils literal"><span class="pre">stdout.txt</span></code>
+like before.</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat
+
+<span class="c1"># download the stdout file xenon generated to see its contents (should be same as ``stdin.txt``)</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/stdout.txt stdout.txt
+</pre></div>
+</div>
+<p>Checking on jobs</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+<span class="c1"># on return says job identifier is e.g. 10</span>
+<span class="c1"># while the sleep job is running, do</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+<span class="c1"># this queue has job 10 in it</span>
+
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
+<span class="c1"># this queue has job 10 in it</span>
+
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
+<span class="c1"># this queue is empty</span>
+
+<span class="c1"># submit 3 sleep jobs one after the other</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
+<span class="c1"># check the response, job ids are 12-14</span>
+
+<span class="c1"># remove job id 13</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
+
+<span class="c1"># check the queues</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+<span class="c1"># only has job 12 and 14</span>
+
+<span class="c1"># capturing job ids in scripts</span>
+<span class="nv">JOBID</span><span class="o">=</span><span class="k">$(</span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100<span class="k">)</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
+</pre></div>
+</div>
+<p>Moving files around on the remote</p>
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+upload thefile.txt /home/xenon/thefile.txt
+
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+copy /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+<span class="c1"># FIXME returns authentication timeout</span>
+
+<span class="c1"># FIXME need to add the not-so optional --target-username and --target-password</span>
+<span class="c1"># TODO maybe keep --target-location --target-username --target-password together at one level?</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+copy --target-username xenon --target-password javagat <span class="se">\</span>
+/home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+
+<span class="c1"># now try with a directory</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+copy --target-username xenon --target-password javagat <span class="se">\</span>
+/home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+sftp adaptor: Source path is a directory: /home/xenon/filesystem-test-fixture
+
+<span class="c1"># all good, add --recursive</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+copy --recursive --target-username xenon --target-password javagat <span class="se">\</span>
+/home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+<span class="c1"># works, except doesn&#39;t copy links</span>
+
+<span class="c1"># let&#39;s try with credentials FIXME</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --recursive <span class="se">\</span>
+--target-certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa <span class="se">\</span>
+/home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+sftp adaptor: Failed to retrieve username from credential
+
+xenon filesystem sftp --location localhost:10022 <span class="se">\</span>
+--certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa <span class="se">\</span>
+download /home/xenon/thefile.txt thefile.bak
+sftp adaptor: Failed to retrieve username from credential
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/xenon-logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=&repo=NLeSC/Xenon&type=star&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jurriaan. H. Spaaks, Stefan Verhoeven, Jason Maassen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -8,6 +8,12 @@ Xenon tutorial RSE 2017
 
 .. toctree::
 
+some introductory text
+
+-----------------------------------------------------
+File system operations with ``xenon filesystem file``
+-----------------------------------------------------
+
 First, let's check if the ``xenon`` command line interface program can be found on the system:
 
 .. code-block:: bash

@@ -19,7 +19,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # build the HTML documentation from sources
-sphinx-build -b html ./source ./build 
+sphinx-build -b html ./source ./docs
 
 # use a browser to look at the result, e.g.
 firefox build/index.html
