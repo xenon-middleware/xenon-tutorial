@@ -8,67 +8,34 @@ Xenon tutorial RSE 2017
 
 .. toctree::
 
-Check if xenon cli can be found and works (should print a line about usage)
+First, let's check if the ``xenon`` command line interface program can be found on the system:
 
-.. tabs::
+.. code-block:: bash
 
-   .. code-tab:: bash
+   xenon --help
 
-      xenon
+So essentially, we can use ``xenon`` to manipulate files or to interact with schedulers. Let's start simple and see if
+we can do something with files. First, check its help:
 
-Get some help
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      xenon --help
-
-Check the version (should return 2.x.x)
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      xenon --version
-
-I want to do something with files
-
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem --help
 
-The usage line suggests I need to pick at least one from ``{file,ftp,sftp,webdav}``.
-Not sure what to do yet, let's keep it simple and ask for help on (local)
-file manipulation.
+The usage line suggests we need to pick one from ``{file,ftp,sftp,webdav}``.
+Again, choose what seems to be the simplest option (``file``), and again, check its help.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file --help
 
 ``xenon filesystem file`` usage line seems to suggest that I need to pick one
 from ``{copy,list,mkdir,remove,rename}``. Simplest one is probably ``list``, so:
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file list --help
 
-So I need a ``path`` as final argument
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      # valid syntax, absolute paths
-      xenon filesystem file list .
-      xenon filesystem file list $PWD
-      xenon filesystem file list $HOME
+So I need a ``path`` as final argument. Let's try listing the contents of ``/home/tutorial/xenon``.
 
 .. tabs::
 
@@ -78,12 +45,7 @@ So I need a ``path`` as final argument
 
    .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListing.java.txt
 
-.. tabs::
-
-   .. code-tab:: bash
-
-      # valid, but returns error because env var is empty
-      xenon filesystem file list $NON_EXISTENT_ENV_VAR
+.. code-block:: bash
 
       # valid syntax, relative paths
       xenon filesystem file list tmp
@@ -107,26 +69,20 @@ So I need a ``path`` as final argument
 
 Let's try to copy a file, first create it
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       cd /home/tutorial/xenon
       touch thefile.txt
 
 Check the help
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file --help
 
 So need ``copy`` argument
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file copy --help
 
@@ -136,18 +92,15 @@ First try with absolute paths and without any optional arguments
 
    .. code-tab:: bash
 
-      # absolute paths
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
    .. include:: nl/esciencecenter/xenon/examples/filesystem/CopyFileLocalToLocalAbsolutePaths.java.txt
 
-.. tabs::
+.. code-block:: bash
 
-   .. code-tab:: bash
+   rm thefile.txt
 
-      rm thefile.txt
-
-   Copying a file on the local file system using relative paths.
+Copying a file on the local file system using relative paths.
 
 .. tabs::
 
@@ -159,9 +112,7 @@ First try with absolute paths and without any optional arguments
 
 What about recursive copy?
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file copy --recursive thedir thecopieddir
       # try again:
@@ -171,51 +122,39 @@ What about recursive copy?
 
 Standard in / standard out
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       cat testfile1024.txt | xenon filesystem file copy - mystdin.txt
       xenon filesystem file copy testfile1024.txt - 1> mystdout.txt
 
 Make a directory
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file mkdir xenoncli-made-this-dir
       xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 Copy a directory recursively
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file copy --recursive xenoncli-made-this-dir xenoncli-copied-this-dir
 
 Rename/move a file
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file rename xenoncli-copied-this-dir/ xenoncli-moved-this-dir
 
 Remove a directory
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file remove xenoncli-made-this-dir/thesubdir/thesubsubdir
 
 Remove a directory (recursively)
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem file remove --recursive xenoncli-moved-this-dir/
 
@@ -224,9 +163,7 @@ Now let's see if we can use schedulers, starting with SLURM.
 First need to bring up a 'remote' SLURM.
 We'll use a SLURM docker container called ``nlesc/xenon-slurm`` from DockerHub.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
 
@@ -240,9 +177,7 @@ We'll use a SLURM docker container called ``nlesc/xenon-slurm`` from DockerHub.
       # if that works, exit again
       exit
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       # let's see what help is available for slurm
       xenon scheduler slurm --help
@@ -251,9 +186,7 @@ Let's first ask what queues the slurm scheduler has. We need to specify location
 otherwise we don't know who to ask. According to the help, ``LOCATION`` is any
 location format supported by ``ssh`` or ``local`` scheduler.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --location ssh://xenon@localhost queues    # errors, invalid LOCATION string format
       xenon scheduler slurm --location ssh://localhost queues          # also errors
@@ -274,34 +207,26 @@ location format supported by ``ssh`` or ``local`` scheduler.
 
 What else we got
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --help
 
 So can choose from ``{exec,submit,list,remove,wait,queues}``. Let's try to list the scheduler's queues.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --username xenon --password javagat --location localhost:10022 list
       # works, not very exciting because empty
 
 Let's try to run an executable
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec   # doesn't work
 
 Usage string suggests that I need to provide (the path of) an executable residing in the container. For example, ``/bin/hostname``
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec /bin/hostname
       # returns the image id of the docker container, all good
@@ -342,18 +267,14 @@ Usage string suggests that I need to provide (the path of) an executable residin
 
 Check if you can provide passwords from a file
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       echo javagat > password.txt & xenon scheduler slurm --username xenon --password @password.txt \
           --location localhost:10022 exec /bin/hostname
 
 Time to submit stuff, check the ``xenon scheduler slurm submit`` help
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm submit --help
 
@@ -376,9 +297,7 @@ Time to submit stuff, check the ``xenon scheduler slurm submit`` help
 Now how do we get the output file back to our local system? We can't use ``xenon filesystem file`` like before, because
 we're copying between file systems, so let's look at what other options are available:
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem --help
 
@@ -409,9 +328,7 @@ we're copying between file systems, so let's look at what other options are avai
 
    .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingWithPasswordCredentialShowHidden.java.txt
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       # let's see what --long does
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --long /home/xenon
@@ -427,9 +344,7 @@ we're copying between file systems, so let's look at what other options are avai
 Nice, but we were trying to get a look at ``/home/xenon/out.txt`` to see if the ``xenon scheduler slurm submit`` job
 worked. ``xenon filesystem sftp --help`` also listed a ``download`` command, let's see how that's supposed to work.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
@@ -468,9 +383,7 @@ worked. ``xenon filesystem sftp --help`` also listed a ``download`` command, let
 
 FIXME This next code block needs checking to see if the error is fixed
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       # with relative source path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
@@ -505,25 +418,19 @@ FIXME This next code block needs checking to see if the error is fixed
 
 ``xenon filesystem sftp download`` can also download to the local system's standard out, as follows (note the minus at the end)
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt -
 
 Just like download, we can also upload a file. Let's first make it by ``echo``'ing some content into it:
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       echo 'this is coming from stdin through a file' > stdin.txt
 
 Now we can upload it:
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload \
           stdin.txt /home/xenon/stdin.txt
@@ -532,9 +439,7 @@ Now we can submit a ``cat`` job using ``xenon scheduler slurm submit`` like befo
 ``stdin.txt`` file as standard in to the ``cat`` program. We'll redirect ``cat``'s standard out to a file ``stdout.txt``
 like before.
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
           submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat
@@ -545,9 +450,7 @@ like before.
 
 Checking on jobs
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
       # on return says job identifier is e.g. 10
@@ -580,9 +483,7 @@ Checking on jobs
 
 Moving files around on the remote
 
-.. tabs::
-
-   .. code-tab:: bash
+.. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
           upload thefile.txt /home/xenon/thefile.txt
