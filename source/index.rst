@@ -76,32 +76,7 @@ So I need a ``path`` as final argument
 
       xenon filesystem file list /home/tutorial/xenon
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-      import nl.esciencecenter.xenon.filesystems.PathAttributes;
-
-      public class DirectoryListing {
-
-          public static void main(String[] args) throws Exception {
-
-              String adaptor = "file";
-              FileSystem filesystem = FileSystem.create(adaptor);
-
-              Path dir = new Path("/home/tutorial/xenon");
-              boolean recursive = false;
-
-              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
-
-              for (PathAttributes elem : listing) {
-                  if (!elem.isHidden()) {
-                      System.out.println(elem.getPath());
-                  }
-              }
-
-          }
-      }
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListing.java.txt
 
 .. tabs::
 
@@ -128,30 +103,7 @@ So I need a ``path`` as final argument
 
       xenon filesystem file list --hidden /home/tutorial/xenon
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-      import nl.esciencecenter.xenon.filesystems.PathAttributes;
-
-      public class DirectoryListingShowHidden {
-
-          public static void main(String[] args) throws Exception {
-
-              String adaptor = "file";
-              FileSystem filesystem = FileSystem.create(adaptor);
-
-              Path dir = new Path("/home/tutorial/xenon");
-              boolean recursive = false;
-
-              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
-
-              for (PathAttributes elem : listing) {
-                  System.out.println(elem.getPath());
-              }
-
-          }
-      }
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingShowHidden.java.txt
 
 Let's try to copy a file, first create it
 
@@ -159,7 +111,7 @@ Let's try to copy a file, first create it
 
    .. code-tab:: bash
 
-      cd /home/daisycutter/tmp
+      cd /home/tutorial/xenon
       touch thefile.txt
 
 Check the help
@@ -187,41 +139,7 @@ First try with absolute paths and without any optional arguments
       # absolute paths
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.CopyMode;
-      import nl.esciencecenter.xenon.filesystems.CopyStatus;
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-
-      public class CopyFileLocalToLocalAbsolutePaths {
-
-          public static void main(String[] args) throws Exception {
-
-              // use the local file system adaptor to create a file system representation
-              String adaptor = "file";
-              FileSystem filesystem = FileSystem.create(adaptor);
-
-              // create Paths for the source and destination files, using absolute paths
-              Path sourceFile = new Path("/home/tutorial/xenon/thefile.txt");
-              Path destFile = new Path("/home/tutorial/xenon/thefile.bak");
-
-              // create the destination file only if the destination path doesn't exist yet
-              CopyMode mode = CopyMode.CREATE;
-              boolean recursive = false;
-
-              // perform the copy and wait 1000 ms for the successful or otherwise
-              // completion of the operation
-              String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
-              long timeoutMilliSecs = 1000;
-              CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);
-
-              // print any exceptions
-              if (copyStatus.getException() != null) {
-                  System.out.println(copyStatus.getException().getMessage());
-              }
-          }
-      }
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/CopyFileLocalToLocalAbsolutePaths.java.txt
 
 .. tabs::
 
@@ -237,44 +155,7 @@ First try with absolute paths and without any optional arguments
 
       xenon filesystem file copy thefile.txt thefile.bak
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.CopyMode;
-      import nl.esciencecenter.xenon.filesystems.CopyStatus;
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-
-      public class CopyFileLocalToLocalRelativePaths {
-
-          public static void main(String[] args) throws Exception {
-
-              // use the local file system adaptor to create a file system representation
-              String adaptor = "file";
-              FileSystem filesystem = FileSystem.create(adaptor);
-
-              // create Paths for the source and destination files, using relative paths
-              Path sourceFile = new Path("thefile.txt");
-              Path destFile = new Path("thefile.bak");
-
-              // create the destination file only if the destination path doesn't exist yet
-              CopyMode mode = CopyMode.CREATE;
-              boolean recursive = false;
-
-              // perform the copy and wait 1000 ms for the successful or otherwise
-              // completion of the operation
-
-              // FIXME copy expects absolute paths? If so, say so in JavaDoc and convert sourceFile and destFile
-              String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
-              long timeoutMilliSecs = 1000;
-              CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);
-
-              // print any exceptions
-              if (copyStatus.getException() != null) {
-                  System.out.println(copyStatus.getException().getMessage());
-              }
-          }
-      }
-
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/CopyFileLocalToLocalRelativePaths.java.txt
 
 What about recursive copy?
 
@@ -517,38 +398,7 @@ we're copying between file systems, so let's look at what other options are avai
       # so 'list' command, followed by a path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-      import nl.esciencecenter.xenon.filesystems.PathAttributes;
-      import nl.esciencecenter.xenon.credentials.PasswordCredential;
-
-      public class DirectoryListingWithPasswordCredential {
-
-          public static void main(String[] args) throws Exception {
-
-              String username = "xenon";
-              char[] password = "javagat".toCharArray();
-              PasswordCredential credential = new PasswordCredential(username, password);
-
-              String adaptor = "sftp";
-              String location = "localhost:10022";
-
-              FileSystem filesystem = FileSystem.create(adaptor, location, credential);
-
-              Path dir = new Path("/home/xenon");
-              boolean recursive = false;
-
-              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
-
-              for (PathAttributes elem : listing) {
-                  if (!elem.isHidden) {
-                     System.out.println(elem.getPath());
-                  }
-              }
-          }
-      }
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingWithPasswordCredential.java.txt
 
 .. tabs::
 
@@ -557,36 +407,7 @@ we're copying between file systems, so let's look at what other options are avai
       # also list hidden files
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
 
-   .. code-tab:: java
-
-      import nl.esciencecenter.xenon.filesystems.FileSystem;
-      import nl.esciencecenter.xenon.filesystems.Path;
-      import nl.esciencecenter.xenon.filesystems.PathAttributes;
-      import nl.esciencecenter.xenon.credentials.PasswordCredential;
-
-      public class DirectoryListingWithPasswordCredentialShowHidden {
-
-          public static void main(String[] args) throws Exception {
-
-              String username = "xenon";
-              char[] password = "javagat".toCharArray();
-              PasswordCredential credential = new PasswordCredential(username, password);
-
-              String adaptor = "sftp";
-              String location = "localhost:10022";
-
-              FileSystem filesystem = FileSystem.create(adaptor, location, credential);
-
-              Path dir = new Path("/home/xenon");
-              boolean recursive = false;
-
-              Iterable<PathAttributes> listing = filesystem.list(dir, recursive);
-
-              for (PathAttributes elem : listing) {
-                  System.out.println(elem.getPath());
-              }
-          }
-      }
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingWithPasswordCredentialShowHidden.java.txt
 
 .. tabs::
 
