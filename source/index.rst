@@ -35,7 +35,7 @@ from ``{copy,list,mkdir,remove,rename}``. Simplest one is probably ``list``, so:
 
       xenon filesystem file list --help
 
-So I need a ``path`` as final argument. Let's try listing the contents of ``/home/tutorial/xenon``.
+So we need a ``path`` as final argument. Let's try listing the contents of ``/home/tutorial/xenon``.
 
 .. tabs::
 
@@ -45,19 +45,7 @@ So I need a ``path`` as final argument. Let's try listing the contents of ``/hom
 
    .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListing.java.txt
 
-.. code-block:: bash
-
-      # valid syntax, relative paths
-      xenon filesystem file list tmp
-      xenon filesystem file list build
-      xenon filesystem file list ./build
-      xenon filesystem file list build/install
-      xenon filesystem file list build/install/..
-
-      # additional options
-      xenon filesystem file list --hidden .
-      xenon filesystem file list --recursive .
-      xenon filesystem file list --hidden --recursive .
+``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g. ``--hidden``
 
 .. tabs::
 
@@ -66,6 +54,25 @@ So I need a ``path`` as final argument. Let's try listing the contents of ``/hom
       xenon filesystem file list --hidden /home/tutorial/xenon
 
    .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingShowHidden.java.txt
+
+and ``--recursive``
+
+.. tabs::
+
+   .. code-tab:: bash
+
+      xenon filesystem file list --recursive /home/tutorial/xenon
+
+   .. include:: nl/esciencecenter/xenon/examples/filesystem/DirectoryListingRecursive.java.txt
+
+.. code-block:: bash
+
+      # valid syntax, relative paths
+      xenon filesystem file list tmp
+      xenon filesystem file list build
+      xenon filesystem file list ./build
+      xenon filesystem file list build/install
+      xenon filesystem file list build/install/..
 
 Let's try to copy a file, first create it
 
@@ -182,25 +189,16 @@ We'll use a SLURM docker container called ``nlesc/xenon-slurm`` from DockerHub.
       # let's see what help is available for slurm
       xenon scheduler slurm --help
 
-Let's first ask what queues the slurm scheduler has. We need to specify location,
-otherwise we don't know who to ask. According to the help, ``LOCATION`` is any
-location format supported by ``ssh`` or ``local`` scheduler.
+Let's first ask what queues the SLURM scheduler has. For this, we need to specify
+a location, otherwise ``xenon`` does not know who to ask. According to the help,
+``LOCATION`` is any location format supported by ``ssh`` or ``local`` scheduler.
+Our dockerized SLURM machine is reachable as ``localhost:10022``.
+We'll also need to provide a ``--username`` and ``--password``
+for that location, as follows:
 
 .. code-block:: bash
 
-      xenon scheduler slurm --location ssh://xenon@localhost queues    # errors, invalid LOCATION string format
-      xenon scheduler slurm --location ssh://localhost queues          # also errors
-      xenon scheduler slurm --location localhost queues                # error because it tries to connect to default port 22 (should be 10022)
-
-      # check the xenon scheduler ssh --help help to find out the valid syntax for LOCATION
-      xenon scheduler ssh --help
-      xenon scheduler slurm --location localhost:10022 queues          # immediately returns authentication timeout error (a bit confusing, it's not a timeout issue I think FIXME)
-
-      # we need to also provide credentials
-      xenon scheduler slurm --help
-
-      # so --username and --password
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 queues   # winning!
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
       # returns:
       Available queues: mypartition, otherpartition
       Default queue: mypartition
@@ -215,54 +213,55 @@ So can choose from ``{exec,submit,list,remove,wait,queues}``. Let's try to list 
 
 .. code-block:: bash
 
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 list
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
       # works, not very exciting because empty
 
 Let's try to run an executable
 
 .. code-block:: bash
 
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec   # doesn't work
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec   # doesn't work
 
 Usage string suggests that I need to provide (the path of) an executable residing in the container. For example, ``/bin/hostname``
 
 .. code-block:: bash
 
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec /bin/hostname
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec /bin/hostname
       # returns the image id of the docker container, all good
 
       # what about an 'ls' (/bin/ls)
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec /bin/ls
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec /bin/ls
       # returns the listing for the current directory (the last WORKDIR? or the place where SSH ends up? not sure)
 
       # usage string suggests you can set the working directory:
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 \
-          exec --working-directory /home/xenon /bin/ls     # all good
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      exec --working-directory /home/xenon /bin/ls     # all good
 
       # try other directory
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 \
-          exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      exec --working-directory /home/xenon/filesystem-test-fixture /bin/ls
 
       # misspelled directory
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 \
-          exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      exec --working-directory /home/xenon/filesystem-test-fxture /bin/ls
       # says dir doesn't exist
 
       # try with arguments to the executable (prepend -l option with ' -- ')
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -l
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -la
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -lR
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec ls -- -l --human-readable
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec ls -- -l
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec ls -- -la
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec ls -- -lR
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec \
+      ls -- -l --human-readable
 
       # these two work as expected:
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec which sleep
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 20
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec which sleep
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat exec sleep 20
 
       # let's try adding some verbosity
-      xenon --verbose scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
-      xenon -v scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
+      xenon --verbose scheduler slurm --location localhost:10022 --username xenon --password javagat exec sleep 5
+      xenon -v scheduler slurm --location localhost:10022 --username xenon --password javagat exec sleep 5
       # very verbose
-      xenon -vvvv scheduler slurm --username xenon --password javagat --location localhost:10022 exec sleep 5
+      xenon -vvvv scheduler slurm --location localhost:10022 --username xenon --password javagat exec sleep 5
 
 
 Check if you can provide passwords from a file
@@ -270,7 +269,7 @@ Check if you can provide passwords from a file
 .. code-block:: bash
 
       echo javagat > password.txt & xenon scheduler slurm --username xenon --password @password.txt \
-          --location localhost:10022 exec /bin/hostname
+      --location localhost:10022 exec /bin/hostname
 
 Time to submit stuff, check the ``xenon scheduler slurm submit`` help
 
@@ -279,15 +278,15 @@ Time to submit stuff, check the ``xenon scheduler slurm submit`` help
       xenon scheduler slurm submit --help
 
       # submit a plain 'ls -la' job
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 submit ls -- -la
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit ls -- -la
 
       # submit an 'env' job with environment variables
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 \
-          submit --env MYKEY=myvalue env
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      submit --env MYKEY=myvalue env
 
       # submit an 'env' job with environment variables, and capture standard out so we know if it worked
-      xenon scheduler slurm --username xenon --password javagat --location localhost:10022 \
-          submit --env MYKEY=myvalue --stdout=out.txt env
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      submit --env MYKEY=myvalue --stdout=out.txt env
 
       # check to see if the output from 'env' was written to file /home/xenon/out.txt
       ssh -p 10022 xenon@localhost ls -l
@@ -339,7 +338,7 @@ we're copying between file systems, so let's look at what other options are avai
 
       # in combination with --recursive
       xenon --json filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          list --long --recursive /home/xenon
+      list --long --recursive /home/xenon
 
 Nice, but we were trying to get a look at ``/home/xenon/out.txt`` to see if the ``xenon scheduler slurm submit`` job
 worked. ``xenon filesystem sftp --help`` also listed a ``download`` command, let's see how that's supposed to work.
@@ -348,38 +347,38 @@ worked. ``xenon filesystem sftp --help`` also listed a ``download`` command, let
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+      download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
 
       # repeat operation to see what happens if local file exists
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+      download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
       # error message and download aborted
 
       # what happens if remote file does not exist
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/doesnotexist.txt /home/daisycutter/tmp/doesnotexist.txt
+      download /home/xenon/doesnotexist.txt /home/daisycutter/tmp/doesnotexist.txt
       # xenon says does not exist, nice
 
       # can we copy remote file to local dir?
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/out.txt /home/daisycutter/tmp
+      download /home/xenon/out.txt /home/daisycutter/tmp
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/out.txt /home/daisycutter/tmp/
+      download /home/xenon/out.txt /home/daisycutter/tmp/
       # no on both accounts
 
       # what about directories?
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+      download /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
       # complains about source being a directory
 
       # add --recursive option
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
+      download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
       # (only copies files and directories, not links)
 
       # with relative target path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/out.txt out.txt
+      download /home/xenon/out.txt out.txt
 
 FIXME This next code block needs checking to see if the error is fixed
 
@@ -387,7 +386,7 @@ FIXME This next code block needs checking to see if the error is fixed
 
       # with relative source path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download out.txt /home/daisycutter/tmp/out.txt
+      download out.txt /home/daisycutter/tmp/out.txt
       # says
       # sftp adaptor: No such file out.txt
 
@@ -408,19 +407,22 @@ FIXME This next code block needs checking to see if the error is fixed
 
       # back to xenon filesystem sftp download, let
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download --recursive /home thedir
+      download --recursive /home thedir
+
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download --recursive /home /home/daisycutter/tmp/thedir
+      download --recursive /home /home/daisycutter/tmp/thedir
 
       # TODO because we don't support directories in the location (I think), the source path is effectively always an
       # absolute path. Maybe say so in the docs?
 
 
-``xenon filesystem sftp download`` can also download to the local system's standard out, as follows (note the minus at the end)
+``xenon filesystem sftp download`` can also download to the local system's standard out, as follows (note the minus at
+the end)
 
 .. code-block:: bash
 
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download /home/xenon/out.txt -
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download \
+      /home/xenon/out.txt -
 
 Just like download, we can also upload a file. Let's first make it by ``echo``'ing some content into it:
 
@@ -433,7 +435,7 @@ Now we can upload it:
 .. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload \
-          stdin.txt /home/xenon/stdin.txt
+      stdin.txt /home/xenon/stdin.txt
 
 Now we can submit a ``cat`` job using ``xenon scheduler slurm submit`` like before, taking the newly uploaded
 ``stdin.txt`` file as standard in to the ``cat`` program. We'll redirect ``cat``'s standard out to a file ``stdout.txt``
@@ -442,11 +444,11 @@ like before.
 .. code-block:: bash
 
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
-          submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat
+      submit --stdin /home/xenon/stdin.txt --stdout /home/xenon/stdout.txt cat
 
       # download the stdout file xenon generated to see its contents (should be same as ``stdin.txt``)
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          download /home/xenon/stdout.txt stdout.txt
+      download /home/xenon/stdout.txt stdout.txt
 
 Checking on jobs
 
@@ -486,35 +488,37 @@ Moving files around on the remote
 .. code-block:: bash
 
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          upload thefile.txt /home/xenon/thefile.txt
+      upload thefile.txt /home/xenon/thefile.txt
+
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          copy /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+      copy /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
       # FIXME returns authentication timeout
 
       # FIXME need to add the not-so optional --target-username and --target-password
       # TODO maybe keep --target-location --target-username --target-password together at one level?
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          copy --target-username xenon --target-password javagat \
-          /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
+      copy --target-username xenon --target-password javagat \
+      /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
 
       # now try with a directory
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          copy --target-username xenon --target-password javagat \
-          /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+      copy --target-username xenon --target-password javagat \
+      /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
       sftp adaptor: Source path is a directory: /home/xenon/filesystem-test-fixture
+
       # all good, add --recursive
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-          copy --recursive --target-username xenon --target-password javagat \
-          /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+      copy --recursive --target-username xenon --target-password javagat \
+      /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
       # works, except doesn't copy links
 
       # let's try with credentials FIXME
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --recursive \
-          --target-certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
-          /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
+      --target-certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
+      /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
       sftp adaptor: Failed to retrieve username from credential
 
       xenon filesystem sftp --location localhost:10022 \
-          --certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
-          download /home/xenon/thefile.txt thefile.bak
+      --certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
+      download /home/xenon/thefile.txt thefile.bak
       sftp adaptor: Failed to retrieve username from credential
