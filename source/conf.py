@@ -95,7 +95,7 @@ html_theme_options = {
     'github_repo': 'NLeSC/Xenon',
     'page_width': '1280px',
     'sidebar_width': '220px',
-    'code_font_size': '0.9em'
+    'code_font_size': '0.8em'
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
