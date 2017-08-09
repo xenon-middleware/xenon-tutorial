@@ -33,7 +33,7 @@
 extensions = ['sphinx.ext.ifconfig', 'sphinx_tabs.tabs', 'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['.templates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -89,11 +89,10 @@ html_theme = 'alabaster'
 # documentation.
 #
 html_theme_options = {
-    'logo': 'xenon-logo.png',
     'github_type': 'star',
     'github_button': True,
     'github_repo': 'NLeSC/Xenon',
-    'page_width': '1280px',
+    'page_width': '1100px',
     'sidebar_width': '220px',
     'code_font_size': '0.8em'
 }
@@ -101,7 +100,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['.static']
+html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -110,7 +109,6 @@ html_static_path = ['.static']
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
     '**': [
-        'about.html'
     ]
 }
 
