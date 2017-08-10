@@ -57,7 +57,7 @@ So we need a ``path`` as final argument. Let's try listing the contents of ``/ho
 
       xenon filesystem file list /home/tutorial/xenon
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java.txt
 
 ``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g. ``--hidden``
 
@@ -67,7 +67,7 @@ So we need a ``path`` as final argument. Let's try listing the contents of ``/ho
 
       xenon filesystem file list --hidden /home/tutorial/xenon
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/DirectoryListingShowHidden.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingShowHidden.java.txt
 
 and ``--recursive``
 
@@ -77,7 +77,7 @@ and ``--recursive``
 
       xenon filesystem file list --recursive /home/tutorial/xenon
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/DirectoryListingRecursive.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingRecursive.java.txt
 
 Now let's try to copy a file, first create it
 
@@ -106,7 +106,7 @@ First try with absolute paths and without any optional arguments
 
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalAbsolutePaths.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalAbsolutePaths.java.txt
 
 .. code-block:: bash
 
@@ -120,7 +120,7 @@ Copying a file on the local file system using relative paths.
 
       xenon filesystem file copy thefile.txt thefile.bak
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalRelativePaths.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalRelativePaths.java.txt
 
 What about recursive copy?
 
@@ -210,7 +210,7 @@ for that location, as follows:
       Available queues: mypartition, otherpartition
       Default queue: mypartition
 
-    .. include:: nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java.txt
+    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java.txt
 
 What else we got
 
@@ -325,7 +325,7 @@ we're copying between file systems, so let's look at what other options are avai
       # so 'list' command, followed by a path
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/DirectoryListingWithPasswordCredential.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingWithPasswordCredential.java.txt
 
 .. tabs::
 
@@ -334,7 +334,7 @@ we're copying between file systems, so let's look at what other options are avai
       # also list hidden files
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list --hidden /home/xenon
 
-   .. include:: nl/esciencecenter/xenon/examples/filesystems/DirectoryListingWithPasswordCredentialShowHidden.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingWithPasswordCredentialShowHidden.java.txt
 
 .. code-block:: bash
 
@@ -493,7 +493,7 @@ Let's check the queues:
        xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
        # only has job 12 and 14
 
-    .. include:: nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java.txt
+    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java.txt
 
 .. code-block:: bash
 
