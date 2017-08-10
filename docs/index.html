@@ -58,7 +58,9 @@
 <div class="highlight-bash"><div class="highlight"><pre>xenon --help
 </pre></div>
 </div>
-<p>So essentially, we can use <code class="docutils literal"><span class="pre">xenon</span></code> to manipulate files or to interact with schedulers. Let’s start simple and see if
+<div class="section" id="interacting-with-filesystems">
+<h2>Interacting with filesystems<a class="headerlink" href="#interacting-with-filesystems" title="Permalink to this headline">¶</a></h2>
+<p>Essentially, we can use <code class="docutils literal"><span class="pre">xenon</span></code> to manipulate files or to interact with schedulers. Let’s start simple and see if
 we can do something with files. First, check its help:</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon filesystem --help
 </pre></div>
@@ -349,17 +351,26 @@ xenon filesystem file mkdir --parents xenoncli-made-this-dir/thesubdir/thesubsub
 <div class="highlight-bash"><div class="highlight"><pre>xenon filesystem file remove --recursive xenoncli-moved-this-dir/
 </pre></div>
 </div>
-<p>Now let’s see if we can use schedulers, starting with SLURM.
-First need to bring up a ‘remote’ SLURM.
-We’ll use a SLURM docker container called <code class="docutils literal"><span class="pre">nlesc/xenon-slurm</span></code> from DockerHub.</p>
+</div>
+<div class="section" id="interacting-with-schedulers">
+<h2>Interacting with schedulers<a class="headerlink" href="#interacting-with-schedulers" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s see if we can use schedulers, starting with SLURM. For this part, we need access to a machine that is running
+SLURM. To avoid problems related to network connectivity, we won’t try to connect to a physically remote SLURM machine,
+but instead, we’ll use a dockerized SLURM installation. This way, we can mimic whatever infrastructure we need. The
+setup will thus be something like this:</p>
+<a class="reference internal image-reference" href="_images/babushka.svg.png"><img alt="babushka" class="align-center" src="_images/babushka.svg.png" style="height: 300px;" /></a>
+<p>A copy of the SLURM Docker image (<code class="docutils literal"><span class="pre">nlesc/xenon-slurm:17</span></code>) has been included in the RSE 2017 virtual machine. Bring it
+up with:</p>
 <div class="highlight-bash"><div class="highlight"><pre>docker run --detach --publish 10022:22 nlesc/xenon-slurm:17
-
-<span class="c1"># use docker ps to check the state of the container</span>
-docker ps
-
-<span class="c1"># once the status is healthy, see if we can ssh into it as</span>
-<span class="c1"># user &#39;xenon&#39; with password &#39;javagat&#39;</span>
-ssh -p <span class="m">10022</span> xenon@localhost
+</pre></div>
+</div>
+<p>Use <code class="docutils literal"><span class="pre">docker</span> <span class="pre">ps</span></code> to check the state of the container</p>
+<div class="highlight-bash"><div class="highlight"><pre>docker ps
+</pre></div>
+</div>
+<p>Once the status is <code class="docutils literal"><span class="pre">healthy</span></code>, see if we can <code class="docutils literal"><span class="pre">ssh</span></code> into it on port <code class="docutils literal"><span class="pre">10022</span></code> as user <code class="docutils literal"><span class="pre">xenon</span></code> with password
+<code class="docutils literal"><span class="pre">javagat</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre>ssh -p <span class="m">10022</span> xenon@localhost
 
 <span class="c1"># if that works, exit again</span>
 <span class="nb">exit</span>
@@ -370,7 +381,7 @@ xenon scheduler slurm --help
 </pre></div>
 </div>
 <p>Let’s first ask what queues the SLURM scheduler has. For this, we need to specify
-a location, otherwise <code class="docutils literal"><span class="pre">xenon</span></code> does not know who to ask. According to the help,
+a location, otherwise <code class="docutils literal"><span class="pre">xenon</span></code> does not know who to ask for the list of queues. According to the help,
 <code class="docutils literal"><span class="pre">LOCATION</span></code> is any location format supported by <code class="docutils literal"><span class="pre">ssh</span></code> or <code class="docutils literal"><span class="pre">local</span></code> scheduler.
 Our dockerized SLURM machine is reachable as <code class="docutils literal"><span class="pre">localhost:10022</span></code>.
 We’ll also need to provide a <code class="docutils literal"><span class="pre">--username</span></code> and <code class="docutils literal"><span class="pre">--password</span></code>
@@ -433,52 +444,11 @@ Default queue: mypartition
 <span class="c1"># works, not very exciting because empty</span>
 </pre></div>
 </div>
-<p>Let’s try to run an executable</p>
-<div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span>   <span class="c1"># doesn&#39;t work</span>
-</pre></div>
-</div>
-<p>Usage string suggests that I need to provide (the path of) an executable residing in the container. For example, <code class="docutils literal"><span class="pre">/bin/hostname</span></code></p>
+<p>Now, let’s try to run an executable. The usage string for <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">exec</span></code> suggests that we need to
+provide (the path of) an <code class="docutils literal"><span class="pre">executable</span></code> residing in the container. For example, the executable <code class="docutils literal"><span class="pre">/bin/hostname</span></code> should
+return the <code class="docutils literal"><span class="pre">CONTAINER</span> <span class="pre">ID</span></code> of the Docker container (since our <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span></code> command did not specify a custom hostname,
+the hostname has been set equal to the container’s id):</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> /bin/hostname
-<span class="c1"># returns the image id of the docker container, all good</span>
-
-<span class="c1"># what about an &#39;ls&#39; (/bin/ls)</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> /bin/ls
-<span class="c1"># returns the listing for the current directory (the last WORKDIR? or the place where SSH ends up? not sure)</span>
-
-<span class="c1"># usage string suggests you can set the working directory:</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-<span class="nb">exec</span> --working-directory /home/xenon /bin/ls     <span class="c1"># all good</span>
-
-<span class="c1"># try other directory</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-<span class="nb">exec</span> --working-directory /home/xenon/filesystem-test-fixture /bin/ls
-
-<span class="c1"># misspelled directory</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-<span class="nb">exec</span> --working-directory /home/xenon/filesystem-test-fxture /bin/ls
-<span class="c1"># says dir doesn&#39;t exist</span>
-
-<span class="c1"># try with arguments to the executable (prepend -l option with &#39; -- &#39;)</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -l
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -la
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> ls -- -lR
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> <span class="se">\</span>
-ls -- -l --human-readable
-
-<span class="c1"># these two work as expected:</span>
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> which sleep
-xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 20
-
-<span class="c1"># let&#39;s try adding some verbosity</span>
-xenon --verbose scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
-xenon -v scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
-<span class="c1"># very verbose</span>
-xenon -vvvv scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="nb">exec</span> sleep 5
-</pre></div>
-</div>
-<p>Check if you can provide passwords from a file</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> javagat &gt; password.txt <span class="p">&amp;</span> xenon scheduler slurm --username xenon --password @password.txt <span class="se">\</span>
---location localhost:10022 <span class="nb">exec</span> /bin/hostname
 </pre></div>
 </div>
 <p>Time to submit stuff, check the <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> help</p>
@@ -501,6 +471,9 @@ ssh -p <span class="m">10022</span> xenon@localhost ls -l
 ssh -p <span class="m">10022</span> xenon@localhost cat out.txt
 </pre></div>
 </div>
+</div>
+<div class="section" id="typical-usage-combining-filesystems-and-schedulers">
+<h2>Typical usage – combining filesystems and schedulers<a class="headerlink" href="#typical-usage-combining-filesystems-and-schedulers" title="Permalink to this headline">¶</a></h2>
 <p>Now how do we get the output file back to our local system? We can’t use <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code> like before, because
 we’re copying between file systems, so let’s look at what other options are available:</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon filesystem --help
@@ -626,72 +599,78 @@ list --long --recursive /home/xenon
 <p>Nice, but we were trying to get a look at <code class="docutils literal"><span class="pre">/home/xenon/out.txt</span></code> to see if the <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> job
 worked. <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">sftp</span> <span class="pre">--help</span></code> also listed a <code class="docutils literal"><span class="pre">download</span></code> command, let’s see how that’s supposed to work.</p>
 <div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --help
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
-
-<span class="c1"># repeat operation to see what happens if local file exists</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
-<span class="c1"># error message and download aborted</span>
-
-<span class="c1"># what happens if remote file does not exist</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/doesnotexist.txt /home/daisycutter/tmp/doesnotexist.txt
-<span class="c1"># xenon says does not exist, nice</span>
-
-<span class="c1"># can we copy remote file to local dir?</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/out.txt /home/daisycutter/tmp
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/out.txt /home/daisycutter/tmp/
-<span class="c1"># no on both accounts</span>
-
-<span class="c1"># what about directories?</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
-<span class="c1"># complains about source being a directory</span>
-
-<span class="c1"># add --recursive option</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
-<span class="c1"># (only copies files and directories, not links)</span>
-
-<span class="c1"># with relative target path</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/out.txt out.txt
 </pre></div>
 </div>
-<p>FIXME This next code block needs checking to see if the error is fixed</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># with relative source path</span>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
+<div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/out.txt /home/daisycutter/tmp/out.txt
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyMode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DownloadFileSftpToLocalAbsolutePaths</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// use the sftp file system adaptor to create a file system representation; the remote</span>
+        <span class="c1">// filesystem requires credentials to log in, so we&#39;ll have to create those too.</span>
+        <span class="n">String</span> <span class="n">adaptorRemote</span> <span class="o">=</span> <span class="s">&quot;sftp&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;localhost:10022&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="n">PasswordCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+        <span class="n">FileSystem</span> <span class="n">filesystemRemote</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptorRemote</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">);</span>
+
+        <span class="c1">// define which file to download</span>
+        <span class="n">Path</span> <span class="n">fileRemote</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/xenon/out.txt&quot;</span><span class="o">);</span>
+
+        <span class="c1">// use the local file system adaptor to create a file system representation</span>
+        <span class="n">String</span> <span class="n">adaptorLocal</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystemLocal</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptorLocal</span><span class="o">);</span>
+
+        <span class="c1">// define what file to download to</span>
+        <span class="n">Path</span> <span class="n">fileLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon/out.txt&quot;</span><span class="o">);</span>
+
+        <span class="c1">// create the destination file only if the destination path doesn&#39;t exist yet</span>
+        <span class="n">CopyMode</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">CopyMode</span><span class="o">.</span><span class="na">CREATE</span><span class="o">;</span>
+
+        <span class="c1">// no need to recurse, we&#39;re just downloading a file</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="c1">// perform the copy/download and wait 1000 ms for the successful or otherwise</span>
+        <span class="c1">// completion of the operation</span>
+        <span class="n">String</span> <span class="n">copyId</span> <span class="o">=</span> <span class="n">filesystemRemote</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">fileRemote</span><span class="o">,</span> <span class="n">filesystemLocal</span><span class="o">,</span> <span class="n">fileLocal</span><span class="o">,</span> <span class="n">mode</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">timeoutMilliSecs</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+        <span class="n">CopyStatus</span> <span class="n">copyStatus</span> <span class="o">=</span> <span class="n">filesystemRemote</span><span class="o">.</span><span class="na">waitUntilDone</span><span class="o">(</span><span class="n">copyId</span><span class="o">,</span> <span class="n">timeoutMilliSecs</span><span class="o">);</span>
+
+        <span class="c1">// print any exceptions</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">().</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Done&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># for directories, need to add --recursive option</span>
 xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download out.txt /home/daisycutter/tmp/out.txt
-<span class="c1"># says</span>
-<span class="c1"># sftp adaptor: No such file out.txt</span>
-
-<span class="c1"># Q: is there a starting directory somehow? It&#39;s / I think</span>
-
-<span class="c1"># let&#39;s try to do recursively copy of whatever directory we land in to local system:</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive . thedir
-sftp adaptor: SFTP error <span class="o">(</span>SSH_FX_PERMISSION_DENIED<span class="o">)</span>: Permission denied
-
-<span class="c1"># not sure what . means in this context, from the error it could be / ...? at least this generates the same error</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download --recursive / thedir
-<span class="c1"># and</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list .
-<span class="c1"># lists the contents of /</span>
-<span class="c1"># Q maybe disallow the use of . as a remote location</span>
-<span class="c1"># Q should we have a default value for path, such that xenon filesystem sftp list &lt;empty location&gt;</span>
-<span class="c1"># returns list of / for example.</span>
-
-<span class="c1"># back to xenon filesystem sftp download, let</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download --recursive /home thedir
-
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download --recursive /home /home/daisycutter/tmp/thedir
-
-<span class="c1"># TODO because we don&#39;t support directories in the location (I think), the source path is effectively always an</span>
-<span class="c1"># absolute path. Maybe say so in the docs?</span>
+download --recursive /home/xenon/filesystem-test-fixture /home/daisycutter/tmp/thedir
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">sftp</span> <span class="pre">download</span></code> can also download to the local system’s standard out, as follows (note the minus at
@@ -705,9 +684,72 @@ the end)</p>
 </pre></div>
 </div>
 <p>Now we can upload it:</p>
+<div class="sphinx-tabs container">
+<div class="ui top attached tabular menu sphinx-menu container">
+<div class="active item sphinx-data-tab-bash container">
+Bash</div>
+<div class="item sphinx-data-tab-java container">
+Java</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-bash active container">
 <div class="highlight-bash"><div class="highlight"><pre>xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload <span class="se">\</span>
-stdin.txt /home/xenon/stdin.txt
+/home/tutorial/xenon/stdin.txt /home/xenon/stdin.txt
 </pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-java container">
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyMode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UploadFileLocalToSftpAbsolutePaths</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// use the local file system adaptor to create a file system representation</span>
+        <span class="n">String</span> <span class="n">adaptorLocal</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystemLocal</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptorLocal</span><span class="o">);</span>
+
+        <span class="c1">// define what file to upload</span>
+        <span class="n">Path</span> <span class="n">fileLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/tutorial/xenon/stdin.txt&quot;</span><span class="o">);</span>
+
+        <span class="c1">// use the sftp file system adaptor to create a file system representation; the remote</span>
+        <span class="c1">// filesystem requires credentials to log in, so we&#39;ll have to create those too.</span>
+        <span class="n">String</span> <span class="n">adaptorRemote</span> <span class="o">=</span> <span class="s">&quot;sftp&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;localhost:10022&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="n">PasswordCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+        <span class="n">FileSystem</span> <span class="n">filesystemRemote</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptorRemote</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">);</span>
+
+        <span class="c1">// define which file to upload to</span>
+        <span class="n">Path</span> <span class="n">fileRemote</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/xenon/stdin.txt&quot;</span><span class="o">);</span>
+
+        <span class="c1">// create the destination file only if the destination path doesn&#39;t exist yet</span>
+        <span class="n">CopyMode</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">CopyMode</span><span class="o">.</span><span class="na">CREATE</span><span class="o">;</span>
+
+        <span class="c1">// no need to recurse, we&#39;re just downloading a file</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="c1">// perform the copy/upload and wait 1000 ms for the successful or otherwise</span>
+        <span class="c1">// completion of the operation</span>
+        <span class="n">String</span> <span class="n">copyId</span> <span class="o">=</span> <span class="n">filesystemLocal</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">fileLocal</span><span class="o">,</span> <span class="n">filesystemRemote</span><span class="o">,</span> <span class="n">fileRemote</span><span class="o">,</span> <span class="n">mode</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">timeoutMilliSecs</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+        <span class="n">CopyStatus</span> <span class="n">copyStatus</span> <span class="o">=</span> <span class="n">filesystemLocal</span><span class="o">.</span><span class="na">waitUntilDone</span><span class="o">(</span><span class="n">copyId</span><span class="o">,</span> <span class="n">timeoutMilliSecs</span><span class="o">);</span>
+
+        <span class="c1">// print any exceptions</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">().</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Done&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now we can submit a <code class="docutils literal"><span class="pre">cat</span></code> job using <code class="docutils literal"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> like before, taking the newly uploaded
 <code class="docutils literal"><span class="pre">stdin.txt</span></code> file as standard in to the <code class="docutils literal"><span class="pre">cat</span></code> program. We’ll redirect <code class="docutils literal"><span class="pre">cat</span></code>’s standard out to a file <code class="docutils literal"><span class="pre">stdout.txt</span></code>
@@ -743,7 +785,7 @@ xenon scheduler slurm --location localhost:10022 --username xenon --password jav
 xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
 </pre></div>
 </div>
-<p>Let check the queues:</p>
+<p>Let’s check the queues:</p>
 <div class="sphinx-tabs container">
 <div class="ui top attached tabular menu sphinx-menu container">
 <div class="active item sphinx-data-tab-bash container">
@@ -836,6 +878,7 @@ xenon filesystem sftp --location localhost:10022 <span class="se">\</span>
 download /home/xenon/thefile.txt thefile.bak
 sftp adaptor: Failed to retrieve username from credential
 </pre></div>
+</div>
 </div>
 </div>
 
