@@ -52,7 +52,12 @@ from ``{copy,list,mkdir,remove,rename}``. Simplest one is probably ``list``, so:
 
       xenon filesystem file list --help
 
-So we need a ``path`` as final argument. Let's try listing the contents of ``/home/tutorial/xenon``.
+So we need a ``path`` as final argument.
+
+In case you hadn't noticed the pattern, stringing together any number of ``xenon`` subcommands and appending ``--help``
+to it will get you help on the particular combination of subcommands you supplied.
+
+Let's try listing the contents of ``/home/tutorial/xenon``.
 
 .. tabs::
 
@@ -87,7 +92,7 @@ Now let's try to copy a file, first create it
 .. code-block:: bash
 
       cd /home/tutorial/xenon
-      touch thefile.txt
+      echo 'some content' > thefile.txt
 
 Check the help
 
