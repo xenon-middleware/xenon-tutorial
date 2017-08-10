@@ -233,6 +233,17 @@ for that location, as follows:
 
     .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java.txt
 
+In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
+``~/.bash_history``, know that you can supply passwords from a file, as follows:
+
+.. code-block:: bash
+
+      xenon scheduler slurm --location localhost:10022 --username xenon --password @password.txt queues
+
+in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
+knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
+``--password PASSWORD`` syntax.
+
 What else we got
 
 .. code-block:: bash
