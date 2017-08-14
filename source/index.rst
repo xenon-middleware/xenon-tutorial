@@ -3,8 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. toctree::
-
 |
 |
 
@@ -17,19 +15,27 @@
 |
 |
 
+.. toctree::
+   :caption: Xenon tutorial RSE 2017 Table of Contents
+   :maxdepth: 1
 
-Xenon tutorial RSE 2017
-=======================
+   index
 
----------------
+|
+|
+|
+
 Getting started
 ---------------
 
 On your system, start VirtualBox.
 
-All tutorials at RSE2017 use the same virtual machine. In case you don't have a copy of the virtual machine, you can
-download it from GoogleDrive `here <https://drive.google.com/file/d/0B1GaxSkd5lU8MTFxN3JLaHlXT2s/view>`_. After the
-download finishes, click ``File`` in VirtualBox, then ``Import appliance``, then select the file you downloaded.
+All tutorials at `RSE2017`__ use the same virtual machine. In case you don't have a copy of the virtual machine, you can
+download it from GoogleDrive `here`__. After the download finishes, click ``File`` in VirtualBox, then
+``Import appliance``, then select the file you downloaded.
+
+__ http://rse.ac.uk/conf2017/
+__ https://drive.google.com/file/d/0B1GaxSkd5lU8MTFxN3JLaHlXT2s/view
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
@@ -46,7 +52,6 @@ program can be found on the system:
    cd xenon
    xenon --help
 
-----------------------------
 Interacting with filesystems
 ----------------------------
 
@@ -86,9 +91,11 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java.txt
 
-In this tutorial, we'll focus mainly on the command line interface, but be aware that other programming interfaces are
-available through `gRPC <https://grpc.io/>`_. Where relevant, we have included equivalent code snippets written in
-Java and Python as separate tabs.
+The result should be more or less the same as that of ``ls -1``.
+
+While the focus of this tutorial is mainly on using Xenon's command line interface, be aware that other programming
+interfaces are available through `gRPC <https://grpc.io/>`_. Where relevant, we have included equivalent code snippets,
+written in Java and Python, as separate tabs.
 
 ``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g.
 ``--hidden``
@@ -130,7 +137,7 @@ So need ``copy`` argument
 
       xenon filesystem file copy --help
 
-First try with absolute paths and without any optional arguments
+First try without any optional arguments
 
 .. tabs::
 
@@ -143,16 +150,6 @@ First try with absolute paths and without any optional arguments
 .. code-block:: bash
 
    rm thefile.txt
-
-Copying a file on the local file system using relative paths.
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      xenon filesystem file copy thefile.txt thefile.bak
-
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalRelativePaths.java.txt
 
 What about recursive copy?
 
@@ -202,7 +199,6 @@ Remove a directory (recursively)
 
       xenon filesystem file remove --recursive xenoncli-moved-this-dir/
 
----------------------------
 Interacting with schedulers
 ---------------------------
 
@@ -317,7 +313,6 @@ Time to submit stuff, check the ``xenon scheduler slurm submit`` help
       # see what's in it
       ssh -p 10022 xenon@localhost cat out.txt
 
------------------------------------------------------
 Typical usage -- combining filesystems and schedulers
 -----------------------------------------------------
 
@@ -500,23 +495,29 @@ Moving files around on the remote
       /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
       # works, except doesn't copy links
 
-      # let's try with credentials FIXME
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat copy --recursive \
-      --target-certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
-      /home/xenon/filesystem-test-fixture localhost:10022 /home/xenon/thedir
-      sftp adaptor: Failed to retrieve username from credential
+What's next?
+------------
 
-      xenon filesystem sftp --location localhost:10022 \
-      --certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
-      download /home/xenon/thefile.txt thefile.bak
-      sftp adaptor: Failed to retrieve username from credential
+Congratulations--you've successfully completed the tutorial! If you want, you can continue reading about relevant
+subjects `here`__, or try some of the suggested exercises `here`__.
 
+__ #further-reading
+__ #suggested-exercises
 
-
----------------
 Further reading
----------------
+^^^^^^^^^^^^^^^
 
 - Xenon's JavaDoc
 - Xenon examples repository
 - pyXenon repository
+
+Suggested exercises
+^^^^^^^^^^^^^^^^^^^
+
+- exercise 1
+- exercise 2
+
+
+
+
+
