@@ -486,3 +486,13 @@ Moving files around on the remote
       --certfile /home/daisycutter/github/nlesc/xenon-docker-images/xenon-slurm-ssh/.ssh/id_rsa \
       download /home/xenon/thefile.txt thefile.bak
       sftp adaptor: Failed to retrieve username from credential
+
+
+
+---------------
+Further reading
+---------------
+
+- Xenon's JavaDoc
+- Xenon examples repository
+- pyXenon repository
