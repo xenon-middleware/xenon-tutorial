@@ -50,8 +50,8 @@ program can be found on the system:
 Interacting with filesystems
 ----------------------------
 
-Essentially, we can use ``xenon`` to manipulate files or to interact with schedulers. Let's start simple and see if
-we can do something with files. First, check its help:
+Essentially, ``xenon`` can be used to manipulate files and to interact with schedulers, where either one can be local
+or remote. Let's start simple and see if we can do something with local files. First, check its help:
 
 .. code-block:: bash
 
@@ -86,7 +86,12 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java.txt
 
-``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g. ``--hidden``
+In this tutorial, we'll focus mainly on the command line interface, but be aware that other programming interfaces are
+available through `gRPC <https://grpc.io/>`_. Where relevant, we have included equivalent code snippets written in
+Java and Python as separate tabs.
+
+``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g.
+``--hidden``
 
 .. tabs::
 
