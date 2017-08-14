@@ -3,6 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. toctree::
+
 |
 |
 
@@ -19,12 +21,29 @@
 Xenon tutorial RSE 2017
 =======================
 
-.. toctree::
+---------------
+Getting started
+---------------
 
-First, let's check if the ``xenon`` command line interface program can be found on the system:
+On your system, start VirtualBox.
+
+All tutorials at RSE2017 use the same virtual machine. In case you don't have a copy of the virtual machine, you can
+download it from GoogleDrive `here <https://drive.google.com/file/d/0B1GaxSkd5lU8MTFxN3JLaHlXT2s/view>`_. After the
+download finishes, click ``File`` in VirtualBox, then ``Import appliance``, then select the file you downloaded.
+
+During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
+
+Start the Fedora virtual machine and log in with password ``tutorial``.
+
+Once the system has booted, Click ``Activities`` and then start both a terminal and Firefox by clicking their respective
+icons. Use Firefox to navigate to the tutorial text at `<http://xenonrse2017.readthedocs.io>`_.
+
+In the terminal, change directory to ``/home/tutorial/xenon`` and confirm that the ``xenon`` command line interface
+program can be found on the system:
 
 .. code-block:: bash
 
+   cd xenon
    xenon --help
 
 ----------------------------
