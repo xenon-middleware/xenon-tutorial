@@ -21,8 +21,4 @@
 
    tutorial
 
-|
-|
-|
-
 .. include:: tutorial.rst
