@@ -16,9 +16,9 @@
 |
 
 .. toctree::
-   :caption: Xenon tutorial RSE 2017 Table of Contents
-   :maxdepth: 1
 
-   tutorial
+.. contents:: Contents
+   :backlinks: none
+   :depth: 1
 
 .. include:: tutorial.rst
