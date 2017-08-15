@@ -369,10 +369,25 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
    .. code-tab:: bash
 
+      # step 3: download generated output file(s)
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
       download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DownloadFileSftpToLocalAbsolutePaths.java
+
+By this time you may start to consider putting those 3 commands in a script, as follows:
+
+.. tabs::
+
+   .. include:: bash/alltogethernowwrong.sh
+
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/AllTogetherNowWrong.java
+
+However, if you create the script above and run it, you'll find that:
+
+1. The script finishes too quickly;
+2. The contents of file ``/home/tutorial/xenon/sleep.stdout.txt`` are likely those of a previous run (or you get an
+   error if you removed ``/home/xenon/sleep.stdout.txt`` prior to running the script).
 
 .. TODO string together the upload, submit, download in a script; find out this does not work; need a slurm wait in between
 
@@ -388,17 +403,6 @@ Jobs can be removed as follows:
       # capture the job identifier when submitting
       JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit bash sleep.sh 100)
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
-
-Moving files around on the remote
-
-.. code-block:: bash
-
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      upload /home/tutorial/xenon/thefile.txt /home/xenon/thefile.txt
-
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      copy --target-username xenon --target-password javagat \
-      /home/xenon/thefile.txt localhost:10022 /home/xenon/thefile.bak
 
 |
 |
