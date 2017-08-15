@@ -388,8 +388,8 @@ By this time you may start to consider putting those 3 commands in a script, as 
 
 However, if you create the script above and run it, you'll find that:
 
-1. Xenon complains about a destination paths already existing.
-2. The script finishes suspiciously too quickly;
+1. Xenon complains about some destination paths already existing.
+2. The script finishes suspiciously quickly;
 
 The first error is easily avoided by adding a ``--replace`` optional argument after ``upload`` and ``download``, but
 that does not address the real issue: that of Xenon not waiting for the completion of our sleep job.
@@ -397,7 +397,7 @@ that does not address the real issue: that of Xenon not waiting for the completi
 Not to worry though, we can use ``xenon scheduler slurm wait`` to wait for jobs to finish. In order to make this work,
 we do need to capture the identifier for a specific job, otherwise we don't know what to wait for.
 
-Adapt the script as follows:
+Adapt the script as follows and run it:
 
 .. tabs::
 
@@ -405,18 +405,9 @@ Adapt the script as follows:
 
    .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
 
-|
-|
-|
-|
+After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
-Jobs can be removed as follows:
-
-.. code-block:: bash
-
-      # capture the job identifier when submitting
-      JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit bash sleep.sh 100)
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
+Congratulations -- you have successfully completed the tutorial!
 
 |
 |
@@ -425,26 +416,32 @@ Jobs can be removed as follows:
 What's next?
 ------------
 
-Congratulations--you've successfully completed the tutorial! If you want, you can continue reading about relevant
-subjects `here`__, or try some of the suggested exercises `here`__.
-
-__ #further-reading
-__ #suggested-exercises
+If you want, you can continue reading about relevant subjects, or try some of the suggested exercises.
 
 Further reading
 ^^^^^^^^^^^^^^^
 
 - Xenon's JavaDoc
-- Xenon examples repository
-- pyXenon repository
+- `pyXenon`__: The Python interface to Xenon
+
+__ https://github.com/nlesc/pyxenon
 
 Suggested exercises
 ^^^^^^^^^^^^^^^^^^^
 
-- exercise 1
-- exercise 2
-- Try to connect to a physically remote system
+- Repeat selected exercises, but test against a physically remote system instead of a Docker container. Requires
+  credentials for the remote system.
+- Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `nlesc/xenon-webdav`__
+  as part of the virtual machine for testing.
+- Update ``xenon-cli`` to the `latest version`__, so you can use the ``s3`` file adaptor to connect to Amazon's
+  `Simple Storage Service`__. Requires downloading of the Docker container `nlesc/xenon-s3`__ (300MB) from DockerHub for
+  testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.
 
+__ https://en.wikipedia.org/wiki/WebDAV
+__ https://hub.docker.com/r/nlesc/xenon-webdav/
+__ https://github.com/NLeSC/xenon-cli
+__ https://aws.amazon.com/s3
+__ https://hub.docker.com/r/nlesc/xenon-s3/
 
 
 
