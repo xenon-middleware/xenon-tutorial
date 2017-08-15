@@ -20,14 +20,14 @@
             FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential);
 
             // define which file to download
-            Path fileRemote = new Path("/home/xenon/out.txt");
+            Path fileRemote = new Path("/home/xenon/sleep.stdout.txt");
 
             // use the local file system adaptor to create a file system representation
             String adaptorLocal = "file";
             FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
             // define what file to download to
-            Path fileLocal = new Path("/home/tutorial/xenon/out.txt");
+            Path fileLocal = new Path("/home/tutorial/xenon/sleep.stdout.txt");
 
             // create the destination file only if the destination path doesn't exist yet
             CopyMode mode = CopyMode.CREATE;

@@ -338,7 +338,7 @@ the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep dur
 
       # step 2: submit job
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
-      submit bash sleep.sh 60
+      submit --stdout sleep.stdout.txt bash sleep.sh 60
 
       # (should return an identifier for the job)
 
@@ -363,8 +363,16 @@ When we submitted, we did not specify any queues, so the default queue ``myparti
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
       # this queue is empty
 
+With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
-.. TODO redirect submit job's stdout to file so we see what happened, then sftp download the sleep.stdout.txt file
+.. tabs::
+
+   .. code-tab:: bash
+
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
+      download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
+
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DownloadFileSftpToLocalAbsolutePaths.java
 
 .. TODO string together the upload, submit, download in a script; find out this does not work; need a slurm wait in between
 
