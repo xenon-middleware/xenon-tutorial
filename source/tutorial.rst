@@ -162,6 +162,9 @@ __ https://slurm.schedmd.com/
    :alt: babushka
    :align: center
 
+|
+|
+
 A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the RSE 2017 virtual machine. Bring it
 up with:
 
@@ -381,15 +384,26 @@ By this time you may start to consider putting those 3 commands in a script, as 
 
    .. include:: bash/alltogethernowwrong.sh
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/AllTogetherNowWrong.java
+   .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNowWrong.java
 
 However, if you create the script above and run it, you'll find that:
 
-1. The script finishes too quickly;
-2. The contents of file ``/home/tutorial/xenon/sleep.stdout.txt`` are likely those of a previous run (or you get an
-   error if you removed ``/home/xenon/sleep.stdout.txt`` prior to running the script).
+1. Xenon complains about a destination paths already existing.
+2. The script finishes suspiciously too quickly;
 
-.. TODO string together the upload, submit, download in a script; find out this does not work; need a slurm wait in between
+The first error is easily avoided by adding a ``--replace`` optional argument after ``upload`` and ``download``, but
+that does not address the real issue: that of Xenon not waiting for the completion of our sleep job.
+
+Not to worry though, we can use ``xenon scheduler slurm wait`` to wait for jobs to finish. In order to make this work,
+we do need to capture the identifier for a specific job, otherwise we don't know what to wait for.
+
+Adapt the script as follows:
+
+.. tabs::
+
+   .. include:: bash/alltogethernow.sh
+
+   .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
 
 |
 |

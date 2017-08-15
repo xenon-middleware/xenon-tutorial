@@ -17,7 +17,7 @@
 
 .. toctree::
 
-.. contents:: Contents
+.. contents:: Xenon tutorial RSE 2017 -- Table of Contents
    :backlinks: none
    :depth: 1
 
