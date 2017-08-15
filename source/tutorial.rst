@@ -81,7 +81,7 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
 
       xenon filesystem file list /home/tutorial/xenon
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java
 
 The result should be more or less the same as that of ``ls -1``.
 
@@ -94,7 +94,7 @@ The result should be more or less the same as that of ``ls -1``.
 
       xenon filesystem file list --hidden /home/tutorial/xenon
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingShowHidden.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingShowHidden.java
 
 and ``--recursive``
 
@@ -104,7 +104,7 @@ and ``--recursive``
 
       xenon filesystem file list --recursive /home/tutorial/xenon
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingRecursive.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingRecursive.java
 
 Now let's create a file and try to use ``xenon`` to copy it:
 
@@ -128,13 +128,16 @@ So, the ``copy`` subcommand takes a source path and a target path:
 
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalAbsolutePaths.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalAbsolutePaths.java
 
-Note that the source path may be read from standard input, and that the target path may be written to standard output:
+Note that the source path may be standard input, and that the target path may be standard output:
 
 .. code-block:: bash
 
+      # read from stdin:
       cat thefile.txt | xenon filesystem file copy - mystdin.txt
+
+      # write to stdout:
       xenon filesystem file copy thefile.txt - 1> mystdout.txt
 
 ``xenon filesystem file`` has a few more subcommands, namely ``mkdir``, ``rename`` and ``remove``. You can
@@ -147,18 +150,22 @@ experiment a bit more with those or move on to the next section.
 Interacting with schedulers
 ---------------------------
 
-Now let's see if we can use schedulers, starting with SLURM. For this part, we need access to a machine that is running
+Now let's see if we can use schedulers, starting with `SLURM`__. For this part, we need access to a machine that is running
 SLURM. To avoid problems related to network connectivity, we won't try to connect to a physically remote SLURM machine,
 but instead, we'll use a dockerized SLURM installation. This way, we can mimic whatever infrastructure we need. The
 setup will thus be something like this:
+
+__ https://slurm.schedmd.com/
 
 .. image:: _static/babushka.svg.png
    :height: 300px
    :alt: babushka
    :align: center
 
-A copy of the SLURM Docker image (``nlesc/xenon-slurm:17``) has been included in the RSE 2017 virtual machine. Bring it
+A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the RSE 2017 virtual machine. Bring it
 up with:
+
+__ https://hub.docker.com/r/nlesc/xenon-slurm/
 
 .. code-block:: bash
 
@@ -202,7 +209,7 @@ for that location, as follows:
       Available queues: mypartition, otherpartition
       Default queue: mypartition
 
-    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java.txt
+    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
 ``~/.bash_history``, know that you can supply passwords from a file, as follows:
@@ -225,9 +232,8 @@ to have ``xenon`` ask SLURM for its list of jobs in each queue, as follows:
 
 Now, let's try to submit a job using ``slurm submit``. Its usage string suggests that we need to provide (the path
 of) an ``executable``. Note that the executable should be present inside the container when SLURM starts its execution.
-For the moment, we'll use some executables that come standard with most Linux'es, such as ``/bin/hostname``. It should
-return the hostname ``slurm17`` of the Docker container, or whatever hostname you specified for it when you ran the
-``docker run`` command earlier:
+For the moment, we'll use ``/bin/hostname`` as the executable. It should return the hostname ``slurm17`` of the Docker
+container, or whatever hostname you specified for it when you ran the ``docker run`` command earlier:
 
 .. code-block:: bash
 
@@ -273,125 +279,106 @@ Below are a few more examples of ``slurm submit``:
 |
 |
 
-Typical usage -- combining filesystems and schedulers
------------------------------------------------------
+Combining filesystems and schedulers
+------------------------------------
 
-Now how do we get the output files we generated back to our local system? We can't use ``xenon filesystem file`` like
-before, because we're copying between file systems, so let's look at what other options are available:
+So far, we've used ``xenon`` to manipulate files on the local filesystem, and to run system executables on the remote
+machine. In typical usage, however, you would use ``xenon`` to run executables or scripts of your own, which means that
+we need to upload such files from the local system to the remote system.
+
+A typical workflow may thus look like this:
+
+   1. upload input file(s)
+   2. submit job
+   3. download generated output file(s)
+
+Use an editor to create a file ``sleep.sh`` with the following contents (the RSE 2017 virtual machine comes with
+``nano`` and with ``gedit``, or you can install an other editor from the repositories if you like):
+
+.. include:: bash/sleep.sh
+
+You can test if your file is correct by:
+
+.. code-block:: bash
+
+      # last argument is the sleep duration in seconds
+      bash sleep.sh 5
+
+We need to upload ``sleep.sh`` to the remote machine. We can't use ``xenon filesystem file`` like we did before,
+because we're copying between file systems, so let's look at what other options are available:
 
 .. code-block:: bash
 
       xenon filesystem --help
 
-      # let's try sftp
+      # let's try sftp protocol
       xenon filesystem sftp --help
 
-      # so basic syntax is
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <something>
+      # we're interested in 'upload' for now
+      xenon filesystem sftp upload --help
 
-      # we could list the contents of the remote system, check how
-      xenon filesystem sftp list --help
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      # so 'list' command, followed by a path
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat list /home/xenon
-
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingWithPasswordCredential.java.txt
-
-``xenon filesystem sftp --help`` also included a ``download`` command, let's see how that's supposed to work.
-
-.. code-block:: bash
-
-      xenon filesystem sftp download --help
+We'll also need to tell ``xenon`` what location we want to connect to, and what credentials to use. The SLURM Docker
+container we used before is accessible via SFTP using the same location, username and password as before, so let's use
+that:
 
 .. tabs::
 
    .. code-tab:: bash
 
+      # step 1: upload input file(s)
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      download /home/xenon/hostname.stdout.txt /home/tutorial/xenon/hostname.stdout.txt
+      upload /home/tutorial/xenon/sleep.sh /home/xenon/sleep.sh
 
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DownloadFileSftpToLocalAbsolutePaths.java.txt
+   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/UploadFileLocalToSftpAbsolutePaths.java
 
-.. code-block:: bash
-
-      # for directories, need to add --recursive option
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      download --recursive /home/xenon/filesystem-test-fixture /home/tutorial/xenon/fixtures
-
-Just like download, we can also upload a file. Let's first make it by ``echo``'ing some content into it:
+Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
+the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep duration of 60 seconds:
 
 .. code-block:: bash
 
-      echo 'this is coming from stdin through a file' > cat.stdin.txt
-
-Now we can upload it:
-
-.. tabs::
-
-   .. code-tab:: bash
-
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat upload \
-      /home/tutorial/xenon/cat.stdin.txt /home/xenon/cat.stdin.txt
-
-   .. include:: java/nl/esciencecenter/xenon/examples/filesystems/UploadFileLocalToSftpAbsolutePaths.java.txt
-
-Now we can submit a ``cat`` job using ``xenon scheduler slurm submit`` like before, taking the newly uploaded
-``cat.stdin.txt`` file as standard input to the ``cat`` program. We'll redirect ``cat``'s standard output to a file
-``cat.stdout.txt`` like before.
-
-.. code-block:: bash
-
+      # step 2: submit job
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
-      submit --stdin /home/xenon/cat.stdin.txt --stdout /home/xenon/cat.stdout.txt cat
+      submit bash sleep.sh 60
 
-      # download the stdout file xenon generated to see its contents (should be same as 'cat.stdin.txt')
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      download /home/xenon/cat.stdout.txt /home/tutorial/xenon/cat.stdout.txt
+      # (should return an identifier for the job)
 
-Checking on jobs
-
-.. code-block:: bash
-
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
-      # on return says job identifier is e.g. 10
-      # while the sleep job is running, do
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
-      # this queue has job 10 in it
-
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
-      # this queue has job 10 in it
-
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
-      # this queue is empty
-
-      # submit 3 sleep jobs one after the other
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100
-      # check the response, job ids are 12-14
-
-      # remove job id 13
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove 13
-
-Let's check the queues:
+With the job running, let's see if it shows up in any of the SLURM queues:
 
 .. tabs::
 
     .. code-tab:: bash
 
-       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
-       # only has job 12 and 14
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+      # should have the job identifier in it that was printed on the command line
 
-    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java.txt
+    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java
+
+When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
 .. code-block:: bash
 
-      # capturing job ids in scripts
-      JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit sleep 100)
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
+      # should have the job identifier in it that was printed on the command line
+
+      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
+      # this queue is empty
+
+
+.. TODO redirect submit job's stdout to file so we see what happened, then sftp download the sleep.stdout.txt file
+
+.. TODO string together the upload, submit, download in a script; find out this does not work; need a slurm wait in between
+
+|
+|
+|
+|
+
+Jobs can be removed as follows:
+
+.. code-block:: bash
+
+      # capture the job identifier when submitting
+      JOBID=$(xenon scheduler slurm --location localhost:10022 --username xenon --password javagat submit bash sleep.sh 100)
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat remove $JOBID
 
 Moving files around on the remote
@@ -430,7 +417,7 @@ Suggested exercises
 
 - exercise 1
 - exercise 2
-
+- Try to connect to a physically remote system
 
 
 

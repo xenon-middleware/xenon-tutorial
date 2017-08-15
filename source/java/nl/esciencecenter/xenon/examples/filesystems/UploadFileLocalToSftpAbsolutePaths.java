@@ -15,7 +15,7 @@
             FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
             // define what file to upload
-            Path fileLocal = new Path("/home/tutorial/xenon/stdin.txt");
+            Path fileLocal = new Path("/home/tutorial/xenon/sleep.sh");
 
             // use the sftp file system adaptor to create a file system representation; the remote
             // filesystem requires credentials to log in, so we'll have to create those too.
@@ -27,7 +27,7 @@
             FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential);
 
             // define which file to upload to
-            Path fileRemote = new Path("/home/xenon/stdin.txt");
+            Path fileRemote = new Path("/home/xenon/sleep.sh");
 
             // create the destination file only if the destination path doesn't exist yet
             CopyMode mode = CopyMode.CREATE;
