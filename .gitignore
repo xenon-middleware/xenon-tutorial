@@ -15,3 +15,8 @@ gradle-app.setting
 
 xenon-cli
 
+# IntelliJ IDEA IDE settings
+.idea
+
+# python virtual environment
+.venv*
