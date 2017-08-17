@@ -60,7 +60,7 @@ docker ps
 The WebDAV server can be tested with:
 
 ```bash
-xenon filesystem webdav --location http://localhost:2280 --username xenon --password javagat list ~xenon
+xenon filesystem webdav --location http://localhost:2280 --username xenon --password javagat list /~xenon
 # should return:
 # .ssh
 # filesystem-test-fixture
