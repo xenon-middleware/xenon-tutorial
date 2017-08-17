@@ -2,11 +2,9 @@
 
     import nl.esciencecenter.xenon.credentials.PasswordCredential;
     import nl.esciencecenter.xenon.filesystems.CopyMode;
-    import nl.esciencecenter.xenon.filesystems.CopyStatus;
     import nl.esciencecenter.xenon.filesystems.FileSystem;
     import nl.esciencecenter.xenon.filesystems.Path;
     import nl.esciencecenter.xenon.schedulers.JobDescription;
-    import nl.esciencecenter.xenon.schedulers.JobStatus;
     import nl.esciencecenter.xenon.schedulers.Scheduler;
 
     public class AllTogetherNowWrong {
@@ -32,12 +30,9 @@
             FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
                     filesystemRemoteLocation, credential);
 
-            // when waiting for jobs or copy operations to complete, wait indefinitely
-            final long WAIT_INDEFINITELY = 0;
-
             {
                 // specify the behavior in case the target path exists already
-                CopyMode copyMode = CopyMode.REPLACE;
+                CopyMode copyMode = CopyMode.CREATE;
 
                 // no recursion, we're just copying a file
                 boolean recursive = false;
@@ -77,7 +72,7 @@
 
             {
                 // specify the behavior in case the target path exists already
-                CopyMode copyMode = CopyMode.REPLACE;
+                CopyMode copyMode = CopyMode.CREATE;
 
                 // no recursion, we're just copying a file
                 boolean recursive = false;
