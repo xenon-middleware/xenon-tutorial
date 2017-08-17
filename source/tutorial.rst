@@ -296,7 +296,7 @@ A typical workflow may thus look like this:
    3. download generated output file(s)
 
 Use an editor to create a file ``sleep.sh`` with the following contents (the RSE 2017 virtual machine comes with
-``nano`` and with ``gedit``, or you can install an other editor from the repositories if you like):
+``gedit``, or you can install an other editor from the repositories if you like):
 
 .. include:: bash/sleep.sh
 
