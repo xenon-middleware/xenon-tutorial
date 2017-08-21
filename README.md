@@ -1,15 +1,12 @@
-# xenon-rse2017-tutorial
+These are the install instructions for configuring the Virtual Machine as used for the [Xenon](http://nlesc.github.io/Xenon/) tutorial at
+[Research Software Engineers Conference 2017](http://rse.ac.uk/conf2017/). For the tutorial document, go to http://xenonrse2017.readthedocs.io.
 
-Material for [Xenon](http://nlesc.github.io/Xenon/) tutorial for [Research Software Engineers Conference 2017](http://rse.ac.uk/conf2017/).
+# Installation
 
-## Installation
-
-Requires a virtual machine with minimally 2 cpus.
-
-Step to install tutorial material into the tutorial virtual machine.
+Use the RSE2017 base virtual machine from [GoogleDrive](https://drive.google.com/file/d/0B1GaxSkd5lU8MTFxN3JLaHlXT2s/view) as a base.
+Configure it with at least 2 CPUs during import of the ``*.ova`` file. Log in to the virtual machine (password is ``tutorial``) and proceed as follows:
 
 ```bash
-# Login as tutorial user
 cd xenon
 git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 ./install.sh
@@ -17,61 +14,77 @@ git clone https://github.com/NLeSC/xenon-rse2017-tutorial.git .
 ```
 
 After which 
-* the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH env var
-* Docker has been installed with SSH, SFTP, Webdav and Slurm enabled images.
 
-### Test
+* the [Xenon cli](https://github.com/NLeSC/xenon-cli) has been installed as `~/xenon/xenon-cli/bin/xenon` and added to the PATH environment variable
+* Docker has been installed with SSH, SFTP, WebDAV and SLURM enabled images.
 
-If the install was run in same shell run following to update the users groups and refresh the PATH env var:
-```
+# Test
+
+If the install was run in the same shell, run the following command to update the user's group and refresh the PATH environment variable:
+
+```bash
 newgrp docker
 ```
 
-To test if Xenon CLI works we first need to start the provided docker containers. 
+To test if Xenon CLI works, we first need to start the provided Docker containers. 
 
-The SFTP docker can then be started with:
+## SFTP
 
-```
+The SFTP Docker container can be started with:
+
+```bash
 docker run --detach --publish 3322:22 nlesc/xenon-ssh
-# wait until the container is up and healty by running
+# wait until the container is up and healthy by running
 docker ps
 ```
 
-To test if the Xenon-CLI work and can access the container container use: 
+To test if Xenon-CLI works and can access the container use: 
 
-```
-xenon filesystem sftp --username xenon --password javagat --location localhost:3322 list /home/xenon
+```bash
+xenon filesystem sftp --location localhost:3322 --username xenon --password javagat list /home/xenon
+# should return:
+# filesystem-test-fixture
 ```
 
-The Webdav docker image can be started with:
 
-```
+## WebDAV
+
+The WebDAV Docker container can be started with:
+
+```bash
 docker run --detach --publish 2280:80 nlesc/xenon-webdav
-# wait until the container is up and healty by running
+# wait until the container is up and healthy by running
 docker ps
 ```
 
-The Webdav server can be tested with:
+The WebDAV server can be tested with:
 
-```
-xenon filesystem webdav --username xenon --password javagat --location http://localhost:2280 list ~xenon
+```bash
+xenon filesystem webdav --location http://localhost:2280 --username xenon --password javagat list /~xenon
+# should return:
+# .ssh
+# filesystem-test-fixture
+# uploads
 ```
 
-The Slurm batch scheduler can be started with:
+## SLURM
 
-```
+The SLURM Docker container can be started with:
+
+```bash
 docker run --detach --publish 2222:22 nlesc/xenon-slurm:17
-# wait until the container is up and healty by running
+# wait until the container is up and healthy by running
 docker ps
 ```
 
-To test if the Xenon CLI can access Slurm run:
+To test if the Xenon CLI can access SLURM, run:
 
+```bash
+xenon scheduler slurm --location localhost:2222 --username xenon --password javagat exec sinfo
+# should return:
+# PARTITION      AVAIL  TIMELIMIT  NODES  STATE NODELIST
+# mypartition*      up   infinite      1  alloc node-0
+# mypartition*      up   infinite      4   idle node-[1-4]
+# otherpartition    up   infinite      1  alloc node-0
+# otherpartition    up   infinite      2   idle node-[1-2]
 ```
-xenon scheduler slurm --username xenon --password javagat --location localhost:2222 exec sinfo
-```
-
-
-
-
-
