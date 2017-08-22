@@ -1,10 +1,11 @@
-.. code-tab:: java
+.. code-tab:: python
 
-    from xenon import Server
+    from xenon import Server, Path
 
     with Server() as xenon:
         filesystem = xenon.create_file_system(adaptor='file')
-        path = filesystem.path("/home/tutorial/xenon")
+        path = Path("/home/tutorial/xenon")
 
-        for entry in path.list(recursive=False):
-            print(entry)
+        for entry in filesystem.list(path, recursive=False):
+            if not entry.is_hidden():
+                print(entry)
