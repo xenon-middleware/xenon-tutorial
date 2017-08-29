@@ -83,6 +83,8 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListing.java
 
+   .. include:: python/examples/filesystems/directory_listing.py
+
 The result should be more or less the same as that of ``ls -1``.
 
 ``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g.
@@ -96,6 +98,8 @@ The result should be more or less the same as that of ``ls -1``.
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingShowHidden.java
 
+   .. include:: python/examples/filesystems/directory_listing_show_hidden.py
+
 and ``--recursive``
 
 .. tabs::
@@ -105,6 +109,8 @@ and ``--recursive``
       xenon filesystem file list --recursive /home/tutorial/xenon
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DirectoryListingRecursive.java
+
+   .. include:: python/examples/filesystems/directory_listing_recursive.py
 
 Now let's create a file and try to use ``xenon`` to copy it:
 
@@ -129,6 +135,8 @@ So, the ``copy`` subcommand takes a source path and a target path:
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/CopyFileLocalToLocalAbsolutePaths.java
+
+   .. include:: python/examples/filesystems/copy_file_local_to_local_absolute_paths.py
 
 Note that the source path may be standard input, and that the target path may be standard output:
 
@@ -213,6 +221,8 @@ for that location, as follows:
       Default queue: mypartition
 
     .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java
+
+    .. include:: python/examples/schedulers/slurm_queues_getter.py
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
 ``~/.bash_history``, know that you can supply passwords from a file, as follows:
@@ -334,6 +344,8 @@ that:
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/UploadFileLocalToSftpAbsolutePaths.java
 
+   .. include:: python/examples/filesystems/upload_file_local_to_sftp_absolute_paths.py
+
 Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
 the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep duration of 60 seconds:
 
@@ -356,6 +368,8 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
     .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java
 
+    .. include:: python/examples/schedulers/slurm_job_list_getter.py
+
 When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
 .. code-block:: bash
@@ -377,6 +391,8 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
       download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
 
    .. include:: java/nl/esciencecenter/xenon/examples/filesystems/DownloadFileSftpToLocalAbsolutePaths.java
+
+   .. include:: python/examples/filesystems/download_file_sftp_to_local_absolute_paths.py
 
 By this time you may start to consider putting those 3 commands in a script, as follows:
 
@@ -404,6 +420,8 @@ Adapt the script as follows and run it:
    .. include:: bash/alltogethernow.sh
 
    .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
+
+   .. include:: python/examples/all_together_now.py
 
 After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
