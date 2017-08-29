@@ -1,4 +1,4 @@
-.. code-tab:: java
+.. code-tab:: python
 
     from xenon import Server, Path
 
