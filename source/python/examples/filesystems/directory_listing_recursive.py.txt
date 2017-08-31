@@ -1,0 +1,18 @@
+.. code-tab:: python
+
+    import xenon
+    from xenon import Path, FileSystem
+    
+    xenon.init()
+    
+    filesystem = FileSystem.create(adaptor='file')
+    path = Path("/home/tutorial/xenon")
+    
+    listing = filesystem.list(path, recursive=True)
+    
+    for entry in listing:
+        if not entry.path.is_hidden():
+            print(entry.path)
+    
+    filesystem.close()
+

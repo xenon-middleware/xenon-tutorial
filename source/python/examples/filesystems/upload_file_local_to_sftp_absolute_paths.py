@@ -1,50 +1,45 @@
-.. code-tab:: python
+import xenon
+from xenon import FileSystem, PasswordCredential, CopyRequest, Path, CopyStatus
 
-    from xenon import Server, PasswordCredential, CopyMode, Path
+xenon.init()
 
-    with Server() as xenon:
-        # use the sftp file system adaptor to create a file system
-        # representation; the remote filesystem requires credentials to log in,
-        # so we'll have to create those too.
-        credential = PasswordCredential(
-                username='xenon',
-                password='javagat')
+# use the local file system adaptor to create another file system representation
+local_fs = FileSystem.create(adaptor='file')
 
-        remote_fs = xenon.create_file_system(
-                adaptor='sftp',
-                location='localhost:10022',
-                credential=credential)
+# use the sftp file system adaptor to create a file system
+# representation; the remote filesystem requires credentials to log in,
+# so we'll have to create those too.
+credential = PasswordCredential(username='xenon',
+                                password='javagat')
 
-        # use the local file system adaptor to create a file system
-        # representation
-        local_fs = xenon.create_file_system(
-                adaptor='file')
+remote_fs = FileSystem.create(adaptor='sftp',
+                              location='localhost:10022',
+                              password_credential=credential)
 
-        # define which file to upload
-        local_file = Path('/home/tutorial/xenon/sleep.sh')
-        remote_path = Path('/home/xenon/')
-        remote_file = remote_path.joinpath(local_file.name)
+# define which file to upload
+local_file = Path('/home/daisycutter/tmp/home/tutorial/xenon/sleep.sh')
+remote_file = Path('/home/xenon/sleep.sh')
 
-        # create the destination file only if the destination path doesn't
-        # exist yet
-        mode = CopyMode.CREATE
+# create the destination file only if the destination path doesn't exist yet
+mode = CopyRequest.CREATE
 
-        # no need to recurse, we're just downloading a file
-        recursive = False
+# no need to recurse, we're just uploading a file
+recursive = False
 
-        # perform the copy/upload and wait 1000 ms for the successful or
-        # otherwise completion of the operation
-        copy_id = local_fs.copy(
-                local_file, remote_fs, remote_file,
-                mode=mode, recursive=recursive)
-        copy_status = local_fs.wait_until_done(copy_id, timeout=1000)
+# perform the copy/upload and wait 1000 ms for the successful or
+# otherwise completion of the operation
+copy_id = local_fs.copy(local_file, remote_fs, remote_file,
+                        mode=mode, recursive=recursive)
 
-        if copy_status.error:
-            print(copy_status.error)
-        else:
-            print('Done')
+copy_status = local_fs.wait_until_done(copy_id, timeout=1000)
 
-        # remember to close the FileSystem instances, or use them as
-        # context managers
-        remote_fs.close()
-        local_fs.close()
+assert copy_status.done
+
+# rethrow the Exception if we got one
+assert copy_status.error_type == CopyStatus.NONE, copy_status.error_message
+
+# remember to close the FileSystem instances
+remote_fs.close()
+local_fs.close()
+
+print('Done')

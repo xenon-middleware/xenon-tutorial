@@ -1,90 +1,113 @@
-.. code-tab:: python
+import xenon
+from xenon import FileSystem, PasswordCredential, CopyRequest, Path, CopyStatus, Scheduler, JobDescription, JobStatus
 
-    from xenon import (
-        Server, PasswordCredential, CopyMode, Path, JobDescription)
 
-    with Server() as xenon:
-        #
-        # step 1: upload input  files
-        #
+def upload():
 
-        # create the local filesystem representation
-        local_fs = xenon.create_file_system(adaptor='file')
+    # define which file to upload
+    local_file = Path('/home/daisycutter/tmp/home/tutorial/xenon/sleep.sh')
+    remote_file = Path('/home/xenon/sleep.sh')
 
-        # the remote system requires credentials, create them here:
-        credential = PasswordCredential(
-                username='xenon',
-                password='javagat')
+    # create the destination file only if the destination path doesn't exist yet
+    mode = CopyRequest.CREATE
 
-        # create the remote filesystem representation and specify the
-        # executable's path
-        remote_fs = xenon.create_file_system(
-                adaptor='sftp',
-                location='localhost:10022',
-                passwordCred=credential)
+    # no need to recurse, we're just uploading a file
+    recursive = False
 
-        # when waiting for jobs or copy operations to complete, wait
-        # indefinitely
-        WAIT_INDEFINITELY = 0
+    # perform the copy/upload and wait 1000 ms for the successful or
+    # otherwise completion of the operation
+    copy_id = local_fs.copy(local_file, remote_fs, remote_file,
+                            mode=mode, recursive=recursive)
 
-        # specify the path of the script file on the local and on the remote
-        local_file = Path('/home/tutorial/xenon/sleep.sh')
-        remote_file = Path('/home/xenon/sleep.sh')
+    copy_status = local_fs.wait_until_done(copy_id, timeout=5000)
 
-        # start the copy operation; no recursion, we're just copying a file
-        copy_id = local_fs.copy(local_file, remote_fs, remote_file,
-                                mode=CopyMode.REPLACE, recursive=False)
+    assert copy_status.done
 
-        # wait for the copy operation to complete (successfully or otherwise)
-        copy_status = local_fs.wait_until_done(copy_id, WAIT_INDEFINITELY)
-        if copy_status.error:
-            raise RuntimeError(copy_status.error)
+    # rethrow the Exception if we got one
+    assert copy_status.error_type == CopyStatus.NONE, copy_status.error_message
 
-        #
-        # step 2: submit job and capture its job identifier
-        #
-        scheduler = xenon.create_scheduler(
-                adaptor='slurm',
-                location='localhost:10022',
-                passwordCred=credential)
+    print('Done uploading.')
 
-        # compose the job description:
-        job_description = JobDescription(
-                executable='bash',
-                arguments=['sleep.sh', '60'],
-                stdout='sleep.stdout.txt')
 
-        job_id = scheduler.submit_batch_job(job_description)
+def submit():
 
-        # wait for the job to finish before attempting to copy its output
-        # file(s)
-        job_status = scheduler.wait_until_done(jobId, WAIT_INDEFINITELY)
+    description = JobDescription(executable='bash',
+                                 arguments=['sleep.sh', '60'],
+                                 stdout='sleep.stdout.txt')
 
-        # rethrow the Exception if we got one
-        if job_status.errorMessage:
-            raise RuntimeError(job_status.errorMessage)
+    scheduler = Scheduler.create(adaptor='slurm',
+                                 location='localhost:10022',
+                                 password_credential=credential)
 
-        #
-        # step 3: download generated output file(s)
-        #
+    job_id = scheduler.submit_batch_job(description)
 
-        # specify the path of the stdout file on the remote and on the local
-        # machine
-        remote_file = Path('/home/xenon/sleep.stdout.txt')
-        local_file = Path('/home/tutorial/xenon/sleep.stdout.txt')
+    print('Done submitting.')
 
-        # start the copy operation; no recursion, we're just copying a file
-        copy_id = remote_fs.copy(remote_file, local_fs, local_file,
-                                 mode=CopyMode.REPLACE, recursive=False)
+    # wait for the job to finish before attempting to copy its output file(s)
+    job_status = scheduler.wait_until_done(job_id, 10*60*1000)
 
-        # wait for the copy operation to complete (successfully or otherwise)
-        copy_status = remote_fs.wait_until_done(copy_id, WAIT_INDEFINITELY)
+    assert job_status.done
 
-        # rethrow the Exception if we got one
-        if copy_status.error:
-            raise RuntimeError(copy_status.error)
+    # rethrow the Exception if we got one
+    assert job_status.error_type == JobStatus.NONE, job_status.error_message
 
-        local_fs.close()
-        remote_fs.close()
-        scheduler.close()
-        print('Done')
+    print('Done executing on the remote.')
+
+    # make sure to synchronize the remote filesystem
+    job_id = scheduler.submit_batch_job(JobDescription(executable='sync'))
+    scheduler.wait_until_done(job_id)
+
+    scheduler.close()
+
+
+def download():
+
+    # define which file to download
+    remote_file = Path('/home/xenon/sleep.stdout.txt')
+    local_file = Path('/home/daisycutter/tmp/home/tutorial/xenon/sleep.stdout.txt')
+
+    # create the destination file only if the destination path doesn't exist yet
+    mode = CopyRequest.CREATE
+
+    # no need to recurse, we're just uploading a file
+    recursive = False
+
+    # perform the copy/download and wait 1000 ms for the successful or
+    # otherwise completion of the operation
+    copy_id = remote_fs.copy(remote_file, local_fs, local_file,
+                             mode=mode, recursive=recursive)
+
+    copy_status = remote_fs.wait_until_done(copy_id, timeout=5000)
+
+    assert copy_status.done
+
+    # rethrow the Exception if we got one
+    assert copy_status.error_type == CopyStatus.NONE, copy_status.error_message
+
+    print('Done downloading.')
+
+
+xenon.init()
+
+# use the local file system adaptor to create a file system representation
+local_fs = FileSystem.create(adaptor='file')
+
+# use the sftp file system adaptor to create another file system representation;
+# the remote filesystem requires credentials to log in, so we'll have to
+# create those too.
+credential = PasswordCredential(username='xenon',
+                                password='javagat')
+
+remote_fs = FileSystem.create(adaptor='sftp',
+                              location='localhost:10022',
+                              password_credential=credential)
+
+upload()
+submit()
+download()
+
+# remember to close the FileSystem instances
+remote_fs.close()
+local_fs.close()
+
+print('Done')
