@@ -1,22 +1,17 @@
-.. code-tab:: python
+import xenon
+from xenon import Path, FileSystem, PasswordCredential
 
-    from xenon import Server, Path, PasswordCredential
+xenon.init()
 
-    with Server() as xenon:
-        credential = PasswordCredential(
-                username='xenon',
-                password='javagat')
+credential = PasswordCredential(username='xenon', password='javagat')
 
-        filesystem = xenon.create_file_system(
-                adaptor='sftp',
-                location='localhost:10022',
-                credential=credential)
+remote_fs = FileSystem.create(adaptor='sftp', location='localhost:10022', password_credential=credential)
+path = Path("/home/xenon")
 
-        path = Path('/home/xenon')
-        listing = filesystem.list(path, recursive=False)
+listing = remote_fs.list(path, recursive=False)
 
-        for entry in listing:
-            if not entry.is_hidden():
-                print(entry)
+for entry in listing:
+    if not entry.path.is_hidden():
+        print(entry.path)
 
-        filesystem.close()
+remote_fs.close()

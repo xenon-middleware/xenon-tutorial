@@ -20,3 +20,6 @@ xenon-cli
 
 # python virtual environment
 .venv*
+
+# ignore the libs directory containing the pyxenon dependency if it was built from source
+/source/python/libs/

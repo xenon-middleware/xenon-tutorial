@@ -1,26 +1,23 @@
-.. code-tab:: python
+import xenon
+from xenon import Path, FileSystem, CopyRequest, CopyStatus
 
-    from xenon import (Server, FileSystem, Path, CopyMode)
+xenon.init()
 
-    with Server() as xenon:
-        # use the local file system adaptor to create a file system
-        # representation
-        filesystem = xenon.create_file_system(adaptor='file')
+filesystem = FileSystem.create(adaptor='file')
+source_file = Path("/home/daisycutter/tmp/home/tutorial/xenon/thefile.txt")
+dest_file = Path("/home/daisycutter/tmp/home/tutorial/xenon/thefile.bak")
 
-        # create Paths for the source and destination files, using absolute
-        # paths
-        source_file = filesystem.path('/home/tutorial/xenon/thefile.txt')
-        dest_file = filesystem.path('/home/tutorial/xenon/thefile.bak')
+# start the copy operation; no recursion, we're just copying a file
+copy_id = filesystem.copy(source_file, filesystem, dest_file, mode=CopyRequest.CREATE, recursive=False)
 
-        # create the destination file only if the destination path doesn't
-        # exist yet; perform the copy and wait 1000 ms for the successful or
-        # otherwise completion of the operation
-        copy_id = source_file.copy(
-                dest_file, mode=CopyMode.CREATE, recursive=False)
-        timeout_milli_secs = 1000
-        copy_status = copy_id.wait_until_done(timeout_milli_secs)
+# wait this many milliseconds for copy operations to complete
+WAIT_DURATION = 1000 * 60 * 10
 
-        if copy_status.error:
-            print(copy_status.error)
+# wait for the copy operation to complete (successfully or otherwise)
+copy_status = filesystem.wait_until_done(copy_id, WAIT_DURATION)
+assert copy_status.done
 
-        filesystem.close()
+# rethrow the Exception if we got one
+assert copy_status.error_type == CopyStatus.NONE, copy_status.error_message
+
+filesystem.close()
