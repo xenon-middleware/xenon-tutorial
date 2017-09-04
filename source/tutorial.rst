@@ -439,7 +439,7 @@ If you want, you can continue reading about relevant subjects, or try some of th
 Further reading
 ^^^^^^^^^^^^^^^
 
-- Xenon's JavaDoc (`jitpack.io`__)
+- Xenon's JavaDoc on `jitpack.io`__
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
