@@ -46,8 +46,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Xenon tutorial RSE 2017'
-copyright = u'2017, Jurriaan. H. Spaaks, Stefan Verhoeven, Jason Maassen'
-author = u'Jurriaan. H. Spaaks, Stefan Verhoeven, Jason Maassen'
+copyright = u'2017, Jurriaan H. Spaaks, Stefan Verhoeven, Jason Maassen, Johan Hidding'
+author = u'Jurriaan H. Spaaks, Stefan Verhoeven, Jason Maassen, Johan Hidding'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
