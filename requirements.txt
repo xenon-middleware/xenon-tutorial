@@ -1,4 +1,4 @@
-Sphinx==1.6
+Sphinx
 sphinx-tabs
 
 
