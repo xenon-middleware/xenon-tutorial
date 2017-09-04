@@ -1,14 +1,14 @@
-.. code-tab:: python
+import xenon
+from xenon import Path, FileSystem
 
-    from xenon import Server, Path
+xenon.init()
 
-    with Server() as xenon:
-        filesystem = xenon.create_file_system(adaptor='file')
+filesystem = FileSystem.create(adaptor='file')
+path = Path("/home/tutorial/xenon")
 
-        path = Path('/home/tutorial/xenon')
-        listing = filesystem.list(path, recursive=False)
+listing = filesystem.list(path, recursive=False)
 
-        for entry in listing:
-            print(entry)
+for entry in listing:
+    print(entry.path)
 
-        filesystem.close()
+filesystem.close()

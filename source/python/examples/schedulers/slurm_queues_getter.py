@@ -1,24 +1,22 @@
-.. code-tab:: python
+import xenon
+from xenon import Scheduler, PasswordCredential
 
-    from xenon import Server, PasswordCredential
+xenon.init()
 
-    with Server() as xenon:
-        location = 'localhost:10022'
-        credential = PasswordCredential(
-                username='xenon',
-                password='javagat')
+credential = PasswordCredential(username='xenon',
+                                password='javagat')
 
-        scheduler = xenon.create_scheduler(
-                adaptor='slurm',
-                location=location,
-                credential=credential)
+scheduler = Scheduler.create(adaptor='slurm',
+                             location='localhost:10022',
+                             password_credential=credential)
 
-        print("Available queues (starred queue is default):")
-        default_queue = scheduler.get_default_queue_name()
-        for queue_name in scheduler.get_queues():
-            if queue_name == default_queue:
-                print("{}*".format(queue_name))
-            else:
-                print(queue_name)
+default_queue = scheduler.get_default_queue_name()
 
-        scheduler.close()
+print("Available queues (starred queue is default):")
+for queue_name in scheduler.get_queue_names():
+    if queue_name == default_queue:
+        print("{}*".format(queue_name))
+    else:
+        print(queue_name)
+
+scheduler.close()
