@@ -439,9 +439,10 @@ If you want, you can continue reading about relevant subjects, or try some of th
 Further reading
 ^^^^^^^^^^^^^^^
 
-- Xenon's JavaDoc
-- PyXenon: The Python interface to Xenon (`github`__, `readthedocs`__)
+- Xenon's JavaDoc (`jitpack.io`__)
+- PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
+__ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
 __ https://github.com/nlesc/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 
