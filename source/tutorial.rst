@@ -13,11 +13,11 @@ Getting started
 On your system, start VirtualBox.
 
 All tutorials at `RSE2017`__ use the same virtual machine. In case you don't have a copy of the virtual machine, you can
-download it from GoogleDrive `here`__. After the download finishes, click ``File`` in VirtualBox, then
+download it from GoogleDrive `here`__ (5.5 Gb). After the download finishes, click ``File`` in VirtualBox, then
 ``Import appliance``, then select the file you downloaded.
 
 __ http://rse.ac.uk/conf2017/
-__ https://drive.google.com/file/d/0B1GaxSkd5lU8MTFxN3JLaHlXT2s/view
+__ https://drive.google.com/open?id=0B1GaxSkd5lU8UkF6V1A1VGpPZ2c
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
