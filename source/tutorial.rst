@@ -3,6 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+For your information, we have GoogleAnalytics enabled for this tutorial. This is to help show our funders that the work
+we do is useful to others.
+
 |
 |
 |
