@@ -1,3 +1,4 @@
+```bash
 # download the dependencies into the lib directory
 # ./gradlew download
 
@@ -5,3 +6,4 @@
 # from within Eclipse
 ./gradlew eclipse
 
+```
