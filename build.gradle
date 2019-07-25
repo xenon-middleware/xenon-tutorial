@@ -5,31 +5,22 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    mavenCentral()
     jcenter()
-    flatDir { dirs 'lib' }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
 }
 
 configurations {
     toCopy
 }
 
+
 dependencies {
+
     toCopy 'com.google.code.gson:gson:2.5'
     toCopy 'net.sourceforge.argparse4j:argparse4j:0.8.1'
     toCopy 'nl.esciencecenter.xenon:xenon:3.0.0'
     toCopy 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
     toCopy 'org.slf4j:slf4j-api:1.7.26'
-    compile fileTree(include: ['*.jar'], dir: 'lib')
+    runtimeOnly fileTree(include: ['*.jar'], dir: 'lib')
 }
 
 task download(type: Copy) {
