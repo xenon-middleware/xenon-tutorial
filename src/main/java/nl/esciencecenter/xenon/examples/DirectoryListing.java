@@ -10,9 +10,9 @@ public class DirectoryListing {
     public static void main(String[] args) throws Exception {
 
         String adaptor = "file";
-		FileSystem filesystem = FileSystem.create(adaptor);
-		Path directory = new Path("/tmp");
- 		Boolean recursive = false;
+        FileSystem filesystem = FileSystem.create(adaptor);
+        Path directory = new Path("/tmp");
+        Boolean recursive = false;
         Iterable<PathAttributes> listing = filesystem.list(directory, recursive);
 
         for (PathAttributes elem : listing) {
