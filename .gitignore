@@ -1,7 +1,11 @@
-/.classpath
 /.gradle
+/bin
+
+# eclipse editor files
+/.classpath
 /.project
 /.settings
-/bin
-/build
-/lib
+
+# idea editor files
+/*.iml
+/*.ipr
