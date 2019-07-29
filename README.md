@@ -1,14 +1,6 @@
-## configuring your IDE
+## Configuring your IDE
 
 ### Eclipse
-
-```bash
-# configure the classpath such that you can use the dependencies 
-# from within Eclipse
-./gradlew eclipse
-```
-
-### IntelliJ IDEA
 
 ```bash
 # configure the classpath such that you can use the dependencies 

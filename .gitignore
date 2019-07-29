@@ -1,12 +1,9 @@
 /.gradle
-/bin
+/build
+
 
 # eclipse editor files
 /.classpath
 /.project
 /.settings
-
-# idea editor files
-/xenon-examples.iml
-/xenon-examples.ipr
-/xenon-examples.iws
+/bin

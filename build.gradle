@@ -2,7 +2,6 @@ plugins {
     id 'base'
     id 'java'
     id 'eclipse'
-    id 'idea'
 }
 
 repositories {
@@ -15,15 +14,6 @@ dependencies {
 }
 
 eclipse {
-    classpath {
-
-        // also download sources and Javadoc for dependencies jars:
-        downloadSources = true
-        downloadJavadoc = true
-    }
-}
-
-idea {
     classpath {
 
         // also download sources and Javadoc for dependencies jars:
