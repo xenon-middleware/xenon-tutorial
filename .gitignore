@@ -7,5 +7,6 @@
 /.settings
 
 # idea editor files
-/*.iml
-/*.ipr
+/xenon-examples.iml
+/xenon-examples.ipr
+/xenon-examples.iws
