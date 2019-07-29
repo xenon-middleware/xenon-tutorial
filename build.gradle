@@ -27,4 +27,5 @@ task run(type: JavaExec) {
     group 'Application tasks'
     classpath = sourceSets.main.runtimeClasspath
     main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.examples.DirectoryListing'
+    systemProperties.put('loglevel', project.findProperty('loglevel') ?: 'WARN')
 }

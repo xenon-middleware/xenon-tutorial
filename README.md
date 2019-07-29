@@ -12,7 +12,7 @@
 
 Examples can be run with the following syntax
 ```bash
-./gradlew run -Pmain=<main class name> [--args='<arguments for main method>']
+./gradlew run -Pmain=<main class name> [-Ploglevel=<ERROR|WARN|INFO|DEBUG>] [--args='<arguments for main method>']
 ```
 
 To run the [DirectoryListing](src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java) example use
