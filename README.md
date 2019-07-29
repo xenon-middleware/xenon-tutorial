@@ -13,7 +13,7 @@
 ```bash
 # configure the classpath such that you can use the dependencies 
 # from within Eclipse
-./gradlew eclipse
+./gradlew idea
 ```
 
 ## Running the examples from the Linux command line
