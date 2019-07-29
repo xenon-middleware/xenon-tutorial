@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-    runtimeOnly 'nl.esciencecenter.xenon:xenon:3.0.0'
-    runtimeOnly 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
+    implementation 'nl.esciencecenter.xenon:xenon:3.0.0'
+    implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
 }
 
 eclipse {
@@ -20,4 +20,11 @@ eclipse {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+task run(type: JavaExec) {
+    description 'Run main class found in `main` project property'
+    group 'Application tasks'
+    classpath = sourceSets.main.runtimeClasspath
+    main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.examples.DirectoryListing'
 }
