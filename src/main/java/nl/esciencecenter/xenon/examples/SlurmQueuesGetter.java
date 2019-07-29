@@ -5,7 +5,7 @@ import nl.esciencecenter.xenon.credentials.Credential;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.schedulers.Scheduler;
 
-public class ListQueueNames {
+public class SlurmQueuesGetter {
     public static void main(String[] args) throws XenonException {
 
         String adaptor = "slurm";
