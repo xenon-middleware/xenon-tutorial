@@ -1,0 +1,31 @@
+plugins {
+    id 'base'
+    id 'java'
+    id 'eclipse'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'nl.esciencecenter.xenon:xenon:3.0.0'
+    implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
+}
+
+eclipse {
+    classpath {
+
+        // also download sources and Javadoc for dependencies jars:
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+task run(type: JavaExec) {
+    description 'Run main class found in `main` project property'
+    group 'Application tasks'
+    classpath = sourceSets.main.runtimeClasspath
+    main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.examples.DirectoryListing'
+    systemProperties.put('loglevel', project.findProperty('loglevel') ?: 'WARN')
+}
