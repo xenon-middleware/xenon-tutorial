@@ -39,7 +39,7 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/xenon-logo.png"><img alt="Xenon" class="align-center" src="_images/xenon-logo.png" style="width: 291.5px; height: 136.0px;" /></a>
+<a class="reference internal image-reference" href="_images/xenon-logo.png"><img alt="xenon-logo" class="align-center" src="_images/xenon-logo.png" style="width: 291.5px; height: 136.0px;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -47,8 +47,8 @@
 </div>
 <div class="toctree-wrapper compound">
 </div>
-<div class="contents topic" id="xenon-tutorial-rse-2017-table-of-contents">
-<p class="topic-title first">Xenon tutorial RSE 2017 – Table of Contents</p>
+<div class="contents topic" id="xenon3-tutorial-table-of-contents">
+<p class="topic-title first">xenon3 tutorial – Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#getting-started" id="id14">Getting started</a></p></li>
 <li><p><a class="reference internal" href="#interacting-with-filesystems" id="id15">Interacting with filesystems</a></p></li>
@@ -107,8 +107,9 @@ from <code class="docutils literal notranslate"><span class="pre">{copy,list,mkd
 <p>In case you hadn’t noticed the pattern, stringing together any number of <code class="docutils literal notranslate"><span class="pre">xenon</span></code> subcommands and appending <code class="docutils literal notranslate"><span class="pre">--help</span></code>
 to it will get you help on the particular combination of subcommands you supplied.</p>
 <p>The focus of this tutorial is on using Xenon’s command line interface, but be aware that other programming
-interfaces are available through <a class="reference external" href="https://grpc.io/">gRPC</a>. Where relevant, we have included equivalent code snippets,
-written in Java and Python, as separate tabs.</p>
+interfaces are available through <a class="reference external" href="https://grpc.io/">gRPC</a>.</p>
+<p>Where relevant, we have included equivalent code snippets,
+written in Java, as a separate tab.</p>
 <p>Let’s try listing the contents of <code class="docutils literal notranslate"><span class="pre">/home/tutorial/xenon</span></code>.</p>
 <div class="sphinx-tabs docutils container">
 <div class="ui top attached tabular menu sphinx-menu docutils container">
@@ -117,38 +118,68 @@ written in Java and Python, as separate tabs.</p>
 <p>Bash</p>
 </div>
 </div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list /home/tutorial/xenon
 </pre></div>
 </div>
 </div>
-<p>package nl.esciencecenter.xenon.examples;</p>
-<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
-import nl.esciencecenter.xenon.filesystems.Path;
-import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
-<p>public class DirectoryListing {</p>
-<blockquote>
-<div><p>public static void main(String[] args) throws Exception {</p>
-<blockquote>
-<div><p>String adaptor = “file”;
-FileSystem filesystem = FileSystem.create(adaptor);
-Path directory = new Path(“/tmp”);
-Boolean recursive = false;
-Iterable&lt;PathAttributes&gt; listing = filesystem.list(directory, recursive);</p>
-<dl>
-<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><dl class="simple">
-<dt>if (!elem.isHidden()) {</dt><dd><p>System.out.println(elem.getPath());</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListing</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+        <span class="n">Path</span> <span class="n">directory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/tmp&quot;</span><span class="o">);</span>
+        <span class="n">Boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">directory</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">elem</span><span class="o">.</span><span class="na">isHidden</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 <p>The result should be more or less the same as that of <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-1</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span> <span class="pre">list</span></code> has a few options that let you specify the details of the list operation, e.g.
@@ -160,34 +191,66 @@ Iterable&lt;PathAttributes&gt; listing = filesystem.list(directory, recursive);<
 <p>Bash</p>
 </div>
 </div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list --hidden /home/tutorial/xenon
 </pre></div>
 </div>
 </div>
-<p>package nl.esciencecenter.xenon.examples;</p>
-<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
-import nl.esciencecenter.xenon.filesystems.Path;
-import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
-<p>public class DirectoryListingShowHidden {</p>
-<blockquote>
-<div><p>public static void main(String[] args) throws Exception {</p>
-<blockquote>
-<div><p>String adaptor = “file”;
-FileSystem filesystem = FileSystem.create(adaptor);</p>
-<p>Path dir = new Path(“/tmp”);
-boolean recursive = false;</p>
-<p>Iterable&lt;PathAttributes&gt; listing = filesystem.list(dir, recursive);</p>
-<dl class="simple">
-<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><p>System.out.println(elem.getPath());</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingShowHidden</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/tmp&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 <p>and <code class="docutils literal notranslate"><span class="pre">--recursive</span></code></p>
 <div class="sphinx-tabs docutils container">
@@ -197,38 +260,70 @@ boolean recursive = false;</p>
 <p>Bash</p>
 </div>
 </div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list --recursive /home/tutorial/xenon
 </pre></div>
 </div>
 </div>
-<p>package nl.esciencecenter.xenon.examples;</p>
-<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
-import nl.esciencecenter.xenon.filesystems.Path;
-import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
-<p>public class DirectoryListingRecursive {</p>
-<blockquote>
-<div><p>public static void main(String[] args) throws Exception {</p>
-<blockquote>
-<div><p>String adaptor = “file”;
-FileSystem filesystem = FileSystem.create(adaptor);</p>
-<p>Path dir = new Path(“/tmp”);
-boolean recursive = true;</p>
-<p>Iterable&lt;PathAttributes&gt; listing = filesystem.list(dir, recursive);</p>
-<dl>
-<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><dl class="simple">
-<dt>if (!elem.isHidden()) {</dt><dd><p>System.out.println(elem.getPath());</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.PathAttributes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectoryListingRecursive</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="n">Path</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/tmp&quot;</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PathAttributes</span><span class="o">&gt;</span> <span class="n">listing</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">PathAttributes</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">listing</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">elem</span><span class="o">.</span><span class="na">isHidden</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">elem</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 <p>Now let’s create a file and try to use <code class="docutils literal notranslate"><span class="pre">xenon</span></code> to copy it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /home/tutorial/xenon
@@ -248,49 +343,94 @@ xenon filesystem file copy --help
 <p>Bash</p>
 </div>
 </div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 </pre></div>
 </div>
 </div>
-<p>package nl.esciencecenter.xenon.examples;</p>
-<p>import nl.esciencecenter.xenon.filesystems.CopyMode;
-import nl.esciencecenter.xenon.filesystems.CopyStatus;
-import nl.esciencecenter.xenon.filesystems.FileSystem;
-import nl.esciencecenter.xenon.filesystems.Path;</p>
-<p>public class CopyFileLocalToLocalAbsolutePaths {</p>
-<blockquote>
-<div><p>public static void main(String[] args) throws Exception {</p>
-<blockquote>
-<div><p>// use the local file system adaptor to create a file system representation
-String adaptor = “file”;
-FileSystem filesystem = FileSystem.create(adaptor);</p>
-<p>// create Paths for the source and destination files, using absolute paths
-Path sourceFile = new Path(“/home/daisycutter/tmp/tutorial/xenon/thefile.txt”);
-Path destFile = new Path(“/home/daisycutter/tmp/tutorial/xenon/thefile.bak”);</p>
-<p>// create the destination file only if the destination path doesn’t exist yet
-CopyMode mode = CopyMode.CREATE;
-boolean recursive = false;</p>
-<p>// perform the copy and wait 1000 ms for the successful or otherwise
-// completion of the operation
-String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
-long timeoutMilliSecs = 1000;
-CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);</p>
-<p>// print any exceptions
-if (copyStatus.getException() != null) {</p>
-<blockquote>
-<div><p>System.out.println(copyStatus.getException().getMessage());</p>
-</div></blockquote>
-<dl class="simple">
-<dt>} else {</dt><dd><p>System.out.println(“File copied.”);</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyMode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.CopyStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.FileSystem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.filesystems.Path</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopyFileLocalToLocalAbsolutePaths</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// use the local file system adaptor to create a file system representation</span>
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;file&quot;</span><span class="o">;</span>
+        <span class="n">FileSystem</span> <span class="n">filesystem</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">);</span>
+
+        <span class="c1">// create Paths for the source and destination files, using absolute paths</span>
+        <span class="n">Path</span> <span class="n">sourceFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/daisycutter/tmp/tutorial/xenon/thefile.txt&quot;</span><span class="o">);</span>
+        <span class="n">Path</span> <span class="n">destFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Path</span><span class="o">(</span><span class="s">&quot;/home/daisycutter/tmp/tutorial/xenon/thefile.bak&quot;</span><span class="o">);</span>
+
+        <span class="c1">// create the destination file only if the destination path doesn&#39;t exist yet</span>
+        <span class="n">CopyMode</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">CopyMode</span><span class="o">.</span><span class="na">CREATE</span><span class="o">;</span>
+        <span class="kt">boolean</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="c1">// perform the copy and wait 1000 ms for the successful or otherwise</span>
+        <span class="c1">// completion of the operation</span>
+        <span class="n">String</span> <span class="n">copyId</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">sourceFile</span><span class="o">,</span> <span class="n">filesystem</span><span class="o">,</span> <span class="n">destFile</span><span class="o">,</span> <span class="n">mode</span><span class="o">,</span> <span class="n">recursive</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">timeoutMilliSecs</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+        <span class="n">CopyStatus</span> <span class="n">copyStatus</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="na">waitUntilDone</span><span class="o">(</span><span class="n">copyId</span><span class="o">,</span> <span class="n">timeoutMilliSecs</span><span class="o">);</span>
+
+        <span class="c1">// print any exceptions</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">copyStatus</span><span class="o">.</span><span class="na">getException</span><span class="o">().</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;File copied.&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 <p>Note that the source path may be standard input, and that the target path may be standard output:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># read from stdin:</span>
@@ -354,13 +494,11 @@ for that location, as follows:</p>
 </div>
 </div>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
-<span class="c1"># returns:</span>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
+<p>xenon scheduler slurm –location localhost:10022 –username xenon –password javagat queues
+# returns:
 Available queues: mypartition, otherpartition
-Default queue: mypartition
-</pre></div>
-</div>
+Default queue: mypartition</p>
 </div>
 </div>
 <p>In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
@@ -466,12 +604,9 @@ that:</p>
 </div>
 </div>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># step 1: upload input file(s)</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-upload /home/tutorial/xenon/sleep.sh /home/xenon/sleep.sh
-</pre></div>
-</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
+<p># step 1: upload input file(s)
+xenon filesystem sftp –location localhost:10022 –username xenon –password javagat upload /home/tutorial/xenon/sleep.sh /home/xenon/sleep.sh</p>
 </div>
 </div>
 <p>Now that the script is in place, we can submit a <code class="docutils literal notranslate"><span class="pre">bash</span></code> job using <code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> like before, taking
@@ -492,11 +627,9 @@ submit --stdout sleep.stdout.txt bash sleep.sh <span class="m">60</span>
 </div>
 </div>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
-<span class="c1"># should have the job identifier in it that was printed on the command line</span>
-</pre></div>
-</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
+<p>xenon scheduler slurm –location localhost:10022 –username xenon –password javagat list
+# should have the job identifier in it that was printed on the command line</p>
 </div>
 </div>
 <p>When we submitted, we did not specify any queues, so the default queue <code class="docutils literal notranslate"><span class="pre">mypartition</span></code> was used:</p>
@@ -516,12 +649,9 @@ xenon scheduler slurm --location localhost:10022 --username xenon --password jav
 </div>
 </div>
 </div>
-<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># step 3: download generated output file(s)</span>
-xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
-download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
-</pre></div>
-</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
+<p># step 3: download generated output file(s)
+xenon filesystem sftp –location localhost:10022 –username xenon –password javagat download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt</p>
 </div>
 </div>
 <p>By this time you may start to consider putting those 3 commands in a script, as follows:</p>
