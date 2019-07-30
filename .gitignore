@@ -1,25 +1,11 @@
-.gradle
-/build/
+/code-tabs/java/.gradle
+/code-tabs/java/build
 
-# Ignore Gradle GUI config
-gradle-app.setting
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# eclipse editor files
+/code-tabs/java/.classpath
+/code-tabs/java/.project
+/code-tabs/java/.settings
+/code-tabs/java/bin
 
-# Cache of project
-.gradletasknamecache
-
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
-
-xenon-cli
-
-# IntelliJ IDEA IDE settings
-.idea
-
-# python virtual environment
-.venv*
-
-# ignore the libs directory containing the pyxenon dependency if it was built from source
-/source/python/libs/
+/readthedocs/.venv*

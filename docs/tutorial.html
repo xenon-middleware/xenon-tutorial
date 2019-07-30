@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Getting started &#8212; xenon3 tutorial 3.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/tabs.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.js"></script>
+    <script type="text/javascript" src="_static/sphinx_tabs/tabs.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>For your information, we have GoogleAnalytics enabled for this tutorial. This is to help show our funders that the work
+we do is useful to others.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>On your system, start VirtualBox.</p>
+<p>All tutorials at <a class="reference external" href="http://rse.ac.uk/conf2017/">RSE2017</a> use the same virtual machine. In case you don’t have a copy of the virtual machine, you can
+download it from GoogleDrive <a class="reference external" href="https://drive.google.com/open?id=0B1GaxSkd5lU8UkF6V1A1VGpPZ2c">here</a> (5.5 Gb). After the download finishes, click <code class="docutils literal notranslate"><span class="pre">File</span></code> in VirtualBox, then
+<code class="docutils literal notranslate"><span class="pre">Import</span> <span class="pre">appliance</span></code>, then select the file you downloaded.</p>
+<p>During the import, you’ll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.</p>
+<p>Start the Fedora virtual machine and log in with password <code class="docutils literal notranslate"><span class="pre">tutorial</span></code>.</p>
+<p>Once the system has booted, Click <code class="docutils literal notranslate"><span class="pre">Activities</span></code> and then start both a terminal and Firefox by clicking their respective
+icons. Use Firefox to navigate to the tutorial text at <a class="reference external" href="http://xenonrse2017.readthedocs.io">http://xenonrse2017.readthedocs.io</a>.</p>
+<p>In the terminal, change directory to <code class="docutils literal notranslate"><span class="pre">/home/tutorial/xenon</span></code> and confirm that the <code class="docutils literal notranslate"><span class="pre">xenon</span></code> command line interface
+program can be found on the system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> xenon
+xenon --help
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="interacting-with-filesystems">
+<h1>Interacting with filesystems<a class="headerlink" href="#interacting-with-filesystems" title="Permalink to this headline">¶</a></h1>
+<p>Essentially, <code class="docutils literal notranslate"><span class="pre">xenon</span></code> can be used to manipulate files and to interact with schedulers, where either one can be local
+or remote. Let’s start simple and see if we can do something with local files. First, check its help:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem --help
+</pre></div>
+</div>
+<p>The usage line suggests we need to pick one from <code class="docutils literal notranslate"><span class="pre">{file,ftp,sftp,webdav}</span></code>.
+Again, choose what seems to be the simplest option (<code class="docutils literal notranslate"><span class="pre">file</span></code>), and again, check its help.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file --help
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code>’s usage line seems to suggest that I need to pick one
+from <code class="docutils literal notranslate"><span class="pre">{copy,list,mkdir,remove,rename}</span></code>. Simplest one is probably <code class="docutils literal notranslate"><span class="pre">list</span></code>, so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list --help
+</pre></div>
+</div>
+<p>So we need a <code class="docutils literal notranslate"><span class="pre">path</span></code> as final argument.</p>
+<p>In case you hadn’t noticed the pattern, stringing together any number of <code class="docutils literal notranslate"><span class="pre">xenon</span></code> subcommands and appending <code class="docutils literal notranslate"><span class="pre">--help</span></code>
+to it will get you help on the particular combination of subcommands you supplied.</p>
+<p>The focus of this tutorial is on using Xenon’s command line interface, but be aware that other programming
+interfaces are available through <a class="reference external" href="https://grpc.io/">gRPC</a>. Where relevant, we have included equivalent code snippets,
+written in Java and Python, as separate tabs.</p>
+<p>Let’s try listing the contents of <code class="docutils literal notranslate"><span class="pre">/home/tutorial/xenon</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<p>package nl.esciencecenter.xenon.examples;</p>
+<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
+import nl.esciencecenter.xenon.filesystems.Path;
+import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
+<p>public class DirectoryListing {</p>
+<blockquote>
+<div><p>public static void main(String[] args) throws Exception {</p>
+<blockquote>
+<div><p>String adaptor = “file”;
+FileSystem filesystem = FileSystem.create(adaptor);
+Path directory = new Path(“/tmp”);
+Boolean recursive = false;
+Iterable&lt;PathAttributes&gt; listing = filesystem.list(directory, recursive);</p>
+<dl>
+<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><dl class="simple">
+<dt>if (!elem.isHidden()) {</dt><dd><p>System.out.println(elem.getPath());</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div>
+<p>The result should be more or less the same as that of <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-1</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span> <span class="pre">list</span></code> has a few options that let you specify the details of the list operation, e.g.
+<code class="docutils literal notranslate"><span class="pre">--hidden</span></code></p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list --hidden /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<p>package nl.esciencecenter.xenon.examples;</p>
+<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
+import nl.esciencecenter.xenon.filesystems.Path;
+import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
+<p>public class DirectoryListingShowHidden {</p>
+<blockquote>
+<div><p>public static void main(String[] args) throws Exception {</p>
+<blockquote>
+<div><p>String adaptor = “file”;
+FileSystem filesystem = FileSystem.create(adaptor);</p>
+<p>Path dir = new Path(“/tmp”);
+boolean recursive = false;</p>
+<p>Iterable&lt;PathAttributes&gt; listing = filesystem.list(dir, recursive);</p>
+<dl class="simple">
+<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><p>System.out.println(elem.getPath());</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">--recursive</span></code></p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file list --recursive /home/tutorial/xenon
+</pre></div>
+</div>
+</div>
+<p>package nl.esciencecenter.xenon.examples;</p>
+<p>import nl.esciencecenter.xenon.filesystems.FileSystem;
+import nl.esciencecenter.xenon.filesystems.Path;
+import nl.esciencecenter.xenon.filesystems.PathAttributes;</p>
+<p>public class DirectoryListingRecursive {</p>
+<blockquote>
+<div><p>public static void main(String[] args) throws Exception {</p>
+<blockquote>
+<div><p>String adaptor = “file”;
+FileSystem filesystem = FileSystem.create(adaptor);</p>
+<p>Path dir = new Path(“/tmp”);
+boolean recursive = true;</p>
+<p>Iterable&lt;PathAttributes&gt; listing = filesystem.list(dir, recursive);</p>
+<dl>
+<dt>for (PathAttributes elem<span class="classifier">listing) {</span></dt><dd><dl class="simple">
+<dt>if (!elem.isHidden()) {</dt><dd><p>System.out.println(elem.getPath());</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div>
+<p>Now let’s create a file and try to use <code class="docutils literal notranslate"><span class="pre">xenon</span></code> to copy it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /home/tutorial/xenon
+<span class="nb">echo</span> <span class="s1">&#39;some content&#39;</span> &gt; thefile.txt
+</pre></div>
+</div>
+<p>Check the relevant help</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file --help
+xenon filesystem file copy --help
+</pre></div>
+</div>
+<p>So, the <code class="docutils literal notranslate"><span class="pre">copy</span></code> subcommand takes a source path and a target path:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
+</pre></div>
+</div>
+</div>
+<p>package nl.esciencecenter.xenon.examples;</p>
+<p>import nl.esciencecenter.xenon.filesystems.CopyMode;
+import nl.esciencecenter.xenon.filesystems.CopyStatus;
+import nl.esciencecenter.xenon.filesystems.FileSystem;
+import nl.esciencecenter.xenon.filesystems.Path;</p>
+<p>public class CopyFileLocalToLocalAbsolutePaths {</p>
+<blockquote>
+<div><p>public static void main(String[] args) throws Exception {</p>
+<blockquote>
+<div><p>// use the local file system adaptor to create a file system representation
+String adaptor = “file”;
+FileSystem filesystem = FileSystem.create(adaptor);</p>
+<p>// create Paths for the source and destination files, using absolute paths
+Path sourceFile = new Path(“/home/daisycutter/tmp/tutorial/xenon/thefile.txt”);
+Path destFile = new Path(“/home/daisycutter/tmp/tutorial/xenon/thefile.bak”);</p>
+<p>// create the destination file only if the destination path doesn’t exist yet
+CopyMode mode = CopyMode.CREATE;
+boolean recursive = false;</p>
+<p>// perform the copy and wait 1000 ms for the successful or otherwise
+// completion of the operation
+String copyId = filesystem.copy(sourceFile, filesystem, destFile, mode, recursive);
+long timeoutMilliSecs = 1000;
+CopyStatus copyStatus = filesystem.waitUntilDone(copyId, timeoutMilliSecs);</p>
+<p>// print any exceptions
+if (copyStatus.getException() != null) {</p>
+<blockquote>
+<div><p>System.out.println(copyStatus.getException().getMessage());</p>
+</div></blockquote>
+<dl class="simple">
+<dt>} else {</dt><dd><p>System.out.println(“File copied.”);</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div>
+<p>Note that the source path may be standard input, and that the target path may be standard output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># read from stdin:</span>
+cat thefile.txt <span class="p">|</span> xenon filesystem file copy - mystdin.txt
+
+<span class="c1"># write to stdout:</span>
+xenon filesystem file copy thefile.txt - <span class="m">1</span>&gt; mystdout.txt
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code> has a few more subcommands, namely <code class="docutils literal notranslate"><span class="pre">mkdir</span></code>, <code class="docutils literal notranslate"><span class="pre">rename</span></code> and <code class="docutils literal notranslate"><span class="pre">remove</span></code>. You can
+experiment a bit more with those or move on to the next section.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="interacting-with-schedulers">
+<h1>Interacting with schedulers<a class="headerlink" href="#interacting-with-schedulers" title="Permalink to this headline">¶</a></h1>
+<p>Now let’s see if we can use schedulers, starting with <a class="reference external" href="https://slurm.schedmd.com/">SLURM</a>. For this part, we need access to a machine that is running
+SLURM. To avoid problems related to network connectivity, we won’t try to connect to a physically remote SLURM machine,
+but instead, we’ll use a dockerized SLURM installation. This way, we can mimic whatever infrastructure we need. The
+setup will thus be something like this:</p>
+<a class="reference internal image-reference" href="_images/babushka.svg.png"><img alt="babushka" class="align-center" src="_images/babushka.svg.png" style="height: 300px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<p>A copy of the SLURM Docker image (<a class="reference external" href="https://hub.docker.com/r/nlesc/xenon-slurm/">nlesc/xenon-slurm</a>:17) has been included in the RSE 2017 virtual machine. Bring it
+up with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --detach --publish <span class="m">10022</span>:22 --hostname slurm17 nlesc/xenon-slurm:17
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code> to check the state of the container</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker ps
+</pre></div>
+</div>
+<p>Once the status is <code class="docutils literal notranslate"><span class="pre">healthy</span></code>, see if we can <code class="docutils literal notranslate"><span class="pre">ssh</span></code> into it on port <code class="docutils literal notranslate"><span class="pre">10022</span></code> as user <code class="docutils literal notranslate"><span class="pre">xenon</span></code> with password
+<code class="docutils literal notranslate"><span class="pre">javagat</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh -p <span class="m">10022</span> xenon@localhost
+
+<span class="c1"># if that works, exit again</span>
+<span class="nb">exit</span>
+</pre></div>
+</div>
+<p>Check the help to see how the <code class="docutils literal notranslate"><span class="pre">slurm</span></code> subcommand works:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --help
+</pre></div>
+</div>
+<p>Let’s first ask what queues the SLURM scheduler has. For this, we need to specify
+a location, otherwise <code class="docutils literal notranslate"><span class="pre">xenon</span></code> does not know who to ask for the list of queues. According to the help,
+<code class="docutils literal notranslate"><span class="pre">LOCATION</span></code> is any location format supported by <code class="docutils literal notranslate"><span class="pre">ssh</span></code> or <code class="docutils literal notranslate"><span class="pre">local</span></code> scheduler.
+Our dockerized SLURM machine is reachable as <code class="docutils literal notranslate"><span class="pre">localhost:10022</span></code>.
+We’ll also need to provide a <code class="docutils literal notranslate"><span class="pre">--username</span></code> and <code class="docutils literal notranslate"><span class="pre">--password</span></code>
+for that location, as follows:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
+<span class="c1"># returns:</span>
+Available queues: mypartition, otherpartition
+Default queue: mypartition
+</pre></div>
+</div>
+</div>
+</div>
+<p>In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
+<code class="docutils literal notranslate"><span class="pre">~/.bash_history</span></code>, know that you can supply passwords from a file, as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password @password.txt queues
+</pre></div>
+</div>
+<p>in which the file <code class="docutils literal notranslate"><span class="pre">password.txt</span></code> should contain the password. Since everything about the user <code class="docutils literal notranslate"><span class="pre">xenon</span></code> is public
+knowledge anyway, such security precautions are not needed for this tutorial, so we’ll just continue to use the
+<code class="docutils literal notranslate"><span class="pre">--password</span> <span class="pre">PASSWORD</span></code> syntax.</p>
+<p>Besides <code class="docutils literal notranslate"><span class="pre">queues</span></code>, other <code class="docutils literal notranslate"><span class="pre">slurm</span></code> subcommands are <code class="docutils literal notranslate"><span class="pre">exec</span></code>, <code class="docutils literal notranslate"><span class="pre">submit</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">remove</span></code>, and <code class="docutils literal notranslate"><span class="pre">wait</span></code>. Let’s try
+to have <code class="docutils literal notranslate"><span class="pre">xenon</span></code> ask SLURM for its list of jobs in each queue, as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+<span class="c1"># should work, but we don&#39;t have any jobs yet</span>
+</pre></div>
+</div>
+<p>Now, let’s try to submit a job using <code class="docutils literal notranslate"><span class="pre">slurm</span> <span class="pre">submit</span></code>. Its usage string suggests that we need to provide (the path
+of) an <code class="docutils literal notranslate"><span class="pre">executable</span></code>. Note that the executable should be present inside the container when SLURM starts its execution.
+For the moment, we’ll use <code class="docutils literal notranslate"><span class="pre">/bin/hostname</span></code> as the executable. It should return the hostname <code class="docutils literal notranslate"><span class="pre">slurm17</span></code> of the Docker
+container, or whatever hostname you specified for it when you ran the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command earlier:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the slurm submit help for correct syntax</span>
+xenon scheduler slurm submit --help
+
+<span class="c1"># let xenon submit a job with /bin/hostname as executable</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit /bin/hostname
+
+<span class="c1"># add --stdout to the submit job to capture its standard out so we know it worked:</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --stdout hostname.stdout.txt /bin/hostname
+
+<span class="c1"># check to see if the output was written to file /home/xenon/hostname.stdout.txt</span>
+ssh -p <span class="m">10022</span> xenon@localhost ls -l
+<span class="c1"># see what&#39;s in it</span>
+ssh -p <span class="m">10022</span> xenon@localhost cat hostname.stdout.txt
+</pre></div>
+</div>
+<p>Below are a few more examples of <code class="docutils literal notranslate"><span class="pre">slurm</span> <span class="pre">submit</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># executables that take options prefixed with &#39;-&#39; need special syntax, e.g. &#39;ls -la&#39;</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --stdout /home/xenon/ls.stdout.txt ls -- -la
+
+<span class="c1"># check to see if the output was written to file /home/xenon/ls.stdout.txt</span>
+ssh -p <span class="m">10022</span> xenon@localhost ls -l
+<span class="c1"># see what&#39;s in it</span>
+ssh -p <span class="m">10022</span> xenon@localhost cat ls.stdout.txt
+
+<span class="c1"># submit an &#39;env&#39; job with environment variable MYKEY, and capture standard out so we know it worked</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --stdout env.stdout.txt --env <span class="nv">MYKEY</span><span class="o">=</span>myvalue env
+
+<span class="c1"># check to see if the output from &#39;env&#39; was written to file /home/xenon/env.stdout.txt</span>
+ssh -p <span class="m">10022</span> xenon@localhost ls -l
+<span class="c1"># see what&#39;s in it</span>
+ssh -p <span class="m">10022</span> xenon@localhost cat env.stdout.txt
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="combining-filesystems-and-schedulers">
+<h1>Combining filesystems and schedulers<a class="headerlink" href="#combining-filesystems-and-schedulers" title="Permalink to this headline">¶</a></h1>
+<p>So far, we’ve used <code class="docutils literal notranslate"><span class="pre">xenon</span></code> to manipulate files on the local filesystem, and to run system executables on the remote
+machine. In typical usage, however, you would use <code class="docutils literal notranslate"><span class="pre">xenon</span></code> to run executables or scripts of your own, which means that
+we need to upload such files from the local system to the remote system.</p>
+<p>A typical workflow may thus look like this:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>upload input file(s)</p></li>
+<li><p>submit job</p></li>
+<li><p>download generated output file(s)</p></li>
+</ol>
+</div></blockquote>
+<p>Use an editor to create a file <code class="docutils literal notranslate"><span class="pre">sleep.sh</span></code> with the following contents (the RSE 2017 virtual machine comes with
+<code class="docutils literal notranslate"><span class="pre">gedit</span></code>, or you can install an other editor from the repositories if you like):</p>
+<p>You can test if your file is correct by:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># last argument is the sleep duration in seconds</span>
+bash sleep.sh <span class="m">5</span>
+</pre></div>
+</div>
+<p>We need to upload <code class="docutils literal notranslate"><span class="pre">sleep.sh</span></code> to the remote machine. We can’t use <code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">filesystem</span> <span class="pre">file</span></code> like we did before,
+because we’re copying between file systems, so let’s look at what other options are available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon filesystem --help
+
+<span class="c1"># let&#39;s try sftp protocol</span>
+xenon filesystem sftp --help
+
+<span class="c1"># we&#39;re interested in &#39;upload&#39; for now</span>
+xenon filesystem sftp upload --help
+</pre></div>
+</div>
+<p>We’ll also need to tell <code class="docutils literal notranslate"><span class="pre">xenon</span></code> what location we want to connect to, and what credentials to use. The SLURM Docker
+container we used before is accessible via SFTP using the same location, username and password as before, so let’s use
+that:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># step 1: upload input file(s)</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+upload /home/tutorial/xenon/sleep.sh /home/xenon/sleep.sh
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that the script is in place, we can submit a <code class="docutils literal notranslate"><span class="pre">bash</span></code> job using <code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">submit</span></code> like before, taking
+the newly uploaded <code class="docutils literal notranslate"><span class="pre">sleep.sh</span></code> file as input to <code class="docutils literal notranslate"><span class="pre">bash</span></code>, and using a sleep duration of 60 seconds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># step 2: submit job</span>
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+submit --stdout sleep.stdout.txt bash sleep.sh <span class="m">60</span>
+
+<span class="c1"># (should return an identifier for the job)</span>
+</pre></div>
+</div>
+<p>With the job running, let’s see if it shows up in any of the SLURM queues:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+<span class="c1"># should have the job identifier in it that was printed on the command line</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we submitted, we did not specify any queues, so the default queue <code class="docutils literal notranslate"><span class="pre">mypartition</span></code> was used:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
+<span class="c1"># should have the job identifier in it that was printed on the command line</span>
+
+xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
+<span class="c1"># this queue is empty</span>
+</pre></div>
+</div>
+<p>With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-QmFzaA== docutils container">
+<div class="docutils container">
+<p>Bash</p>
+</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment code-tab sphinx-data-tab-QmFzaA== active docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># step 3: download generated output file(s)</span>
+xenon filesystem sftp --location localhost:10022 --username xenon --password javagat <span class="se">\</span>
+download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
+</pre></div>
+</div>
+</div>
+</div>
+<p>By this time you may start to consider putting those 3 commands in a script, as follows:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+</div>
+</div>
+<p>However, if you create the script above and run it, you’ll find that:</p>
+<ol class="arabic simple">
+<li><p>Xenon complains about some destination paths already existing.</p></li>
+<li><p>The script finishes suspiciously quickly;</p></li>
+</ol>
+<p>The first error is easily avoided by adding a <code class="docutils literal notranslate"><span class="pre">--replace</span></code> optional argument after <code class="docutils literal notranslate"><span class="pre">upload</span></code> and <code class="docutils literal notranslate"><span class="pre">download</span></code>, but
+that does not address the real issue: that of Xenon not waiting for the completion of our sleep job.</p>
+<p>Not to worry though, we can use <code class="docutils literal notranslate"><span class="pre">xenon</span> <span class="pre">scheduler</span> <span class="pre">slurm</span> <span class="pre">wait</span></code> to wait for jobs to finish. In order to make this work,
+we do need to capture the identifier for a specific job, otherwise we don’t know what to wait for.</p>
+<p>Adapt the script as follows and run it:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+</div>
+</div>
+<p>After about 60 seconds, you should have a local copy of <code class="docutils literal notranslate"><span class="pre">sleep.stdout.txt</span></code>, with the correct contents this time.</p>
+<p>Congratulations – you have successfully completed the tutorial!</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h1>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h1>
+<p>If you want, you can continue reading about relevant subjects, or try some of the suggested exercises.</p>
+<div class="section" id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Xenon’s JavaDoc on <a class="reference external" href="https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/">jitpack.io</a></p></li>
+<li><p>PyXenon: The Python interface to Xenon (<a class="reference external" href="https://github.com/nlesc/pyxenon">github.com</a>, <a class="reference external" href="http://pyxenon.readthedocs.io/en/latest/">readthedocs.io</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="suggested-exercises">
+<h2>Suggested exercises<a class="headerlink" href="#suggested-exercises" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Repeat selected exercises, but test against a physically remote system instead of a Docker container. Requires
+credentials for the remote system.</p></li>
+<li><p>Repeat selected exercises using <a class="reference external" href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> instead of SFTP. We included the Docker container <a class="reference external" href="https://hub.docker.com/r/nlesc/xenon-webdav/">nlesc/xenon-webdav</a>
+as part of the virtual machine for testing.</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">xenon-cli</span></code> to the <a class="reference external" href="https://github.com/NLeSC/xenon-cli">latest version</a>, so you can use the <code class="docutils literal notranslate"><span class="pre">s3</span></code> file adaptor to connect to Amazon’s
+<a class="reference external" href="https://aws.amazon.com/s3">Simple Storage Service</a>. Requires downloading of the Docker container <a class="reference external" href="https://hub.docker.com/r/nlesc/xenon-s3/">nlesc/xenon-s3</a> (300MB) from DockerHub for
+testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Jurriaan H. Spaaks, Stefan Verhoeven, Jason Maassen, Johan Hidding.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/tutorial.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
