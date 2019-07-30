@@ -93,6 +93,12 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
          :language: java
          :linenos:
 
+   .. group-tab:: Python
+
+      .. literalinclude:: ../code-tabs/python/directory_listing.py
+         :language: python
+         :linenos:
+
 The result should be more or less the same as that of ``ls -1``.
 
 ``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g.
