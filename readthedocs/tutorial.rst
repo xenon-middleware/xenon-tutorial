@@ -82,11 +82,17 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
-      xenon filesystem file list /home/tutorial/xenon
+      .. literalinclude:: ../code-tabs/bash/DirectoryListing.sh
+         :language: bash
 
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
+   .. group-tab:: Java
+
+      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
+         :language: java
+         :linenos:
+
 
 The result should be more or less the same as that of ``ls -1``.
 
