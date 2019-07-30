@@ -93,7 +93,6 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
          :language: java
          :linenos:
 
-
 The result should be more or less the same as that of ``ls -1``.
 
 ``xenon filesystem file list`` has a few options that let you specify the details of the list operation, e.g.
@@ -101,21 +100,31 @@ The result should be more or less the same as that of ``ls -1``.
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
-      xenon filesystem file list --hidden /home/tutorial/xenon
+      .. literalinclude:: ../code-tabs/bash/DirectoryListingShowHidden.sh
+         :language: bash
 
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
+   .. group-tab:: Java
+
+      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
+         :language: java
+         :linenos:
 
 and ``--recursive``
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
-      xenon filesystem file list --recursive /home/tutorial/xenon
+      .. literalinclude:: ../code-tabs/bash/DirectoryListingRecursive.sh
+         :language: bash
 
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
+   .. group-tab:: Java
+
+      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
+         :language: java
+         :linenos:
 
 Now let's create a file and try to use ``xenon`` to copy it:
 
@@ -135,11 +144,16 @@ So, the ``copy`` subcommand takes a source path and a target path:
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
-      xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
+      .. literalinclude:: ../code-tabs/bash/CopyFileLocalToLocalAbsolutePaths.sh
+         :language: bash
 
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
+   .. group-tab:: Java
+
+      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
+         :language: java
+         :linenos:
 
 Note that the source path may be standard input, and that the target path may be standard output:
 
@@ -216,7 +230,7 @@ for that location, as follows:
 
 .. tabs::
 
-    .. code-tab:: bash
+    .. group-tab:: Bash
 
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
       # returns:
@@ -337,7 +351,7 @@ that:
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
       # step 1: upload input file(s)
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
@@ -361,7 +375,7 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
 .. tabs::
 
-    .. code-tab:: bash
+    .. group-tab:: Bash
 
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
       # should have the job identifier in it that was printed on the command line
@@ -382,7 +396,7 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
 .. tabs::
 
-   .. code-tab:: bash
+   .. group-tab:: Bash
 
       # step 3: download generated output file(s)
       xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \

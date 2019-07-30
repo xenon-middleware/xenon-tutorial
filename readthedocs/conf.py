@@ -92,8 +92,10 @@ html_theme_options = {
     'github_type': 'star',
     'github_button': True,
     'github_repo': 'xenon-middleware/xenon',
-    'page_width': '1100px',
-    'sidebar_width': '220px',
+    'page_width': '1000px',
+    'sidebar_width': '0px',
+    'body_min_width': '1000px',
+    'body_max_width': '1000px',
     'code_font_size': '0.8em'
 }
 
