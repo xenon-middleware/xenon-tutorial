@@ -232,12 +232,14 @@ for that location, as follows:
 
     .. group-tab:: Bash
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
-      # returns:
-      Available queues: mypartition, otherpartition
-      Default queue: mypartition
+       .. literalinclude:: ../code-tabs/bash/SlurmQueuesGetter.sh
+         :language: bash
 
-    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java
+    .. group-tab:: Java
+
+       .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
+         :language: java
+         :linenos:
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
 ``~/.bash_history``, know that you can supply passwords from a file, as follows:

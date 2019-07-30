@@ -471,12 +471,86 @@ for that location, as follows:</p>
 <p>Bash</p>
 </div>
 </div>
+<div class="item sphinx-data-tab-SmF2YQ== docutils container">
+<div class="docutils container">
+<p>Java</p>
+</div>
+</div>
 </div>
 <div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-QmFzaA== active docutils container">
-<p>xenon scheduler slurm –location localhost:10022 –username xenon –password javagat queues
-# returns:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xenon scheduler slurm --location localhost:10022 --username xenon --password javagat queues
+<span class="c1"># returns:</span>
 Available queues: mypartition, otherpartition
-Default queue: mypartition</p>
+Default queue: mypartition
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-SmF2YQ== docutils container">
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">nl.esciencecenter.xenon.examples</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.XenonException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.Credential</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.credentials.PasswordCredential</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">nl.esciencecenter.xenon.schedulers.Scheduler</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SlurmQueuesGetter</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">XenonException</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">adaptor</span> <span class="o">=</span> <span class="s">&quot;slurm&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="s">&quot;ssh://localhost:10022&quot;</span><span class="o">;</span>
+
+        <span class="c1">// make the password credential for user &#39;xenon&#39;</span>
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;xenon&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;javagat&quot;</span><span class="o">;</span>
+        <span class="n">Credential</span> <span class="n">credential</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PasswordCredential</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+
+        <span class="c1">// create the SLURM scheduler</span>
+        <span class="k">try</span> <span class="o">(</span><span class="n">Scheduler</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="n">Scheduler</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">adaptor</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">credential</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// ask SLURM for its queues</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Available queues (starred queue is default):&quot;</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">queueName</span> <span class="o">:</span> <span class="n">scheduler</span><span class="o">.</span><span class="na">getQueueNames</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">queueName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">scheduler</span><span class="o">.</span><span class="na">getDefaultQueueName</span><span class="o">()))</span> <span class="o">{</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">queueName</span> <span class="o">+</span> <span class="s">&quot;*&quot;</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">queueName</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
 </div>
 </div>
 <p>In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
