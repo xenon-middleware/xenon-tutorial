@@ -71,8 +71,10 @@ In case you hadn't noticed the pattern, stringing together any number of ``xenon
 to it will get you help on the particular combination of subcommands you supplied.
 
 The focus of this tutorial is on using Xenon's command line interface, but be aware that other programming
-interfaces are available through `gRPC`__. Where relevant, we have included equivalent code snippets,
-written in Java and Python, as separate tabs.
+interfaces are available through `gRPC`__. 
+
+Where relevant, we have included equivalent code snippets,
+written in Java, as a separate tab.
 
 __ https://grpc.io/
 
@@ -85,8 +87,6 @@ Let's try listing the contents of ``/home/tutorial/xenon``.
       xenon filesystem file list /home/tutorial/xenon
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
-
-   .. include:: python/examples/filesystems/directory_listing.py.txt
 
 The result should be more or less the same as that of ``ls -1``.
 
@@ -101,8 +101,6 @@ The result should be more or less the same as that of ``ls -1``.
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
 
-   .. include:: python/examples/filesystems/directory_listing_show_hidden.py.txt
-
 and ``--recursive``
 
 .. tabs::
@@ -112,8 +110,6 @@ and ``--recursive``
       xenon filesystem file list --recursive /home/tutorial/xenon
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
-
-   .. include:: python/examples/filesystems/directory_listing_recursive.py.txt
 
 Now let's create a file and try to use ``xenon`` to copy it:
 
@@ -138,8 +134,6 @@ So, the ``copy`` subcommand takes a source path and a target path:
       xenon filesystem file copy /home/tutorial/xenon/thefile.txt /home/tutorial/xenon/thefile.bak
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
-
-   .. include:: python/examples/filesystems/copy_file_local_to_local_absolute_paths.py.txt
 
 Note that the source path may be standard input, and that the target path may be standard output:
 
@@ -224,8 +218,6 @@ for that location, as follows:
       Default queue: mypartition
 
     .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmQueuesGetter.java
-
-    .. include:: python/examples/schedulers/slurm_queues_getter.py.txt
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
 ``~/.bash_history``, know that you can supply passwords from a file, as follows:
@@ -347,7 +339,6 @@ that:
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
 
-   .. include:: python/examples/filesystems/upload_file_local_to_sftp_absolute_paths.py.txt
 
 Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
 the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep duration of 60 seconds:
@@ -371,8 +362,6 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
     .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java
 
-    .. include:: python/examples/schedulers/slurm_job_list_getter.py.txt
-
 When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
 .. code-block:: bash
@@ -395,7 +384,6 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
    .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DownloadFileSftpToLocalAbsolutePaths.java
 
-   .. include:: python/examples/filesystems/download_file_sftp_to_local_absolute_paths.py.txt
 
 By this time you may start to consider putting those 3 commands in a script, as follows:
 
@@ -423,8 +411,6 @@ Adapt the script as follows and run it:
    .. include:: bash/alltogethernow.sh
 
    .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
-
-   .. include:: python/examples/all_together_now.py.txt
 
 After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
