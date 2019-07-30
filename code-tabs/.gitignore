@@ -1,0 +1,9 @@
+/code-tabs/.gradle
+/code-tabs/build
+
+
+# eclipse editor files
+/code-tabs/.classpath
+/code-tabs/.project
+/code-tabs/.settings
+/code-tabs/bin
