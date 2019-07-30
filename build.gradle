@@ -1,29 +1,31 @@
 plugins {
-    // Apply the java plugin to add support for Java
+    id 'base'
     id 'java'
     id 'eclipse'
-    id 'idea'
-    id 'com.github.johnrengelman.shadow' version '1.2.2'
 }
 
-// In this section you declare where to find the dependencies of your project
 repositories {
-    // Use Local Maven repository, if Xenon has been published locally
-    mavenLocal()
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
 
-// In this section you declare the dependencies for your production and test code
 dependencies {
-    compile group: 'nl.esciencecenter.xenon', name: 'xenon', version: '1.1.0'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation 'nl.esciencecenter.xenon:xenon:3.0.0'
+    implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
 }
 
+eclipse {
+    classpath {
 
-shadowJar {
-  baseName = 'Xenon-examples'
+        // also download sources and Javadoc for dependencies jars:
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
 
-defaultTasks 'shadowJar'
+task run(type: JavaExec) {
+    description 'Run main class found in `main` project property'
+    group 'Application tasks'
+    classpath = sourceSets.main.runtimeClasspath
+    main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.examples.DirectoryListing'
+    systemProperties.put('loglevel', project.findProperty('loglevel') ?: 'WARN')
+}
