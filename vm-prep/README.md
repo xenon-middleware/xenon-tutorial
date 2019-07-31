@@ -7,6 +7,8 @@
     - Linux: https://www.virtualbox.org/wiki/Linux_Downloads
 1. Create a virtual machine in VirtualBox using Ubuntu 18.04.02 as a base image. Get the .iso here http://releases.ubuntu.com/18.04/
 1. Configure the VM with at least 2 CPUs.
+1. Configure main memory to use 4 GB.
+1. Configure video memory to use the maximum of 128 MB.
 1. Call the user ``alice``
 1. Set her password to ``password``
 1. Once the virtual machine has started, update its packages
@@ -49,7 +51,7 @@
     uid           [ unknown] Docker Release (CE deb) <docker@docker.com>
     sub   rsa4096 2017-02-22 [S]
 
-    # add the correct repository depending on architecture and lniux distribution:
+    # add the correct repository depending on architecture and linux distribution:
     sudo add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
@@ -62,7 +64,12 @@
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     ```
 
-1. FIXME get a copy of the tutorial repo
+1. Get a copy of the tutorial materials:
+
+    ```
+    git clone https://github.com/xenon-middleware/xenon-tutorial.git
+    ```
+
 1. Install dependencies for generating the Sphinx documentation
 
     ```
@@ -79,8 +86,21 @@
     ```
 1. FIXME get a copy of xenon cli, install it, add to PATH
 1. create filesystem fixtures
+
+    ```
+    mkdir /home/alice/fixtures
+
+    ```
+
 1. install editors: nano, geany, gedit, others
-1. fix bash history
+1. Enable Bash completion from history
+
+    ```
+    echo '"\e[A": history-search-backward            # arrow up' >> ~/.inputrc
+    echo '"\e[B": history-search-forward             # arrow down'  >> ~/.inputrc
+    echo 'set completion-ignore-case on' >> ~/.inputrc
+    ```
+
 1. download docker images
     
     ```
