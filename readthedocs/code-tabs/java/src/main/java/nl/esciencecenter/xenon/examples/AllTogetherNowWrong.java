@@ -24,7 +24,7 @@ public class AllTogetherNowWrong {
 
         // create the remote filesystem representation and specify the executable's path
         String fileAdaptorRemote = "sftp";
-        String filesystemRemoteLocation = "ssh://localhost:10022";
+        String filesystemRemoteLocation = "localhost:10022";
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
                 filesystemRemoteLocation, credential);
 
@@ -52,7 +52,7 @@ public class AllTogetherNowWrong {
 
         // create the SLURM scheduler representation
         String schedulerAdaptor = "slurm";
-        String schedulerLocation = "localhost:10022";
+        String schedulerLocation = "ssh://localhost:10022";
         Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential);
 
         // compose the job description:
@@ -77,7 +77,7 @@ public class AllTogetherNowWrong {
 
             // specify the path of the stdout file on the remote and on the local machine
             Path fileRemote = new Path("/home/xenon/sleep.stdout.txt");
-            Path fileLocal = new Path("/home/tutorial/xenon/sleep.stdout.txt");
+            Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
 
             // start the copy operation
             filesystemRemote.copy(fileRemote, filesystemLocal, fileLocal, copyMode, recursive);
