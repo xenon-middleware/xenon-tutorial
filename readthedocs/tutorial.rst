@@ -1,5 +1,5 @@
 
-For your information, we have GoogleAnalytics enabled for this tutorial. This is to help show our funders that the work
+Note we have GoogleAnalytics enabled for this tutorial to help show our funders that the work
 we do is useful to others.
 
 |
@@ -23,7 +23,7 @@ During the import, you'll see an initialization wizard. Make sure that the virtu
 Start the virtual machine and log in as user ``alice`` with password ``password``.
 
 Once the system has booted, Click ``Activities`` and then start both a terminal and Firefox by clicking their respective
-icons. Use Firefox to navigate to the tutorial text at `<http://xenon-tutorial.readthedocs.io>`_.
+icons. Use Firefox to navigate to the tutorial text at `<https://xenon-tutorial.readthedocs.io>`_.
 
 In the terminal, confirm that the ``xenon`` command line interface
 program can be found on the system:
@@ -46,7 +46,7 @@ or remote. Let's start simple and see if we can do something with local files. F
 
       xenon filesystem --help
 
-The usage line suggests we need to pick one from ``{file,ftp,sftp,webdav}``.
+The usage line suggests we need to pick one from ``{file,ftp,s3,sftp,webdav}``.
 Again, choose what seems to be the simplest option (``file``), and again, check its help.
 
 .. code-block:: bash
@@ -65,13 +65,14 @@ So we need a ``path`` as final argument.
 In case you hadn't noticed the pattern, stringing together any number of ``xenon`` subcommands and appending ``--help``
 to it will get you help on the particular combination of subcommands you supplied.
 
-The focus of this tutorial is on using Xenon's command line interface, but be aware that other programming
-interfaces are available through `gRPC`__. 
+The focus of this tutorial is on using Xenon's command line interface, but be
+aware that you can use xenon's functionality from other programming
+languages through `xenon's  gRPC extension`__.
 
 Where relevant, we have included equivalent code snippets,
 written in Java and Python, as a separate tab.
 
-__ https://grpc.io/
+__ https://github.com/xenon-middleware/xenon-grpc
 
 Let's try listing the contents of ``/home/alice/fixtures/``.
 
@@ -264,7 +265,8 @@ to have ``xenon`` ask SLURM for its list of jobs in each queue, as follows:
 
 Now, let's try to submit a job using ``slurm submit``. Its usage string suggests that we need to provide (the path
 of) an ``executable``. Note that the executable should be present inside the container when SLURM starts its execution.
-For the moment, we'll use ``/bin/hostname`` as the executable. It should return the hostname ``slurm17`` of the Docker
+For the moment, we'll use ``/bin/hostname`` as the executable. It simply prints the name of the host on the command line.
+For our docker container, it should return the hostname ``slurm17`` of the Docker
 container, or whatever hostname you specified for it when you ran the ``docker run`` command earlier:
 
 .. code-block:: bash
@@ -300,7 +302,7 @@ Below are a few more examples of ``slurm submit``:
 
       # submit an 'env' job with environment variable MYKEY, and capture standard out so we know it worked
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
-      submit --stdout env.stdout.txt --env MYKEY=myvalue env
+      submit --stdout env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
       # check to see if the output from 'env' was written to file /home/xenon/env.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
@@ -362,7 +364,8 @@ that:
 
    .. group-tab:: Java
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
-
+         :language: java
+         :linenos:
 
 Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
 the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep duration of 60 seconds:
