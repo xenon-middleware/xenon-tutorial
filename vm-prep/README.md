@@ -11,17 +11,19 @@
 1. Configure video memory to use the maximum of 128 MB.
 1. Call the user ``alice``
 1. Set her password to ``password``
+1. Enable Bash completion from history
+
+    ```
+    echo '"\e[A": history-search-backward            # arrow up' >> ~/.inputrc
+    echo '"\e[B": history-search-forward             # arrow down'  >> ~/.inputrc
+    echo 'set completion-ignore-case on' >> ~/.inputrc
+    ```
+
 1. Once the virtual machine has started, update its packages
 
     ```
     sudo apt update
     sudo apt upgrade
-    ```
-
-1. Install Git
-    
-    ```
-    sudo apt install git
     ```
 
 1. Install Java version 11
@@ -64,6 +66,12 @@
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     ```
 
+1. Install Git
+    
+    ```
+    sudo apt install git
+    ```
+
 1. Get a copy of the tutorial materials:
 
     ```
@@ -81,6 +89,7 @@
 1. Add the user-space Python packages to the PATH
 
     ```
+    echo ''
     echo '# add directory where python has user space packages, e.g. when installing' >> ~/.bashrc
     echo '# with pip3 install --user <package name>' >> ~/.bashrc
     echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
@@ -92,10 +101,28 @@
 1. Generate the Sphinx documentation
 
     ```
-    cd readthedocs/
+    cd ~/xenon-tutorial/readthedocs/
     sphinx-build -b html . build/
     ```
+
 1. FIXME get a copy of xenon cli, install it, add to PATH
+
+    ```
+    cd ~/Downloads
+    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.0/xenon-cli-shadow-3.0.0.tar
+    tar -xvf xenon-cli-shadow-3.0.0.tar
+    mkdir -p ~/.local/bin/xenon
+    mv xenon-cli-shadow-3.0.0 ~/.local/bin/xenon/
+
+    echo ''
+    echo '# add xenon-cli directory to PATH' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.0/xenon/bin' >> ~/.bashrc
+
+    # enable the new settings
+    source ~/.bashrc
+    
+    ```
+
 1. create filesystem fixtures
 
     ```
@@ -104,14 +131,6 @@
     ```
 
 1. install editors: nano, geany, gedit, others
-1. Enable Bash completion from history
-
-    ```
-    echo '"\e[A": history-search-backward            # arrow up' >> ~/.inputrc
-    echo '"\e[B": history-search-forward             # arrow down'  >> ~/.inputrc
-    echo 'set completion-ignore-case on' >> ~/.inputrc
-    ```
-
 1. download docker images
     
     ```
