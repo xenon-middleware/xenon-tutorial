@@ -63,6 +63,20 @@
     ```
 
 1. FIXME get a copy of the tutorial repo
+1. Install dependencies for generating the Sphinx documentation
+
+    ```
+    sudo apt install python3
+    sudo apt install python3-pip
+    pip3 install -U -r requirements.txt
+    ```
+
+1. Generate the Sphinx documentation
+
+    ```
+    cd readthedocs/
+    sphinx-build -b html . build/
+    ```
 1. FIXME get a copy of xenon cli, install it, add to PATH
 1. create filesystem fixtures
 1. install editors: nano, geany, gedit, others

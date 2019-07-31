@@ -1,7 +1,3 @@
-.. Xenon tutorial RSE 2017 documentation master file, created by
-   sphinx-quickstart on Mon Aug  7 15:57:48 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 For your information, we have GoogleAnalytics enabled for this tutorial. This is to help show our funders that the work
 we do is useful to others.
@@ -15,26 +11,25 @@ Getting started
 
 On your system, start VirtualBox.
 
-All tutorials at `RSE2017`__ use the same virtual machine. In case you don't have a copy of the virtual machine, you can
+This tutorial uses a virtual machine to help avoid issues that are due to system configuration.
+In case you don't have a copy of the virtual machine, you can
 download it from GoogleDrive `here`__ (5.5 Gb). After the download finishes, click ``File`` in VirtualBox, then
 ``Import appliance``, then select the file you downloaded.
 
-__ http://rse.ac.uk/conf2017/
 __ https://drive.google.com/open?id=0B1GaxSkd5lU8UkF6V1A1VGpPZ2c
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
-Start the Fedora virtual machine and log in with password ``tutorial``.
+Start the virtual machine and log in as user ``alice`` with password ``password``.
 
 Once the system has booted, Click ``Activities`` and then start both a terminal and Firefox by clicking their respective
-icons. Use Firefox to navigate to the tutorial text at `<http://xenonrse2017.readthedocs.io>`_.
+icons. Use Firefox to navigate to the tutorial text at `<http://xenon-tutorial.readthedocs.io>`_.
 
-In the terminal, change directory to ``/home/tutorial/xenon`` and confirm that the ``xenon`` command line interface
+In the terminal, confirm that the ``xenon`` command line interface
 program can be found on the system:
 
 .. code-block:: bash
 
-   cd xenon
    xenon --help
 
 |
@@ -74,28 +69,28 @@ The focus of this tutorial is on using Xenon's command line interface, but be aw
 interfaces are available through `gRPC`__. 
 
 Where relevant, we have included equivalent code snippets,
-written in Java, as a separate tab.
+written in Java and Python, as a separate tab.
 
 __ https://grpc.io/
 
-Let's try listing the contents of ``/home/tutorial/xenon``.
+Let's try listing the contents of ``/home/alice/fixtures/``.
 
 .. tabs::
 
    .. group-tab:: Bash
 
-      .. literalinclude:: ../code-tabs/bash/DirectoryListing.sh
+      .. literalinclude:: code-tabs/bash/DirectoryListing.sh
          :language: bash
 
    .. group-tab:: Java
 
-      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
          :language: java
          :linenos:
 
    .. group-tab:: Python
 
-      .. literalinclude:: ../code-tabs/python/directory_listing.py
+      .. literalinclude:: code-tabs/python/directory_listing.py
          :language: python
          :linenos:
 
@@ -108,12 +103,12 @@ The result should be more or less the same as that of ``ls -1``.
 
    .. group-tab:: Bash
 
-      .. literalinclude:: ../code-tabs/bash/DirectoryListingShowHidden.sh
+      .. literalinclude:: code-tabs/bash/DirectoryListingShowHidden.sh
          :language: bash
 
    .. group-tab:: Java
 
-      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
          :language: java
          :linenos:
 
@@ -123,12 +118,12 @@ and ``--recursive``
 
    .. group-tab:: Bash
 
-      .. literalinclude:: ../code-tabs/bash/DirectoryListingRecursive.sh
+      .. literalinclude:: code-tabs/bash/DirectoryListingRecursive.sh
          :language: bash
 
    .. group-tab:: Java
 
-      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
          :language: java
          :linenos:
 
@@ -136,7 +131,7 @@ Now let's create a file and try to use ``xenon`` to copy it:
 
 .. code-block:: bash
 
-      cd /home/tutorial/xenon
+      cd /home/alice/fixtures
       echo 'some content' > thefile.txt
 
 Check the relevant help
@@ -152,12 +147,12 @@ So, the ``copy`` subcommand takes a source path and a target path:
 
    .. group-tab:: Bash
 
-      .. literalinclude:: ../code-tabs/bash/CopyFileLocalToLocalAbsolutePaths.sh
+      .. literalinclude:: code-tabs/bash/CopyFileLocalToLocalAbsolutePaths.sh
          :language: bash
 
    .. group-tab:: Java
 
-      .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
          :language: java
          :linenos:
 
@@ -196,7 +191,7 @@ __ https://slurm.schedmd.com/
 |
 |
 
-A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the RSE 2017 virtual machine. Bring it
+A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the virtual machine. Bring it
 up with:
 
 __ https://hub.docker.com/r/nlesc/xenon-slurm/
@@ -212,6 +207,7 @@ Use ``docker ps`` to check the state of the container
       docker ps
 
 Once the status is ``healthy``, see if we can ``ssh`` into it on port ``10022`` as user ``xenon`` with password
+
 ``javagat``:
 
 .. code-block:: bash
@@ -230,7 +226,7 @@ Check the help to see how the ``slurm`` subcommand works:
 Let's first ask what queues the SLURM scheduler has. For this, we need to specify
 a location, otherwise ``xenon`` does not know who to ask for the list of queues. According to the help,
 ``LOCATION`` is any location format supported by ``ssh`` or ``local`` scheduler.
-Our dockerized SLURM machine is reachable as ``localhost:10022``.
+Our dockerized SLURM machine is reachable as ``ssh://localhost:10022``.
 We'll also need to provide a ``--username`` and ``--password``
 for that location, as follows:
 
@@ -238,12 +234,12 @@ for that location, as follows:
 
     .. group-tab:: Bash
 
-       .. literalinclude:: ../code-tabs/bash/SlurmQueuesGetter.sh
+       .. literalinclude:: code-tabs/bash/SlurmQueuesGetter.sh
          :language: bash
 
     .. group-tab:: Java
 
-       .. literalinclude:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
+       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
          :language: java
          :linenos:
 
@@ -328,10 +324,10 @@ A typical workflow may thus look like this:
    2. submit job
    3. download generated output file(s)
 
-Use an editor to create a file ``sleep.sh`` with the following contents (the RSE 2017 virtual machine comes with
-``gedit``, or you can install an other editor from the repositories if you like):
+Use an editor to create a file ``sleep.sh`` with the following contents (the virtual machine comes with a bunch of editors
+like ``gedit``, ``leafpad``, and ``nano``, but you can install a different editor from the repositories if you like):
 
-.. include:: bash/sleep.sh
+.. include:: code-tabs/bash/sleep.sh
 
 You can test if your file is correct by:
 
@@ -360,12 +356,12 @@ that:
 .. tabs::
 
    .. group-tab:: Bash
+    
+      .. literalinclude:: code-tabs/bash/UploadFileLocalToSftpAbsolutePaths.sh
+         :language: bash
 
-      # step 1: upload input file(s)
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      upload /home/tutorial/xenon/sleep.sh /home/xenon/sleep.sh
-
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
+   .. group-tab:: Java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
 
 
 Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
@@ -388,7 +384,10 @@ With the job running, let's see if it shows up in any of the SLURM queues:
       xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
       # should have the job identifier in it that was printed on the command line
 
-    .. include:: java/nl/esciencecenter/xenon/examples/schedulers/SlurmJobListGetter.java
+    .. group-tab:: Java
+       literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmJobListGetter.java
+       :language: java
+       :linenos:
 
 When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
@@ -406,20 +405,27 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
    .. group-tab:: Bash
 
-      # step 3: download generated output file(s)
-      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat \
-      download /home/xenon/sleep.stdout.txt /home/tutorial/xenon/sleep.stdout.txt
+      .. literalinclude:: code-tabs/bash/DownloadFileSftpToLocalAbsolutePaths.sh
+         :language: bash
 
-   .. include:: ../code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DownloadFileSftpToLocalAbsolutePaths.java
+   .. group-tab:: Java
 
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DownloadFileSftpToLocalAbsolutePaths.java
+         :language: java
+         :linenos:   
 
 By this time you may start to consider putting those 3 commands in a script, as follows:
 
 .. tabs::
 
-   .. include:: bash/alltogethernowwrong.sh
+   .. group-tab:: Bash
+      .. literalinclude:: code-tabs/bash/AllTogetherNowWrong.sh
+         :language: bash
 
-   .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNowWrong.java
+   .. group-tab:: Java 
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNowWrong.java
+         :language: java
+         :linenos:
 
 However, if you create the script above and run it, you'll find that:
 
@@ -436,9 +442,14 @@ Adapt the script as follows and run it:
 
 .. tabs::
 
-   .. include:: bash/alltogethernow.sh
+   .. group-tab:: Bash
+      .. literalinclude:: code-tabs/bash/AllTogetherNow.sh
+         :language: bash
 
-   .. include:: java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
+   .. group-tab:: Java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
+         :language: java
+         :linenos:
 
 After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
