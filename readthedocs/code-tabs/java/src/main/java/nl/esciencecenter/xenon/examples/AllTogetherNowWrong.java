@@ -24,7 +24,7 @@ public class AllTogetherNowWrong {
 
         // create the remote filesystem representation and specify the executable's path
         String fileAdaptorRemote = "sftp";
-        String filesystemRemoteLocation = "localhost:10022";
+        String filesystemRemoteLocation = "ssh://localhost:10022";
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
                 filesystemRemoteLocation, credential);
 
@@ -36,7 +36,7 @@ public class AllTogetherNowWrong {
             boolean recursive = false;
 
             // specify the path of the script file on the local and on the remote
-            Path fileLocal = new Path("/home/tutorial/xenon/sleep.sh");
+            Path fileLocal = new Path("/home/alice/sleep.sh");
             Path fileRemote = new Path("/home/xenon/sleep.sh");
 
             // start the copy operation

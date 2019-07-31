@@ -11,7 +11,7 @@ public class DownloadFileSftpToLocalAbsolutePaths {
         // use the sftp file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
         String adaptorRemote = "sftp";
-        String location = "localhost:10022";
+        String location = "ssh://localhost:10022";
         String username = "xenon";
         char[] password = "javagat".toCharArray();
         PasswordCredential credential = new PasswordCredential(username, password);
@@ -25,7 +25,7 @@ public class DownloadFileSftpToLocalAbsolutePaths {
         FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
         // define what file to download to
-        Path fileLocal = new Path("/home/tutorial/xenon/sleep.stdout.txt");
+        Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
 
         // create the destination file only if the destination path doesn't exist yet
         CopyMode mode = CopyMode.CREATE;

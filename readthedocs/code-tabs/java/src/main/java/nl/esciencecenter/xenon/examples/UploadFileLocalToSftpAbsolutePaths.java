@@ -13,12 +13,12 @@ public class UploadFileLocalToSftpAbsolutePaths {
         FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
         // define what file to upload
-        Path fileLocal = new Path("/home/tutorial/xenon/sleep.sh");
+        Path fileLocal = new Path("/home/alice/sleep.sh");
 
         // use the sftp file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
         String adaptorRemote = "sftp";
-        String location = "localhost:10022";
+        String location = "ssh://localhost:10022";
         String username = "xenon";
         char[] password = "javagat".toCharArray();
         PasswordCredential credential = new PasswordCredential(username, password);

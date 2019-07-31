@@ -6,7 +6,7 @@ public class SlurmJobListGetter {
     public static void main(String[] args) throws Exception {
 
         String adaptor = "slurm";
-        String location = "localhost:10022";
+        String location = "ssh://localhost:10022";
 
         // make the password credential for user 'xenon'
         String username = "xenon";
