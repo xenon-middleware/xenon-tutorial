@@ -14,8 +14,8 @@ public class CopyFileLocalToLocalAbsolutePaths {
         FileSystem filesystem = FileSystem.create(adaptor);
 
         // create Paths for the source and destination files, using absolute paths
-        Path sourceFile = new Path("/home/daisycutter/tmp/tutorial/xenon/thefile.txt");
-        Path destFile = new Path("/home/daisycutter/tmp/tutorial/xenon/thefile.bak");
+        Path sourceFile = new Path("/home/alice/fixtures/thefile.txt");
+        Path destFile = new Path("/home/alice/fixtures/thefile.bak");
 
         // create the destination file only if the destination path doesn't exist yet
         CopyMode mode = CopyMode.CREATE;

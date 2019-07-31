@@ -1,1 +1,1 @@
-xenon filesystem file list /home/tutorial/xenon
+xenon filesystem file list /home/alice/fixtures

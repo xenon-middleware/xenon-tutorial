@@ -11,7 +11,7 @@ public class DirectoryListing {
 
         String adaptor = "file";
         FileSystem filesystem = FileSystem.create(adaptor);
-        Path directory = new Path("/tmp");
+        Path directory = new Path("/home/alice/fixtures");
         Boolean recursive = false;
         Iterable<PathAttributes> listing = filesystem.list(directory, recursive);
 
