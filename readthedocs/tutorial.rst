@@ -329,7 +329,8 @@ A typical workflow may thus look like this:
 Use an editor to create a file ``sleep.sh`` with the following contents (the virtual machine comes with a bunch of editors
 like ``gedit``, ``leafpad``, and ``nano``, but you can install a different editor from the repositories if you like):
 
-.. include:: code-tabs/bash/sleep.sh
+.. literalinclude:: code-tabs/bash/sleep.sh
+   :language: bash
 
 You can test if your file is correct by:
 
