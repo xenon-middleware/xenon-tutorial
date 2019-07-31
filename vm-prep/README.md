@@ -66,6 +66,19 @@
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     ```
 
+1. Configure the current user to allow running docker without asking for password
+
+    ```
+    # docker install should have created the docker group already, but just in case:
+    sudo groupadd docker
+
+    # add current user to docker group
+    sudo usermod -aG docker $USER
+
+    # start using the new settings
+    sudo newgrp docker
+    ```
+
 1. Install Git
     
     ```
@@ -134,6 +147,12 @@
     echo '.dir2/.file4.txt' > /home/alice/fixtures/.dir2/.file4.txt
     ```
 
+1. Install ``tree``
+
+    ```
+    sudo apt install tree
+    ```
+
 1. Install editors: nano, others
 
     ```
@@ -145,8 +164,8 @@
 1. Download Docker images
     
     ```
-    sudo docker pull nlesc/xenon-ssh
-    sudo docker pull nlesc/xenon-slurm:17
+    docker pull nlesc/xenon-ssh
+    docker pull nlesc/xenon-slurm:17
     ```
 1. Generate the Sphinx documentation locally just in case there are network problems
 1. Export vm as ova
