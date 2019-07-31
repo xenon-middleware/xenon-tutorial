@@ -249,7 +249,7 @@ In case you are reluctant to type plaintext passwords on the command line, for e
 
 .. code-block:: bash
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password @password.txt queues
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password @password.txt queues
 
 in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
 knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
@@ -260,7 +260,7 @@ to have ``xenon`` ask SLURM for its list of jobs in each queue, as follows:
 
 .. code-block:: bash
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat list
       # should work, but we don't have any jobs yet
 
 Now, let's try to submit a job using ``slurm submit``. Its usage string suggests that we need to provide (the path
@@ -275,11 +275,11 @@ container, or whatever hostname you specified for it when you ran the ``docker r
       xenon scheduler slurm submit --help
 
       # let xenon submit a job with /bin/hostname as executable
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit /bin/hostname
 
       # add --stdout to the submit job to capture its standard out so we know it worked:
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout hostname.stdout.txt /bin/hostname
 
       # check to see if the output was written to file /home/xenon/hostname.stdout.txt
@@ -292,7 +292,7 @@ Below are a few more examples of ``slurm submit``:
 .. code-block:: bash
 
       # executables that take options prefixed with '-' need special syntax, e.g. 'ls -la'
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout /home/xenon/ls.stdout.txt ls -- -la
 
       # check to see if the output was written to file /home/xenon/ls.stdout.txt
@@ -301,7 +301,7 @@ Below are a few more examples of ``slurm submit``:
       ssh -p 10022 xenon@localhost cat ls.stdout.txt
 
       # submit an 'env' job with environment variable MYKEY, and capture standard out so we know it worked
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
       # check to see if the output from 'env' was written to file /home/xenon/env.stdout.txt
@@ -373,7 +373,7 @@ the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep dur
 .. code-block:: bash
 
       # step 2: submit job
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat \
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout sleep.stdout.txt bash sleep.sh 60
 
       # (should return an identifier for the job)
@@ -384,7 +384,7 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
     .. group-tab:: Bash
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat list
       # should have the job identifier in it that was printed on the command line
 
     .. group-tab:: Java
@@ -396,10 +396,10 @@ When we submitted, we did not specify any queues, so the default queue ``myparti
 
 .. code-block:: bash
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue mypartition
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat list --queue mypartition
       # should have the job identifier in it that was printed on the command line
 
-      xenon scheduler slurm --location localhost:10022 --username xenon --password javagat list --queue otherpartition
+      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat list --queue otherpartition
       # this queue is empty
 
 With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
