@@ -27,7 +27,7 @@
 1. Install Java version 11
     
     ```
-    sudo apt install openjdk-11-amd64
+    sudo apt install openjdk-11-jre
     ```
 
 1. Get docker (instructions from here https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce)
@@ -73,9 +73,20 @@
 1. Install dependencies for generating the Sphinx documentation
 
     ```
-    sudo apt install python3
     sudo apt install python3-pip
+    cd ~/xenon-tutorial/readthedocs/
     pip3 install -U -r requirements.txt
+    ```
+
+1. Add the user-space Python packages to the PATH
+
+    ```
+    echo '# add directory where python has user space packages, e.g. when installing' >> ~/.bashrc
+    echo '# with pip3 install --user <package name>' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
+
+    # enable the new settings
+    source ~/.bashrc
     ```
 
 1. Generate the Sphinx documentation
