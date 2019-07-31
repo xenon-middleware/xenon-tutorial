@@ -1,9 +1,11 @@
-/.gradle
-/build
+/code-tabs/java/.gradle
+/code-tabs/java/build
 
 
 # eclipse editor files
-/.classpath
-/.project
-/.settings
-/bin
+/code-tabs/java/.classpath
+/code-tabs/java/.project
+/code-tabs/java/.settings
+/code-tabs/java/bin
+
+/readthedocs/.venv*

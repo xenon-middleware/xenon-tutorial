@@ -1,0 +1,1 @@
+xenon filesystem file list --hidden /home/tutorial/xenon
