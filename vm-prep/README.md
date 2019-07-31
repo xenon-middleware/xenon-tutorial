@@ -89,7 +89,7 @@
 1. Add the user-space Python packages to the PATH
 
     ```
-    echo ''
+    echo '' >> ~/.bashrc
     echo '# add directory where python has user space packages, e.g. when installing' >> ~/.bashrc
     echo '# with pip3 install --user <package name>' >> ~/.bashrc
     echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
@@ -105,7 +105,7 @@
     sphinx-build -b html . build/
     ```
 
-1. FIXME get a copy of xenon cli, install it, add to PATH
+1. Get a copy of xenon cli, install it, add to PATH:
 
     ```
     cd ~/Downloads
@@ -114,32 +114,43 @@
     mkdir -p ~/.local/bin/xenon
     mv xenon-cli-shadow-3.0.0 ~/.local/bin/xenon/
 
-    echo ''
+    echo '' >> ~/.bashrc
     echo '# add xenon-cli directory to PATH' >> ~/.bashrc
-    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.0/xenon/bin' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.0/bin' >> ~/.bashrc
 
     # enable the new settings
     source ~/.bashrc
     
     ```
 
-1. create filesystem fixtures
+1. Create filesystem fixtures
 
     ```
-    mkdir /home/alice/fixtures
-
+    mkdir /home/alice/fixtures/dir1
+    mkdir /home/alice/fixtures/.dir2
+    echo 'dir1/file1.txt' > /home/alice/fixtures/dir1/file1.txt
+    echo 'dir1/.file2.txt' > /home/alice/fixtures/dir1/.file2.txt
+    echo '.dir2/file3.txt' > /home/alice/fixtures/.dir2/file3.txt
+    echo '.dir2/.file4.txt' > /home/alice/fixtures/.dir2/.file4.txt
     ```
 
-1. install editors: nano, geany, gedit, others
-1. download docker images
+1. Install editors: nano, others
+
+    ```
+    sudo apt install geany
+    sudo apt install leafpad
+    sudo apt install joe
+    ```
+
+1. Download Docker images
     
     ```
     sudo docker pull nlesc/xenon-ssh
     sudo docker pull nlesc/xenon-slurm:17
     ```
-1. generate the sphinx documentation locally just in case
-1. export vm as ova
-1. test the installation
+1. Generate the Sphinx documentation locally just in case there are network problems
+1. Export vm as ova
+1. Test the installation
 
 ----
 
