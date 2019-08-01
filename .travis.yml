@@ -1,0 +1,29 @@
+--- 
+dist: bionic
+matrix: 
+  include: 
+    - 
+      before_cache: 
+        - "rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock"
+        - "rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
+      before_script: 
+        - "cd readthedocs/code-tabs/java"
+      cache: 
+        directories: 
+          - $HOME/.gradle/caches/
+          - $HOME/.gradle/wrapper/
+      jdk: openjdk11
+      language: java
+      name: "Java snippets"
+      notifications: 
+        email: 
+          on_failure: change
+          on_succes: never
+      script: 
+        - "./gradlew check"
+    - 
+      language: python
+      name: "Python snippets"
+      script: 
+        - "echo \"maybe later\""
+sudo: false
