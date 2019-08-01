@@ -293,7 +293,7 @@ Below are a few more examples of ``slurm submit``:
 
       # executables that take options prefixed with '-' need special syntax, e.g. 'ls -la'
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
-      submit --stdout /home/alice/ls.stdout.txt ls -- -la
+      submit --stdout /home/xenon/ls.stdout.txt ls -- -la
 
       # check to see if the output was written to file /home/alice/ls.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
@@ -302,7 +302,7 @@ Below are a few more examples of ``slurm submit``:
 
       # submit an 'env' job with environment variable MYKEY, and capture standard out so we know it worked
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
-      submit --stdout env.stdout.txt --env MYKEY=myvalue /usr/bin/env
+      submit --stdout /home/xenon/env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
       # check to see if the output from 'env' was written to file /home/alice/env.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
