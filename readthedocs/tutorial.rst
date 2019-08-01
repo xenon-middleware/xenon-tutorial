@@ -477,7 +477,7 @@ If you want, you can continue reading about relevant subjects, or try some of th
 Further reading
 ^^^^^^^^^^^^^^^
 
-- Xenon's JavaDoc on `jitpack.io`__
+- Xenon's JavaDoc on `jitpack.io`__ (Takes a minute or so to resolve, since the JavaDoc is generated on the fly)
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
@@ -491,13 +491,12 @@ Suggested exercises
   credentials for the remote system.
 - Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `nlesc/xenon-webdav`__
   as part of the virtual machine for testing.
-- Update ``xenon-cli`` to the `latest version`__, so you can use the ``s3`` file adaptor to connect to Amazon's
+- Use the ``s3`` file adaptor to connect to Amazon's
   `Simple Storage Service`__. Requires downloading of the Docker container `nlesc/xenon-s3`__ (300MB) from DockerHub for
   testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.
 
 __ https://en.wikipedia.org/wiki/WebDAV
 __ https://hub.docker.com/r/nlesc/xenon-webdav/
-__ https://github.com/NLeSC/xenon-cli
 __ https://aws.amazon.com/s3
 __ https://hub.docker.com/r/nlesc/xenon-s3/
 
