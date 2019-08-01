@@ -1,1 +1,1 @@
-xenon filesystem file copy /home/alice/fixtures/thefile.txt /home/alice/fixtures/thefile.bak
+xenon filesystem file copy /home/alice/thefile.txt /home/alice/thefile.bak
