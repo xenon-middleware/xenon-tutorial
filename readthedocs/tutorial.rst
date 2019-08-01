@@ -481,7 +481,7 @@ Further reading
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
-__ https://github.com/nlesc/pyxenon
+__ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 
 Suggested exercises
