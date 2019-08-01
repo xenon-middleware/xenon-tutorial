@@ -11,6 +11,7 @@ repositories {
 dependencies {
     implementation 'nl.esciencecenter.xenon:xenon:3.0.1'
     implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
+    testCompile 'junit:junit:4.12'
 }
 
 eclipse {
@@ -26,6 +27,6 @@ task run(type: JavaExec) {
     description 'Run main class found in `main` project property'
     group 'Application tasks'
     classpath = sourceSets.main.runtimeClasspath
-    main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.examples.DirectoryListing'
+    main = project.findProperty('main') ?: 'nl.esciencecenter.xenon.tutorial.DirectoryListing'
     systemProperties.put('loglevel', project.findProperty('loglevel') ?: 'WARN')
 }
