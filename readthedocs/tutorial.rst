@@ -282,7 +282,7 @@ container, or whatever hostname you specified for it when you ran the ``docker r
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout hostname.stdout.txt /bin/hostname
 
-      # check to see if the output was written to file /home/alice/hostname.stdout.txt
+      # check to see if the output was written to file /home/xenon/hostname.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
       # see what's in it
       ssh -p 10022 xenon@localhost cat hostname.stdout.txt
@@ -295,7 +295,7 @@ Below are a few more examples of ``slurm submit``:
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout /home/xenon/ls.stdout.txt ls -- -la
 
-      # check to see if the output was written to file /home/alice/ls.stdout.txt
+      # check to see if the output was written to file /home/xenon/ls.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
       # see what's in it
       ssh -p 10022 xenon@localhost cat ls.stdout.txt
@@ -304,7 +304,7 @@ Below are a few more examples of ``slurm submit``:
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout /home/xenon/env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
-      # check to see if the output from 'env' was written to file /home/alice/env.stdout.txt
+      # check to see if the output from 'env' was written to file /home/xenon/env.stdout.txt
       ssh -p 10022 xenon@localhost ls -l
       # see what's in it
       ssh -p 10022 xenon@localhost cat env.stdout.txt
