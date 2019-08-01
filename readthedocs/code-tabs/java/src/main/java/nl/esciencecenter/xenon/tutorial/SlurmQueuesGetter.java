@@ -1,4 +1,4 @@
-package nl.esciencecenter.xenon.examples;
+package nl.esciencecenter.xenon.tutorial;
 
 import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.Credential;

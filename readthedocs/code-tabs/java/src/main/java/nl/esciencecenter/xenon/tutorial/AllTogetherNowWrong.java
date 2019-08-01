@@ -1,15 +1,13 @@
-package nl.esciencecenter.xenon.examples;
+package nl.esciencecenter.xenon.tutorial;
 
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
-import nl.esciencecenter.xenon.filesystems.CopyStatus;
 import nl.esciencecenter.xenon.filesystems.FileSystem;
 import nl.esciencecenter.xenon.filesystems.Path;
 import nl.esciencecenter.xenon.schedulers.JobDescription;
-import nl.esciencecenter.xenon.schedulers.JobStatus;
 import nl.esciencecenter.xenon.schedulers.Scheduler;
 
-public class AllTogetherNow {
+public class AllTogetherNowWrong {
 
     public static void main(String[] args) throws Exception {
 
@@ -32,12 +30,9 @@ public class AllTogetherNow {
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
                 filesystemRemoteLocation, credential);
 
-        // when waiting for jobs or copy operations to complete, wait indefinitely
-        final long WAIT_INDEFINITELY = 0;
-
         {
             // specify the behavior in case the target path exists already
-            CopyMode copyMode = CopyMode.REPLACE;
+            CopyMode copyMode = CopyMode.CREATE;
 
             // no recursion, we're just copying a file
             boolean recursive = false;
@@ -47,15 +42,7 @@ public class AllTogetherNow {
             Path fileRemote = new Path("/home/xenon/sleep.sh");
 
             // start the copy operation
-            String copyId = filesystemLocal.copy(fileLocal, filesystemRemote, fileRemote, copyMode, recursive);
-
-            // wait for the copy operation to complete (successfully or otherwise)
-            CopyStatus status = filesystemLocal.waitUntilDone(copyId, WAIT_INDEFINITELY);
-
-            // rethrow the Exception if we got one
-            if (status.hasException()) {
-                throw status.getException();
-            }
+            filesystemLocal.copy(fileLocal, filesystemRemote, fileRemote, copyMode, recursive);
 
         }
 
@@ -76,15 +63,7 @@ public class AllTogetherNow {
         jobDescription.setArguments("sleep.sh", "60");
         jobDescription.setStdout("sleep.stdout.txt");
 
-        String jobId = scheduler.submitBatchJob(jobDescription);
-
-        // wait for the job to finish before attempting to copy its output file(s)
-        JobStatus jobStatus = scheduler.waitUntilDone(jobId, WAIT_INDEFINITELY);
-
-        // rethrow the Exception if we got one
-        if (jobStatus.hasException()) {
-            throw jobStatus.getException();
-        }
+        scheduler.submitBatchJob(jobDescription);
 
 
         /*
@@ -93,7 +72,7 @@ public class AllTogetherNow {
 
         {
             // specify the behavior in case the target path exists already
-            CopyMode copyMode = CopyMode.REPLACE;
+            CopyMode copyMode = CopyMode.CREATE;
 
             // no recursion, we're just copying a file
             boolean recursive = false;
@@ -103,15 +82,7 @@ public class AllTogetherNow {
             Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
 
             // start the copy operation
-            String copyId = filesystemRemote.copy(fileRemote, filesystemLocal, fileLocal, copyMode, recursive);
-
-            // wait for the copy operation to complete (successfully or otherwise)
-            CopyStatus status = filesystemRemote.waitUntilDone(copyId, WAIT_INDEFINITELY);
-
-            // rethrow the Exception if we got one
-            if (status.hasException()) {
-                throw status.getException();
-            }
+            filesystemRemote.copy(fileRemote, filesystemLocal, fileLocal, copyMode, recursive);
 
         }
 
