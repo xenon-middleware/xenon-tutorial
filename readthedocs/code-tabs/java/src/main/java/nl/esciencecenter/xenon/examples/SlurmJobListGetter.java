@@ -1,3 +1,5 @@
+package nl.esciencecenter.xenon.examples;
+
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.schedulers.Scheduler;
 
