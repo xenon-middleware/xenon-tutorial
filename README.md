@@ -1,2 +1,3 @@
-These are the install instructions for configuring the Virtual Machine as used for the [``xenon`` tutorial](http://xenon-tutorial.readthedocs.io).
 
+- [``/readthedocs``](/readthedocs) contains the source files for a [``xenon`` tutorial](http://xenon-tutorial.readthedocs.io) on ReadTheDocs. 
+- [``/vm-prep``](/vm-prep) contains instructions for setting up the Virtual Machine, as used during the tutorial.
