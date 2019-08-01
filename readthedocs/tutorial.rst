@@ -476,10 +476,11 @@ If you want, you can continue reading about relevant subjects, or try some of th
 
 Further reading
 ^^^^^^^^^^^^^^^
-
+- Xenon's homepage on `GitHub`__
 - Xenon's JavaDoc on `jitpack.io`__ (Takes a minute or so to resolve, since the JavaDoc is generated on the fly)
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
+__ https://github.com/xenon-middleware/xenon
 __ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
@@ -499,6 +500,4 @@ __ https://en.wikipedia.org/wiki/WebDAV
 __ https://hub.docker.com/r/nlesc/xenon-webdav/
 __ https://aws.amazon.com/s3
 __ https://hub.docker.com/r/nlesc/xenon-s3/
-
-
 
