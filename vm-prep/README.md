@@ -159,6 +159,10 @@
     sudo apt install geany
     sudo apt install leafpad
     sudo apt install joe
+
+    # choose which editor should be default (nano)
+    sudo update-alternatives --config editor
+
     ```
 
 1. Download Docker images
