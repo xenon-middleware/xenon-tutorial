@@ -132,7 +132,7 @@ Now let's create a file and try to use ``xenon`` to copy it:
 
 .. code-block:: bash
 
-      cd /home/alice/fixtures
+      cd /home/alice
       echo 'some content' > thefile.txt
 
 Check the relevant help
@@ -233,14 +233,14 @@ for that location, as follows:
 
 .. tabs::
 
-    .. group-tab:: Bash
+   .. group-tab:: Bash
 
-       .. literalinclude:: code-tabs/bash/SlurmQueuesGetter.sh
+      .. literalinclude:: code-tabs/bash/SlurmQueuesGetter.sh
          :language: bash
 
-    .. group-tab:: Java
+   .. group-tab:: Java
 
-       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
          :language: java
          :linenos:
 
@@ -364,6 +364,7 @@ that:
          :language: bash
 
    .. group-tab:: Java
+
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
          :language: java
          :linenos:
@@ -383,15 +384,15 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
 .. tabs::
 
-    .. group-tab:: Bash
+   .. group-tab:: Bash
 
-      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat list
-      # should have the job identifier in it that was printed on the command line
+      .. literalinclude:: code-tabs/bash/SlurmJobListGetter.sh
+         :language: bash
 
-    .. group-tab:: Java
-       literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmJobListGetter.java
-       :language: java
-       :linenos:
+   .. group-tab:: Java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmJobListGetter.java
+         :language: java
+         :linenos:
 
 When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
@@ -423,10 +424,12 @@ By this time you may start to consider putting those 3 commands in a script, as 
 .. tabs::
 
    .. group-tab:: Bash
+
       .. literalinclude:: code-tabs/bash/AllTogetherNowWrong.sh
          :language: bash
 
    .. group-tab:: Java 
+
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNowWrong.java
          :language: java
          :linenos:
@@ -447,10 +450,12 @@ Adapt the script as follows and run it:
 .. tabs::
 
    .. group-tab:: Bash
+
       .. literalinclude:: code-tabs/bash/AllTogetherNow.sh
          :language: bash
 
    .. group-tab:: Java
+
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
          :language: java
          :linenos:
