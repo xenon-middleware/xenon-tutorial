@@ -13,5 +13,3 @@ sphinx-build -b html . build/
 firefox build/index.html
 ```
 
-<!-- trigger -->
-
