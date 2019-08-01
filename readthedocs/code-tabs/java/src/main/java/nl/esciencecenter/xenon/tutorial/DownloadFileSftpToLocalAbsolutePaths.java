@@ -1,4 +1,4 @@
-package nl.esciencecenter.xenon.examples;
+package nl.esciencecenter.xenon.tutorial;
 
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
@@ -6,16 +6,9 @@ import nl.esciencecenter.xenon.filesystems.CopyStatus;
 import nl.esciencecenter.xenon.filesystems.FileSystem;
 import nl.esciencecenter.xenon.filesystems.Path;
 
-public class UploadFileLocalToSftpAbsolutePaths {
+public class DownloadFileSftpToLocalAbsolutePaths {
 
     public static void main(String[] args) throws Exception {
-
-        // use the local file system adaptor to create a file system representation
-        String adaptorLocal = "file";
-        FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
-
-        // define what file to upload
-        Path fileLocal = new Path("/home/alice/sleep.sh");
 
         // use the sftp file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
@@ -26,8 +19,15 @@ public class UploadFileLocalToSftpAbsolutePaths {
         PasswordCredential credential = new PasswordCredential(username, password);
         FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential);
 
-        // define which file to upload to
-        Path fileRemote = new Path("/home/xenon/sleep.sh");
+        // define which file to download
+        Path fileRemote = new Path("/home/xenon/sleep.stdout.txt");
+
+        // use the local file system adaptor to create a file system representation
+        String adaptorLocal = "file";
+        FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
+
+        // define what file to download to
+        Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
 
         // create the destination file only if the destination path doesn't exist yet
         CopyMode mode = CopyMode.CREATE;
@@ -35,11 +35,11 @@ public class UploadFileLocalToSftpAbsolutePaths {
         // no need to recurse, we're just downloading a file
         boolean recursive = false;
 
-        // perform the copy/upload and wait 1000 ms for the successful or otherwise
+        // perform the copy/download and wait 1000 ms for the successful or otherwise
         // completion of the operation
-        String copyId = filesystemLocal.copy(fileLocal, filesystemRemote, fileRemote, mode, recursive);
+        String copyId = filesystemRemote.copy(fileRemote, filesystemLocal, fileLocal, mode, recursive);
         long timeoutMilliSecs = 1000;
-        CopyStatus copyStatus = filesystemLocal.waitUntilDone(copyId, timeoutMilliSecs);
+        CopyStatus copyStatus = filesystemRemote.waitUntilDone(copyId, timeoutMilliSecs);
 
         // print any exceptions
         if (copyStatus.getException() != null) {

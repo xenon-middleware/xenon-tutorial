@@ -1,4 +1,4 @@
-package nl.esciencecenter.xenon.examples;
+package nl.esciencecenter.xenon.tutorial;
 
 import nl.esciencecenter.xenon.filesystems.CopyMode;
 import nl.esciencecenter.xenon.filesystems.CopyStatus;
