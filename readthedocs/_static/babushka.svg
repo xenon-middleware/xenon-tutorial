@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="270.49921mm"
-   height="265.29083mm"
-   viewBox="0 0 958.46177 940.00686"
+   width="269.65256mm"
+   height="277.4827mm"
+   viewBox="0 0 955.46183 983.20638"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="babushka.svg">
   <defs
      id="defs4" />
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.81169618"
-     inkscape:cx="479.23088"
-     inkscape:cy="470.00344"
+     inkscape:zoom="0.71704171"
+     inkscape:cx="509.57964"
+     inkscape:cy="524.37675"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,16 +56,16 @@
      inkscape:label="content"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-607.78882,-50.862724)">
+     transform="translate(-609.28882,-52.362725)">
     <rect
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#4d92fa;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000012;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#4d92fa;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.04871225;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="rect4136"
-       width="953.46179"
-       height="935.00684"
-       x="610.28882"
-       y="53.362724" />
+       width="953.41309"
+       height="981.15765"
+       x="610.31317"
+       y="53.387081" />
     <rect
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#5b968b;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#5b968b;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="rect4136-3"
        width="736.23041"
        height="698.77222"
@@ -74,33 +74,34 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot4295"
-       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:50px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;line-height:0.01%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        transform="translate(216.63919,-3.8628812)"><flowRegion
          id="flowRegion4297"><rect
            id="rect4299"
-           width="1043.1343"
-           height="116.75448"
+           width="1029.2744"
+           height="174.50389"
            x="729.237"
            y="867.76324"
            style="fill:#f2f2f2" /></flowRegion><flowPara
-         id="flowPara4301"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Akkurat;-inkscape-font-specification:Akkurat">host system</flowPara></flowRoot>    <flowRoot
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:1.25;font-family:Akkurat;-inkscape-font-specification:Akkurat"
+         id="flowPara245" /></flowRoot>    <flowRoot
        transform="translate(36.222983,-220.35599)"
        xml:space="preserve"
        id="flowRoot4295-7"
-       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:50px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
-         id="flowRegion4297-2"><rect
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+         id="flowRegion4297-2"
+         style="line-height:125%"><rect
            id="rect4299-2"
            width="643.10669"
            height="141.63655"
            x="729.237"
            y="867.76324"
-           style="fill:#f2f2f2" /></flowRegion><flowPara
+           style="line-height:125%;fill:#f2f2f2" /></flowRegion><flowPara
          id="flowPara4301-6"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle">guest system </flowPara><flowPara
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle"
-         id="flowPara4461">(RSE2017 virtual machine)</flowPara></flowRoot>    <rect
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c8beb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle">guest system </flowPara><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle"
+         id="flowPara4461">(Ubuntu virtual machine)</flowPara></flowRoot>    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c8beb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="rect4136-6"
        width="444.47778"
        height="104.25807"
@@ -110,7 +111,7 @@
        transform="matrix(0.88895547,0,0,0.88895547,250.67994,-560.35804)"
        xml:space="preserve"
        id="flowRoot4295-7-0"
-       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:50px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;line-height:0.01%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
          id="flowRegion4297-2-6"><rect
            id="rect4299-2-1"
            width="1043.1343"
@@ -119,8 +120,8 @@
            y="867.76324"
            style="fill:#f2f2f2" /></flowRegion><flowPara
          id="flowPara4301-6-5"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Akkurat;-inkscape-font-specification:Akkurat;fill:#1a1a1a">docker container 1</flowPara></flowRoot>    <rect
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c8beb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:1.25;font-family:Akkurat;-inkscape-font-specification:Akkurat;fill:#1a1a1a">docker container 1</flowPara></flowRoot>    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c8beb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.00000024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="rect4136-6-9-7"
        width="444.47778"
        height="104.25807"
@@ -129,7 +130,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot4295-7-0-9-7"
-       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:44.44777298px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;line-height:0.01%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
          id="flowRegion4297-2-6-4-1"><rect
            id="rect4299-2-1-9-1"
            width="927.29993"
@@ -138,7 +139,7 @@
            y="499.39282"
            style="fill:#f2f2f2" /></flowRegion><flowPara
          id="flowPara4301-6-5-0-5"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Akkurat;-inkscape-font-specification:Akkurat;fill:#1a1a1a">docker container <flowSpan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.44777298px;line-height:1.25;font-family:Akkurat;-inkscape-font-specification:Akkurat;fill:#1a1a1a">docker container <flowSpan
    style="font-style:italic"
    id="flowSpan4439">n</flowSpan></flowPara></flowRoot>    <g
        id="g4211"
@@ -165,5 +166,19 @@
          id="rect4188-6"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
     </g>
-  </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot249"
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:40px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.9375,0,0,0.9375,820.56674,50.862724)"><flowRegion
+         id="flowRegion251"><rect
+           id="rect253"
+           width="889.49548"
+           height="312.92499"
+           x="-160.15845"
+           y="862.22736" /></flowRegion><flowPara
+         id="flowPara255"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.33333206px;line-height:125%;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle;fill:#ffffff">host system</flowPara><flowPara
+         id="flowPara257"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.33333206px;line-height:125%;font-family:Akkurat;-inkscape-font-specification:Akkurat;text-align:center;text-anchor:middle;fill:#ffffff">(your day-to-day operating system)</flowPara></flowRoot>  </g>
 </svg>

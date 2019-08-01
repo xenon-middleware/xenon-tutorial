@@ -7,8 +7,18 @@
     - Linux: https://www.virtualbox.org/wiki/Linux_Downloads
 1. Create a virtual machine in VirtualBox using Ubuntu 18.04.02 as a base image. Get the .iso here http://releases.ubuntu.com/18.04/
 1. Configure the VM with at least 2 CPUs.
+1. Configure main memory to use 4 GB.
+1. Configure video memory to use the maximum of 128 MB.
 1. Call the user ``alice``
 1. Set her password to ``password``
+1. Enable Bash completion from history
+
+    ```
+    echo '"\e[A": history-search-backward            # arrow up' >> ~/.inputrc
+    echo '"\e[B": history-search-forward             # arrow down'  >> ~/.inputrc
+    echo 'set completion-ignore-case on' >> ~/.inputrc
+    ```
+
 1. Once the virtual machine has started, update its packages
 
     ```
@@ -16,16 +26,10 @@
     sudo apt upgrade
     ```
 
-1. Install Git
-    
-    ```
-    sudo apt install git
-    ```
-
 1. Install Java version 11
     
     ```
-    sudo apt install openjdk-11-amd64
+    sudo apt install openjdk-11-jre
     ```
 
 1. Get docker (instructions from here https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce)
@@ -49,7 +53,7 @@
     uid           [ unknown] Docker Release (CE deb) <docker@docker.com>
     sub   rsa4096 2017-02-22 [S]
 
-    # add the correct repository depending on architecture and lniux distribution:
+    # add the correct repository depending on architecture and linux distribution:
     sudo add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
@@ -62,20 +66,114 @@
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     ```
 
-1. FIXME get a copy of the tutorial repo
-1. FIXME get a copy of xenon cli, install it, add to PATH
-1. create filesystem fixtures
-1. install editors: nano, geany, gedit, others
-1. fix bash history
-1. download docker images
+1. Configure the current user to allow running docker without asking for password
+
+    ```
+    # docker install should have created the docker group already, but just in case:
+    sudo groupadd docker
+
+    # add current user to docker group
+    sudo usermod -aG docker $USER
+
+    # start using the new settings
+    sudo newgrp docker
+    ```
+
+1. Install Git
     
     ```
-    sudo docker pull nlesc/xenon-ssh
-    sudo docker pull nlesc/xenon-slurm:17
+    sudo apt install git
     ```
-1. generate the sphinx documentation locally just in case
-1. export vm as ova
-1. test the installation
+
+1. Get a copy of the tutorial materials:
+
+    ```
+    git clone https://github.com/xenon-middleware/xenon-tutorial.git
+    ```
+
+1. Install dependencies for generating the Sphinx documentation
+
+    ```
+    sudo apt install python3-pip
+    cd ~/xenon-tutorial/readthedocs/
+    pip3 install -U -r requirements.txt
+    ```
+
+1. Add the user-space Python packages to the PATH
+
+    ```
+    echo '' >> ~/.bashrc
+    echo '# add directory where python has user space packages, e.g. when installing' >> ~/.bashrc
+    echo '# with pip3 install --user <package name>' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
+
+    # enable the new settings
+    source ~/.bashrc
+    ```
+
+1. Generate the Sphinx documentation
+
+    ```
+    cd ~/xenon-tutorial/readthedocs/
+    sphinx-build -b html . build/
+    ```
+
+1. Get a copy of xenon cli, install it, add to PATH:
+
+    ```
+    cd ~/Downloads
+    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.0/xenon-cli-shadow-3.0.0.tar
+    tar -xvf xenon-cli-shadow-3.0.0.tar
+    mkdir -p ~/.local/bin/xenon
+    mv xenon-cli-shadow-3.0.0 ~/.local/bin/xenon/
+
+    echo '' >> ~/.bashrc
+    echo '# add xenon-cli directory to PATH' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.0/bin' >> ~/.bashrc
+
+    # enable the new settings
+    source ~/.bashrc
+    
+    ```
+
+1. Create filesystem fixtures
+
+    ```
+    mkdir /home/alice/fixtures/dir1
+    mkdir /home/alice/fixtures/.dir2
+    echo 'dir1/file1.txt' > /home/alice/fixtures/dir1/file1.txt
+    echo 'dir1/.file2.txt' > /home/alice/fixtures/dir1/.file2.txt
+    echo '.dir2/file3.txt' > /home/alice/fixtures/.dir2/file3.txt
+    echo '.dir2/.file4.txt' > /home/alice/fixtures/.dir2/.file4.txt
+    ```
+
+1. Install ``tree``
+
+    ```
+    sudo apt install tree
+    ```
+
+1. Install editors: nano, others
+
+    ```
+    sudo apt install geany
+    sudo apt install leafpad
+    sudo apt install joe
+
+    # choose which editor should be default (nano)
+    sudo update-alternatives --config editor
+
+    ```
+
+1. Download Docker images
+    
+    ```
+    docker pull nlesc/xenon-ssh
+    docker pull nlesc/xenon-slurm:17
+    ```
+1. Generate the Sphinx documentation locally just in case there are network problems
+1. Export vm as ova
+1. Test the installation
 
 ----
 
