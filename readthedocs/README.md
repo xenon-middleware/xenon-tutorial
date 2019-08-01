@@ -12,3 +12,6 @@ sphinx-build -b html . build/
 # use a browser to look at the result, e.g.
 firefox build/index.html
 ```
+
+<!-- trigger -->
+
