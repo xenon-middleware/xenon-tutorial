@@ -85,7 +85,7 @@ Let's try listing the contents of ``/home/alice/fixtures/``.
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListing.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DirectoryListing.java
          :language: java
          :linenos:
 
@@ -109,7 +109,7 @@ The result should be more or less the same as that of ``ls -1``.
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingShowHidden.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DirectoryListingShowHidden.java
          :language: java
          :linenos:
 
@@ -124,7 +124,7 @@ and ``--recursive``
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DirectoryListingRecursive.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DirectoryListingRecursive.java
          :language: java
          :linenos:
 
@@ -153,7 +153,7 @@ So, the ``copy`` subcommand takes a source path and a target path:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/CopyFileLocalToLocalAbsolutePaths.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/CopyFileLocalToLocalAbsolutePaths.java
          :language: java
          :linenos:
 
@@ -240,7 +240,7 @@ for that location, as follows:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmQueuesGetter.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/SlurmQueuesGetter.java
          :language: java
          :linenos:
 
@@ -365,7 +365,7 @@ that:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/UploadFileLocalToSftpAbsolutePaths.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/UploadFileLocalToSftpAbsolutePaths.java
          :language: java
          :linenos:
 
@@ -391,7 +391,7 @@ With the job running, let's see if it shows up in any of the SLURM queues:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmJobListGetter.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/SlurmJobListGetter.java
          :language: java
          :linenos:
 
@@ -416,7 +416,7 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/DownloadFileSftpToLocalAbsolutePaths.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DownloadFileSftpToLocalAbsolutePaths.java
          :language: java
          :linenos:   
 
@@ -431,7 +431,7 @@ By this time you may start to consider putting those 3 commands in a script, as 
 
    .. group-tab:: Java 
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNowWrong.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/AllTogetherNowWrong.java
          :language: java
          :linenos:
 
@@ -457,7 +457,7 @@ Adapt the script as follows and run it:
 
    .. group-tab:: Java
 
-      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/AllTogetherNow.java
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/AllTogetherNow.java
          :language: java
          :linenos:
 
