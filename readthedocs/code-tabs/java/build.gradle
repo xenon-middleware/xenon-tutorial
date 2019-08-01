@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'nl.esciencecenter.xenon:xenon:3.0.0'
+    implementation 'nl.esciencecenter.xenon:xenon:3.0.1'
     implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
 }
 

@@ -122,20 +122,21 @@
 
     ```
     cd ~/Downloads
-    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.0/xenon-cli-shadow-3.0.0.tar
-    tar -xvf xenon-cli-shadow-3.0.0.tar
+    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.1/xenon-cli-shadow-3.0.1.tar
+    tar -xvf xenon-cli-shadow-3.0.1.tar
     mkdir -p ~/.local/bin/xenon
-    mv xenon-cli-shadow-3.0.0 ~/.local/bin/xenon/
+    mv xenon-cli-shadow-3.0.1 ~/.local/bin/xenon/
 
     echo '' >> ~/.bashrc
     echo '# add xenon-cli directory to PATH' >> ~/.bashrc
-    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.0/bin' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.1/bin' >> ~/.bashrc
 
     # enable the new settings
     source ~/.bashrc
     
     ```
 
+1. Check that the downloaded version of xenon-cli uses the same xenon as what is defined in ``readthedocs/code-tabs/java/build.gradle``.
 1. Create filesystem fixtures
 
     ```
