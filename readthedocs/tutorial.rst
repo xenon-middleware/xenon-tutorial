@@ -390,6 +390,7 @@ With the job running, let's see if it shows up in any of the SLURM queues:
          :language: bash
 
    .. group-tab:: Java
+
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/examples/SlurmJobListGetter.java
          :language: java
          :linenos:
