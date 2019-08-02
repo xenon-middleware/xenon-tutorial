@@ -27,7 +27,7 @@ public class DownloadFileSftpToLocalAbsolutePaths {
         FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
         // define what file to download to
-        Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
+        Path fileLocal = new Path("/home/travis/sleep.stdout.txt");
 
         // create the destination file only if the destination path doesn't exist yet
         CopyMode mode = CopyMode.CREATE;

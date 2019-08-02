@@ -38,7 +38,7 @@ public class AllTogetherNowWrong {
             boolean recursive = false;
 
             // specify the path of the script file on the local and on the remote
-            Path fileLocal = new Path("/home/alice/sleep.sh");
+            Path fileLocal = new Path("/home/travis/sleep.sh");
             Path fileRemote = new Path("/home/xenon/sleep.sh");
 
             // start the copy operation
@@ -79,7 +79,7 @@ public class AllTogetherNowWrong {
 
             // specify the path of the stdout file on the remote and on the local machine
             Path fileRemote = new Path("/home/xenon/sleep.stdout.txt");
-            Path fileLocal = new Path("/home/alice/sleep.stdout.txt");
+            Path fileLocal = new Path("/home/travis/sleep.stdout.txt");
 
             // start the copy operation
             filesystemRemote.copy(fileRemote, filesystemLocal, fileLocal, copyMode, recursive);
