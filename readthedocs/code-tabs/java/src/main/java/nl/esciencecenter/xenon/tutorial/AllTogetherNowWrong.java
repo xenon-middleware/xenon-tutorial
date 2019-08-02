@@ -1,5 +1,8 @@
 package nl.esciencecenter.xenon.tutorial;
 
+import java.util.Map;
+
+import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
 import nl.esciencecenter.xenon.filesystems.FileSystem;
@@ -9,7 +12,17 @@ import nl.esciencecenter.xenon.schedulers.Scheduler;
 
 public class AllTogetherNowWrong {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws XenonException {
+
+        String host = "localhost";
+        String port = "10022";
+        Map<String, String> propertiesSsh = null;
+        Map<String, String> propertiesSftp = null;
+
+        main(host, port, propertiesSsh, propertiesSftp);
+    }
+
+    public static void main(String host, String port, Map<String, String> propertiesSsh, Map<String, String> propertiesSftp) throws XenonException {
 
         /*
          * step 1: upload input file(s)
@@ -26,9 +39,9 @@ public class AllTogetherNowWrong {
 
         // create the remote filesystem representation and specify the executable's path
         String fileAdaptorRemote = "sftp";
-        String filesystemRemoteLocation = "localhost:10022";
+        String filesystemRemoteLocation = host + ":" + port;
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
-                filesystemRemoteLocation, credential);
+                filesystemRemoteLocation, credential, propertiesSftp);
 
         {
             // specify the behavior in case the target path exists already
@@ -54,8 +67,8 @@ public class AllTogetherNowWrong {
 
         // create the SLURM scheduler representation
         String schedulerAdaptor = "slurm";
-        String schedulerLocation = "ssh://localhost:10022";
-        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential);
+        String schedulerLocation = "ssh://" + host + ":" + port;
+        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential, propertiesSsh);
 
         // compose the job description:
         JobDescription jobDescription = new JobDescription();
