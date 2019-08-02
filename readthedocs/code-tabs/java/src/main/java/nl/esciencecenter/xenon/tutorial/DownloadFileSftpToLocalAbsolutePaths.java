@@ -1,5 +1,8 @@
 package nl.esciencecenter.xenon.tutorial;
 
+import java.util.Map;
+
+import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
 import nl.esciencecenter.xenon.filesystems.CopyStatus;
@@ -8,16 +11,26 @@ import nl.esciencecenter.xenon.filesystems.Path;
 
 public class DownloadFileSftpToLocalAbsolutePaths {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws XenonException {
+
+        String host = "localhost";
+        String port = "10022";
+        Map<String, String> properties = null;
+
+        main(host, port, properties);
+    }
+
+    public static void main(String host, String port, Map<String, String> properties) throws XenonException {
+
 
         // use the sftp file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
         String adaptorRemote = "sftp";
-        String location = "localhost:10022";
+        String location = host + ":" + port;
         String username = "xenon";
         char[] password = "javagat".toCharArray();
         PasswordCredential credential = new PasswordCredential(username, password);
-        FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential);
+        FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential, properties);
 
         // define which file to download
         Path fileRemote = new Path("/home/xenon/sleep.stdout.txt");
