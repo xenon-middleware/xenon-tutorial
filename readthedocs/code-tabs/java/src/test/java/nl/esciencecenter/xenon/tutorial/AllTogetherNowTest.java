@@ -13,7 +13,8 @@ public class AllTogetherNowTest {
 
     private String host;
     private String port;
-    private Map<String, String> properties;
+    private Map<String, String> propertiesSsh;
+    private Map<String, String> propertiesSftp;
 
     @Rule
     public GenericContainer<?> slurm = new GenericContainer<>("nlesc/xenon-slurm:17").withExposedPorts(22);
@@ -22,14 +23,20 @@ public class AllTogetherNowTest {
     public void setUp() {
         host = slurm.getContainerIpAddress();
         port = Integer.toString(slurm.getFirstMappedPort());
-        properties = new HashMap<String, String>();
-        properties.put("xenon.adaptors.schedulers.ssh.loadSshConfig", "false");
-        properties.put("xenon.adaptors.schedulers.ssh.loadKnownHosts", "false");
+
+        propertiesSsh = new HashMap<String, String>();
+        propertiesSsh.put("xenon.adaptors.schedulers.ssh.loadSshConfig", "false");
+        propertiesSsh.put("xenon.adaptors.schedulers.ssh.loadKnownHosts", "false");
+
+        propertiesSftp = new HashMap<String, String>();
+        propertiesSftp.put("xenon.adaptors.filesystems.sftp.loadSshConfig", "false");
+        propertiesSftp.put("xenon.adaptors.filesystems.sftp.loadKnownHosts", "false");
+
     }
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        AllTogetherNow.main(host, port, properties);
+        AllTogetherNow.main(host, port, propertiesSsh, propertiesSftp);
     }
 
 }

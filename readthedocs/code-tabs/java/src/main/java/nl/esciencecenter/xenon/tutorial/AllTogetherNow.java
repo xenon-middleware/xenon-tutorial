@@ -18,12 +18,13 @@ public class AllTogetherNow {
 
         String host = "localhost";
         String port = "10022";
-        Map<String, String> properties = null;
+        Map<String, String> propertiesSsh = null;
+        Map<String, String> propertiesSftp = null;
 
-        main(host, port, properties);
+        main(host, port, propertiesSsh, propertiesSftp);
     }
 
-    public static void main(String host, String port, Map<String, String> properties) throws XenonException {
+    public static void main(String host, String port, Map<String, String> propertiesSsh, Map<String, String> propertiesSftp) throws XenonException {
 
         /*
          * step 1: upload input file(s)
@@ -40,9 +41,9 @@ public class AllTogetherNow {
 
         // create the remote filesystem representation and specify the executable's path
         String fileAdaptorRemote = "sftp";
-        String filesystemRemoteLocation = "localhost:10022";
+        String filesystemRemoteLocation = host + ":" + port;
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
-                filesystemRemoteLocation, credential);
+                filesystemRemoteLocation, credential, propertiesSftp);
 
         // when waiting for jobs or copy operations to complete, wait indefinitely
         final long WAIT_INDEFINITELY = 0;
@@ -79,8 +80,8 @@ public class AllTogetherNow {
 
         // create the SLURM scheduler representation
         String schedulerAdaptor = "slurm";
-        String schedulerLocation = "ssh://localhost:10022";
-        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential);
+        String schedulerLocation = "ssh://" + host + ":" + port;
+        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential, propertiesSsh);
 
         // compose the job description:
         JobDescription jobDescription = new JobDescription();
