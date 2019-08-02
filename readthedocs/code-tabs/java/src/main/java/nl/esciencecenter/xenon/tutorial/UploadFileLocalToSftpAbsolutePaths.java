@@ -15,7 +15,7 @@ public class UploadFileLocalToSftpAbsolutePaths {
         FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
         // define what file to upload
-        Path fileLocal = new Path("/home/alice/sleep.sh");
+        Path fileLocal = new Path("/home/travis/sleep.sh");
 
         // use the sftp file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
