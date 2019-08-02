@@ -1,5 +1,8 @@
 package nl.esciencecenter.xenon.tutorial;
 
+import java.util.Map;
+
+import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
 import nl.esciencecenter.xenon.filesystems.CopyStatus;
@@ -11,7 +14,16 @@ import nl.esciencecenter.xenon.schedulers.Scheduler;
 
 public class AllTogetherNow {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws XenonException {
+
+        String host = "localhost";
+        String port = "10022";
+        Map<String, String> properties = null;
+
+        main(host, port, properties);
+    }
+
+    public static void main(String host, String port, Map<String, String> properties) throws XenonException {
 
         /*
          * step 1: upload input file(s)
