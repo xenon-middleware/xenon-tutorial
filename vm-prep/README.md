@@ -9,7 +9,7 @@
 1. Configure the VM with at least 2 CPUs.
 1. Configure main memory to use 4 GB.
 1. Configure video memory to use the maximum of 128 MB.
-1. Call the user ``alice``
+1. Call the user ``travis``
 1. Set her password to ``password``
 1. Enable Bash completion from history
 
@@ -140,12 +140,12 @@
 1. Create filesystem fixtures
 
     ```
-    mkdir /home/alice/fixtures/dir1
-    mkdir /home/alice/fixtures/.dir2
-    echo 'dir1/file1.txt' > /home/alice/fixtures/dir1/file1.txt
-    echo 'dir1/.file2.txt' > /home/alice/fixtures/dir1/.file2.txt
-    echo '.dir2/file3.txt' > /home/alice/fixtures/.dir2/file3.txt
-    echo '.dir2/.file4.txt' > /home/alice/fixtures/.dir2/.file4.txt
+    mkdir -p /home/travis/fixtures/dir1
+    mkdir -p /home/travis/fixtures/.dir2
+    echo 'dir1/file1.txt' > /home/travis/fixtures/dir1/file1.txt
+    echo 'dir1/.file2.txt' > /home/travis/fixtures/dir1/.file2.txt
+    echo '.dir2/file3.txt' > /home/travis/fixtures/.dir2/file3.txt
+    echo '.dir2/.file4.txt' > /home/travis/fixtures/.dir2/.file4.txt
     ```
 
 1. Install ``tree``
