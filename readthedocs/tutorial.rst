@@ -20,7 +20,7 @@ __ https://drive.google.com/open?id=0B1GaxSkd5lU8UkF6V1A1VGpPZ2c
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
-Start the virtual machine and log in as user ``alice`` with password ``password``.
+Start the virtual machine and log in as user ``travis`` with password ``password``.
 
 Once the system has booted, Click ``Activities`` and then start both a terminal and Firefox by clicking their respective
 icons. Use Firefox to navigate to the tutorial text at `<https://xenon-tutorial.readthedocs.io>`_.
@@ -74,7 +74,7 @@ written in Java and Python, as a separate tab.
 
 __ https://github.com/xenon-middleware/xenon-grpc
 
-Let's try listing the contents of ``/home/alice/fixtures/``.
+Let's try listing the contents of ``/home/travis/fixtures/``.
 
 .. tabs::
 
@@ -132,7 +132,7 @@ Now let's create a file and try to use ``xenon`` to copy it:
 
 .. code-block:: bash
 
-      cd /home/alice
+      cd /home/travis
       echo 'some content' > thefile.txt
 
 Check the relevant help

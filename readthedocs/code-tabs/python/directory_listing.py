@@ -4,7 +4,7 @@ from xenon import Path, FileSystem
 xenon.init()
 
 filesystem = FileSystem.create(adaptor='file')
-path = Path("/home/alice/fixtures")
+path = Path("/home/travis/fixtures")
 
 listing = filesystem.list(path, recursive=False)
 
