@@ -1,1 +1,1 @@
-xenon filesystem file list --recursive /home/alice/fixtures
+xenon filesystem file list --recursive /home/travis/fixtures

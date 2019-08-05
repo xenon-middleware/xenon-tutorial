@@ -1,1 +1,1 @@
-xenon filesystem file list --hidden /home/alice/fixtures
+xenon filesystem file list --hidden /home/travis/fixtures

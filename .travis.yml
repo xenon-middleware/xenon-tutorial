@@ -7,6 +7,7 @@ matrix:
         - "rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock"
         - "rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
       before_script: 
+        - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/java"
       cache: 
         directories: 
