@@ -3,6 +3,14 @@ dist: bionic
 matrix: 
   include: 
     - 
+      before_script: 
+        - "bash vm-prep/make-fixtures.sh"
+        - "cd readthedocs/code-tabs/bash"
+      language: bash
+      name: "Bash snippets using xenon-cli"
+      script: 
+        - "echo 'maybe later'"
+    - 
       before_cache: 
         - "rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock"
         - "rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
@@ -15,16 +23,19 @@ matrix:
           - $HOME/.gradle/wrapper/
       jdk: openjdk11
       language: java
-      name: "Java snippets"
-      notifications: 
-        email: 
-          on_failure: change
-          on_succes: never
+      name: "Java snippets that use xenon library directly"
       script: 
         - "./gradlew check"
     - 
+      before_script: 
+        - "bash vm-prep/make-fixtures.sh"
+        - "cd readthedocs/code-tabs/python"
       language: python
-      name: "Python snippets"
+      name: "Python snippets using pyxenon and xenon-grpc"
       script: 
-        - "echo \"maybe later\""
+        - python setup.py test
+notifications: 
+  email: 
+    on_failure: change
+    on_succes: never
 sudo: false
