@@ -29,7 +29,7 @@ public class SlurmJobListGetterTest {
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        SlurmJobListGetter.main(host, port, properties);
+        SlurmJobListGetter.runExample(host, port, properties);
     }
 
 }

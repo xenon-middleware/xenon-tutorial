@@ -16,10 +16,10 @@ public class SlurmQueuesGetter {
         String port = "10022";
         Map<String, String> properties = null;
 
-        main(host, port, properties);
+        runExample(host, port, properties);
     }
 
-    public static void main(String host, String port, Map<String, String> properties) throws XenonException {
+    public static void runExample(String host, String port, Map<String, String> properties) throws XenonException {
 
         String adaptor = "slurm";
         String location = "ssh://" + host + ":" + port;

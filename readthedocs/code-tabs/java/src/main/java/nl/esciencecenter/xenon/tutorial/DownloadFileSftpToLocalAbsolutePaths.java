@@ -17,10 +17,10 @@ public class DownloadFileSftpToLocalAbsolutePaths {
         String port = "10022";
         Map<String, String> properties = null;
 
-        main(host, port, properties);
+        runExample(host, port, properties);
     }
 
-    public static void main(String host, String port, Map<String, String> properties) throws XenonException {
+    public static void runExample(String host, String port, Map<String, String> properties) throws XenonException {
 
 
         // use the sftp file system adaptor to create a file system representation; the remote

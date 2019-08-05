@@ -30,7 +30,7 @@ public class SlurmQueuesGetterTest {
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        SlurmQueuesGetter.main(host, port, properties);
+        SlurmQueuesGetter.runExample(host, port, properties);
     }
 
 }

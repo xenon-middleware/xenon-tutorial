@@ -30,6 +30,6 @@ public class UploadFileLocalToSftpAbsolutePathsTest {
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        UploadFileLocalToSftpAbsolutePaths.main(host, port, properties);
+        UploadFileLocalToSftpAbsolutePaths.runExample(host, port, properties);
     }
 }

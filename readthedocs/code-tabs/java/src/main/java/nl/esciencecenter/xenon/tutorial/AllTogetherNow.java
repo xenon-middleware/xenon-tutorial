@@ -21,10 +21,10 @@ public class AllTogetherNow {
         Map<String, String> propertiesSsh = null;
         Map<String, String> propertiesSftp = null;
 
-        main(host, port, propertiesSsh, propertiesSftp);
+        runExample(host, port, propertiesSsh, propertiesSftp);
     }
 
-    public static void main(String host, String port, Map<String, String> propertiesSsh, Map<String, String> propertiesSftp) throws XenonException {
+    public static void runExample(String host, String port, Map<String, String> propertiesSsh, Map<String, String> propertiesSftp) throws XenonException {
 
         /*
          * step 1: upload input file(s)

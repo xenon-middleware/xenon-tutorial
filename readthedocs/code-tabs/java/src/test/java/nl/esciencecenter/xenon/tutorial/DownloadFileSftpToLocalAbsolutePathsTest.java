@@ -35,6 +35,6 @@ public class DownloadFileSftpToLocalAbsolutePathsTest {
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        DownloadFileSftpToLocalAbsolutePaths.main(host, port, properties);
+        DownloadFileSftpToLocalAbsolutePaths.runExample(host, port, properties);
     }
 }

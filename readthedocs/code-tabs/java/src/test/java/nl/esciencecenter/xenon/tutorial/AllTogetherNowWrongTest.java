@@ -36,7 +36,7 @@ public class AllTogetherNowWrongTest {
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        AllTogetherNowWrong.main(host, port, propertiesSsh, propertiesSftp);
+        AllTogetherNowWrong.runExample(host, port, propertiesSsh, propertiesSftp);
     }
 
 }
