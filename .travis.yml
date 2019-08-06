@@ -43,7 +43,8 @@ matrix:
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       install:
-        - pip install -r readthedocs/code-tabs/python/requirements.txt
+        - (git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)
+        - which xenon-grpc
       script: 
         - pytest tests/
 notifications: 
