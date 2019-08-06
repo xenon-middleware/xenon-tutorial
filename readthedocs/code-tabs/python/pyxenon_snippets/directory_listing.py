@@ -1,15 +1,21 @@
 import xenon
 from xenon import Path, FileSystem
 
-xenon.init()
+def run_example():
 
-filesystem = FileSystem.create(adaptor='file')
-path = Path("/home/travis/fixtures")
+    xenon.init(port=50051, disable_tls=True)
 
-listing = filesystem.list(path, recursive=False)
+    filesystem = FileSystem.create(adaptor='file')
+    path = Path("/home/travis/fixtures")
 
-for entry in listing:
-    if not entry.path.is_hidden():
-        print(entry.path)
+    listing = filesystem.list(path, recursive=False)
 
-filesystem.close()
+    for entry in listing:
+        if not entry.path.is_hidden():
+            print(entry.path)
+
+    filesystem.close()
+
+
+if __name__ == '__main__':
+    run_example()
