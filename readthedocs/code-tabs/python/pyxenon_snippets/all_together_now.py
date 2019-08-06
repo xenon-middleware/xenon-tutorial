@@ -88,7 +88,7 @@ def download(remote_fs=None, local_fs=None):
 
 def run_example():
 
-    xenon.init(port=50051, disable_tls=True)
+    xenon.init()
 
     # use the local file system adaptor to create a file system representation
     local_fs = FileSystem.create(adaptor='file')
