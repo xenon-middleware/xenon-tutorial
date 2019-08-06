@@ -18,6 +18,7 @@
 # python snippets, generated files
 /readthedocs/code-tabs/python/.coverage
 /readthedocs/code-tabs/python/.eggs
+/readthedocs/code-tabs/python/.idea
 /readthedocs/code-tabs/python/coverage.xml
 /readthedocs/code-tabs/python/htmlcov
 /readthedocs/code-tabs/python/pyxenon_snippets.egg-info
