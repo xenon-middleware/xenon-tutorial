@@ -50,7 +50,7 @@ matrix:
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
-        - "pytest tests/test_download_file_sftp_to_local_absolute_paths.py"
+        - "pytest tests/test_slurm_queues_getter.py"
       services: 
         - docker
 notifications: 
