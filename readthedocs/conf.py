@@ -68,7 +68,20 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['.venv*']
+exclude_patterns = [
+    'code-tabs/python/.eggs',
+    'code-tabs/python/.idea',
+    'code-tabs/python/.pytest_cache',
+    'code-tabs/python/pyxenon_snippets.egg.info',
+    'code-tabs/python/tests/*',
+    'code-tabs/python/venv3*',
+    'code-tabs/python/.coverage',
+    'code-tabs/python/.editorconfig',
+    'code-tabs/python/coverage.xml',
+    'code-tabs/python/README.rst',
+    'code-tabs/python/setup.cfg',
+    'code-tabs/python/setup.py'
+]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
