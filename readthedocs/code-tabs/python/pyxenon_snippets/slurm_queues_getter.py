@@ -3,7 +3,7 @@ from xenon import Scheduler, PasswordCredential
 
 
 def run_example():
-    xenon.init()
+    xenon.init(log_level='DEBUG')
 
     credential = PasswordCredential(username='xenon',
                                     password='javagat')

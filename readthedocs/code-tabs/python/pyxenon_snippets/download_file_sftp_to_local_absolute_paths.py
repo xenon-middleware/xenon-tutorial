@@ -4,7 +4,7 @@ from xenon import FileSystem, PasswordCredential, CopyRequest, Path, CopyStatus
 
 def run_example():
 
-    xenon.init(log_level='INFO')
+    xenon.init()
 
     # use the sftp file system adaptor to create a file system
     # representation; the remote filesystem requires credentials to log in,
