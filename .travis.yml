@@ -23,7 +23,7 @@ matrix:
         - "source /home/travis/.bashrc"
         - "chmod 700 /home/travis"
         - "chmod 644 /home/travis/.ssh/config"
-        - "bash vm-prep/check-ssh-permissions.sh"
+        - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon"
       language: bash
       name: "Bash snippets using xenon-cli"

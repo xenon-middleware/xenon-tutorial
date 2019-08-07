@@ -13,13 +13,12 @@ snippets="DirectoryListing.sh \
           DirectoryListingShowHidden.sh \
           DirectoryListingRecursive.sh \
           CopyFileLocalToLocalAbsolutePaths.sh \
-          SlurmQueuesGetter.sh"
-
-#           UploadFileLocalToSftpAbsolutePaths.sh"
-#           SlurmJobListGetter.sh \
-#           DownloadFileSftpToLocalAbsolutePaths.sh \
-#           AllTogetherNowWrong.sh \
-#           AllTogetherNow.sh"
+          SlurmQueuesGetter.sh
+          UploadFileLocalToSftpAbsolutePaths.sh
+          SlurmJobListGetter.sh \
+          DownloadFileSftpToLocalAbsolutePaths.sh \
+          AllTogetherNowWrong.sh \
+          AllTogetherNow.sh"
 
 for snippet in $snippets ; 
 do
