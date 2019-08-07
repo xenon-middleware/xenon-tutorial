@@ -60,17 +60,15 @@ matrix:
         - "sudo apt install -y openjdk-11-jre"
         - "pip install -r readthedocs/code-tabs/python/requirements.txt"
         - "pip install -r readthedocs/code-tabs/python/requirements-dev.txt"
-        - "ls -l /home/travis/.ssh"
+        - "chmod 700 /home/travis"
         - "chmod 644 /home/travis/.ssh/config"
-        - "ls -l /home/travis/.ssh"
-        - "ls -ld /home/travis/.ssh"
-        - "chmod 700 /home/travis/.ssh"
-        - "ls -ld /home/travis/.ssh"
+        - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon-grpc"
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
-        - "xenon-grpc -vvvvv & pytest tests/test_slurm_queues_getter.py"
+        - "pytest tests/test_slurm_queues_getter_with_props.py"
+        - "pytest tests/test_slurm_queues_getter.py"
       services: 
         - docker
 notifications: 
