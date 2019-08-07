@@ -2,7 +2,7 @@
 
 # some examples need a running docker, see .travis.yml
 set -x
-# bash DirectoryListing.sh || exit 1; 
+bash DirectoryListing.sh || exit 1; 
 # bash DirectoryListingShowHidden.sh || exit 1;
 # bash DirectoryListingRecursive.sh || exit 1;
 # bash CopyFileLocalToLocalAbsolutePaths.sh || exit 1;

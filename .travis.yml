@@ -4,9 +4,9 @@ matrix:
   include: 
     - 
       before_install: 
-        - "docker pull nlesc/xenon-slurm:17"
+        - "docker pull xenonmiddleware/xenon-slurm:17"
       before_script: 
-        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/xenon-slurm:17"
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/bash"
         - "docker images"
@@ -24,7 +24,6 @@ matrix:
         - "which xenon"
         - "ls -l /home/travis/.ssh"
         - "chmod 644 /home/travis/.ssh/config"
-        - "rm /home/travis/.ssh/known_hosts"
         - "ls -l /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
@@ -32,7 +31,6 @@ matrix:
       language: bash
       name: "Bash snippets using xenon-cli"
       script: 
-        - # "xenon -vvvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat --prop xenon.adaptors.schedulers.ssh.loadKnownHosts=false queues"
         - "bash travis.sh"
       services: 
         - docker
@@ -56,17 +54,16 @@ matrix:
         - "./gradlew check"
     - 
       before_install: 
-        - "docker pull nlesc/xenon-slurm:17"
+        - "docker pull xenonmiddleware/xenon-slurm:17"
       before_script: 
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/python"
-        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/xenon-slurm:17"
       install: 
         - "sudo apt install -y openjdk-11-jre"
         - "pip install -r readthedocs/code-tabs/python/requirements.txt"
         - "pip install -r readthedocs/code-tabs/python/requirements-dev.txt"
         - "ls -l /home/travis/.ssh"
-        - "rm /home/travis/.ssh/known_hosts"
         - "chmod 644 /home/travis/.ssh/config"
         - "ls -l /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"

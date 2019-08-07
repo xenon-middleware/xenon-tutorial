@@ -210,14 +210,14 @@ __ https://slurm.schedmd.com/
 |
 |
 
-A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the virtual machine. Bring it
+A copy of the SLURM Docker image (`xenonmiddleware/xenon-slurm`__:17) has been included in the virtual machine. Bring it
 up with:
 
-__ https://hub.docker.com/r/nlesc/xenon-slurm/
+__ https://hub.docker.com/r/xenonmiddleware/xenon-slurm/
 
 .. code-block:: bash
 
-      docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17
+      docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/xenon-slurm:17
 
 Use ``docker ps`` to check the state of the container
 
@@ -525,11 +525,11 @@ If you want, you can continue reading about relevant subjects, or try some of th
 Further reading
 ^^^^^^^^^^^^^^^
 - Xenon's homepage on `GitHub`__
-- Xenon's JavaDoc on `jitpack.io`__ (Takes a minute or so to resolve, since the JavaDoc is generated on the fly)
+- Xenon's JavaDoc on `github.io`__
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://github.com/xenon-middleware/xenon
-__ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
+__ http://xenon-middleware.github.io/xenon/versions/3.0.1/javadoc
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 
@@ -538,14 +538,14 @@ Suggested exercises
 
 - Repeat selected exercises, but test against a physically remote system instead of a Docker container. Requires
   credentials for the remote system.
-- Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `nlesc/xenon-webdav`__
+- Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `xenonmiddleware/xenon-webdav`__
   as part of the virtual machine for testing.
 - Use the ``s3`` file adaptor to connect to Amazon's
-  `Simple Storage Service`__. Requires downloading of the Docker container `nlesc/xenon-s3`__ (300MB) from DockerHub for
+  `Simple Storage Service`__. Requires downloading of the Docker container `xenonmiddleware/xenon-s3`__ (300MB) from DockerHub for
   testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.
 
 __ https://en.wikipedia.org/wiki/WebDAV
-__ https://hub.docker.com/r/nlesc/xenon-webdav/
+__ https://hub.docker.com/r/xenonmiddleware/xenon-webdav/
 __ https://aws.amazon.com/s3
-__ https://hub.docker.com/r/nlesc/xenon-s3/
+__ https://hub.docker.com/r/xenonmiddleware/xenon-s3/
 
