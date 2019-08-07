@@ -91,7 +91,7 @@ Let's try listing the contents of ``/home/travis/fixtures/``.
 
    .. group-tab:: Python
 
-      .. literalinclude:: code-tabs/python/directory_listing.py
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/directory_listing.py
          :language: python
          :linenos:
 
@@ -113,6 +113,12 @@ The result should be more or less the same as that of ``ls -1``.
          :language: java
          :linenos:
 
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/directory_listing_show_hidden.py
+         :language: python
+         :linenos:
+
 and ``--recursive``
 
 .. tabs::
@@ -126,6 +132,12 @@ and ``--recursive``
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DirectoryListingRecursive.java
          :language: java
+         :linenos:
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/directory_listing_recursive.py
+         :language: python
          :linenos:
 
 Now let's create a file and try to use ``xenon`` to copy it:
@@ -155,6 +167,12 @@ So, the ``copy`` subcommand takes a source path and a target path:
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/CopyFileLocalToLocalAbsolutePaths.java
          :language: java
+         :linenos:
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/copy_file_local_to_local_absolute_paths.py
+         :language: python
          :linenos:
 
 Note that the source path may be standard input, and that the target path may be standard output:
@@ -242,6 +260,12 @@ for that location, as follows:
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/SlurmQueuesGetter.java
          :language: java
+         :linenos:
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/slurm_queues_getter.py
+         :language: python
          :linenos:
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
@@ -369,6 +393,12 @@ that:
          :language: java
          :linenos:
 
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/upload_file_local_to_sftp_absolute_paths.py
+         :language: python
+         :linenos:
+
 Now that the script is in place, we can submit a ``bash`` job using ``xenon scheduler slurm submit`` like before, taking
 the newly uploaded ``sleep.sh`` file as input to ``bash``, and using a sleep duration of 60 seconds:
 
@@ -395,6 +425,12 @@ With the job running, let's see if it shows up in any of the SLURM queues:
          :language: java
          :linenos:
 
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/slurm_job_list_getter.py
+         :language: python
+         :linenos:
+
 When we submitted, we did not specify any queues, so the default queue ``mypartition`` was used:
 
 .. code-block:: bash
@@ -419,6 +455,12 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DownloadFileSftpToLocalAbsolutePaths.java
          :language: java
          :linenos:   
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/download_file_sftp_to_local_absolute_paths.py
+         :language: python
+         :linenos:
 
 By this time you may start to consider putting those 3 commands in a script, as follows:
 
@@ -461,6 +503,12 @@ Adapt the script as follows and run it:
          :language: java
          :linenos:
 
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/all_together_now.py
+         :language: python
+         :linenos:
+
 After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
 Congratulations -- you have successfully completed the tutorial!
@@ -477,11 +525,11 @@ If you want, you can continue reading about relevant subjects, or try some of th
 Further reading
 ^^^^^^^^^^^^^^^
 - Xenon's homepage on `GitHub`__
-- Xenon's JavaDoc on `jitpack.io`__ (Takes a minute or so to resolve, since the JavaDoc is generated on the fly)
+- Xenon's JavaDoc on `github.io`__
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://github.com/xenon-middleware/xenon
-__ https://jitpack.io/com/github/NLeSC/Xenon/master-SNAPSHOT/javadoc/
+__ http://xenon-middleware.github.io/xenon/versions/3.0.1/javadoc
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 

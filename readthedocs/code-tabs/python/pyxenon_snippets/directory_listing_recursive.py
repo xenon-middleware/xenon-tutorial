@@ -9,7 +9,7 @@ def run_example():
     filesystem = FileSystem.create(adaptor='file')
     path = Path("/home/travis/fixtures")
 
-    listing = filesystem.list(path, recursive=False)
+    listing = filesystem.list(path, recursive=True)
 
     for entry in listing:
         if not entry.path.is_hidden():
