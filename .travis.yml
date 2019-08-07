@@ -28,7 +28,7 @@ matrix:
       language: bash
       name: "Bash snippets using xenon-cli"
       script: 
-        - xenon scheduler -vvvvv slurm --location ssh://localhost:10022 --username xenon --password javagat queues 
+        - "xenon -vvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat queues"
         - "bash travis.sh"
       services: 
         - docker
