@@ -68,7 +68,7 @@ matrix:
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
         - "pytest tests/test_slurm_queues_getter_with_props.py"
-        - "pytest tests/test_slurm_queues_getter.py"
+        - "pytest tests/"
       services: 
         - docker
 notifications: 
