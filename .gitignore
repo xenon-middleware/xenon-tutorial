@@ -21,6 +21,7 @@
 /readthedocs/code-tabs/python/.idea
 /readthedocs/code-tabs/python/coverage.xml
 /readthedocs/code-tabs/python/htmlcov
+/readthedocs/code-tabs/python/venv3*
 /readthedocs/code-tabs/python/pyxenon_snippets.egg-info
 /readthedocs/code-tabs/python/pyxenon_snippets/__pycache__
 /readthedocs/code-tabs/python/tests/__pycache__
