@@ -47,11 +47,10 @@ matrix:
       install: 
         - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
         - "which xenon-grpc"
-        - "xenon-grpc -vvvv &"
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
-        - "pytest tests/test_slurm_queues_getter.py"
+        - "xenon-grpc -vvvvv & pytest tests/test_slurm_queues_getter.py"
       services: 
         - docker
 notifications: 
