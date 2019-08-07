@@ -8,8 +8,6 @@ locations="$HOME
            $HOME/.ssh
            $HOME/.ssh/authorized_keys
            $HOME/.ssh/config
-           $HOME/.ssh/id_rsa.pub
-           $HOME/.ssh/id_rsa
            $HOME/.ssh/known_hosts"
 
 for location in $locations ; 
