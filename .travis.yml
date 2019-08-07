@@ -6,8 +6,11 @@ matrix:
       before_install: 
         - "docker pull nlesc/xenon-slurm:17"
       before_script: 
+        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/bash"
+        - "docker images"
+        - "docker ps -a"
       install: 
         - "sudo apt install -y openjdk-11-jre"
         - "wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.1/xenon-cli-shadow-3.0.1.tar"
@@ -28,7 +31,7 @@ matrix:
       language: bash
       name: "Bash snippets using xenon-cli"
       script: 
-        - "xenon -vvvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat --prop xenon.adaptors.schedulers.ssh.loadSshConfig=false --prop xenon.adaptors.schedulers.slurm.loadSshConfig=false queues"
+        - "xenon -vvvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat queues"
         - "bash travis.sh"
       services: 
         - docker
