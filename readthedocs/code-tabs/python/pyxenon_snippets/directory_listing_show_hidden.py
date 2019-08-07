@@ -3,7 +3,6 @@ from xenon import Path, FileSystem
 
 
 def run_example():
-
     xenon.init()
 
     filesystem = FileSystem.create(adaptor='file')
@@ -12,8 +11,7 @@ def run_example():
     listing = filesystem.list(path, recursive=False)
 
     for entry in listing:
-        if not entry.path.is_hidden():
-            print(entry.path)
+        print(entry.path)
 
     filesystem.close()
 
