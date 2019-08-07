@@ -39,6 +39,8 @@ matrix:
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/python"
         - "ls -l /home/travis/.ssh"
+        - "chmod 644 /home/travis/.ssh/config"
+        - "ls -l /home/travis/.ssh"
       install: 
         - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
         - "which xenon-grpc"
