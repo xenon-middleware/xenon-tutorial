@@ -44,6 +44,7 @@ matrix:
         - "ls -ld /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
+        - java -jar /home/travis/virtualenv/python3.6.7/lib/xenon-grpc-3.0.0.jar -vvvvv
       install: 
         - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
         - "which xenon-grpc"
