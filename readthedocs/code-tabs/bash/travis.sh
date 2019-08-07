@@ -21,8 +21,8 @@ snippets="DirectoryListing.sh \
           UploadFileLocalToSftpAbsolutePaths.sh
           SlurmJobListGetter.sh \
           AllTogetherNowWrong.sh \
-          AllTogetherNow.sh \
-          DownloadFileSftpToLocalAbsolutePaths.sh"
+          AllTogetherNow.sh"
+#          DownloadFileSftpToLocalAbsolutePaths.sh"
 
 for snippet in $snippets ; 
 do
