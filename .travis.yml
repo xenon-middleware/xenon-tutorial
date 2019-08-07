@@ -41,13 +41,16 @@ matrix:
         - "ls -l /home/travis/.ssh"
         - "chmod 644 /home/travis/.ssh/config"
         - "ls -l /home/travis/.ssh"
+        - "ls -ld /home/travis/.ssh"
+        - "chmod 700 /home/travis/.ssh"
+        - "ls -ld /home/travis/.ssh"
       install: 
         - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
         - "which xenon-grpc"
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
-        - "pytest tests/"
+        - "pytest tests/test_download_file_sftp_to_local_absolute_paths.py"
       services: 
         - docker
 notifications: 
