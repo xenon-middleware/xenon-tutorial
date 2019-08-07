@@ -46,8 +46,6 @@ setup(
         'pytest-runner'
     ],
     tests_require=[
-        'pytest',
-        'pytest-cov',
-        'pycodestyle'
+        'pytest'
     ]
 )
