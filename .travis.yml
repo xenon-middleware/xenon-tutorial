@@ -21,6 +21,7 @@ matrix:
         - "echo '# add xenon-cli directory to PATH' >> /home/travis/.bashrc"
         - "echo 'PATH=$PATH:/home/travis/.local/bin/xenon/xenon-cli-shadow-3.0.1/bin' >> /home/travis/.bashrc"
         - "source /home/travis/.bashrc"
+        - "chmod g-w /home/travis/.ssh/config"
         - "which xenon"
       language: bash
       name: "Bash snippets using xenon-cli"
