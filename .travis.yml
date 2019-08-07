@@ -22,12 +22,7 @@ matrix:
         - "echo 'PATH=$PATH:/home/travis/.local/bin/xenon/xenon-cli-shadow-3.0.1/bin' >> /home/travis/.bashrc"
         - "source /home/travis/.bashrc"
         - "which xenon"
-        - "ls -l /home/travis/.ssh"
-        - "chmod 644 /home/travis/.ssh/config"
-        - "ls -l /home/travis/.ssh"
-        - "ls -ld /home/travis/.ssh"
-        - "chmod 700 /home/travis/.ssh"
-        - "ls -ld /home/travis/.ssh"
+        - "rm -r /home/travis/.ssh"
       language: bash
       name: "Bash snippets using xenon-cli"
       script: 

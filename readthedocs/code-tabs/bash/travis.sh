@@ -1,16 +1,27 @@
 #!/usr/bin/env bash
 
 # some examples need a running docker, see .travis.yml
-set -x
-bash DirectoryListing.sh || exit 1; 
-# bash DirectoryListingShowHidden.sh || exit 1;
-# bash DirectoryListingRecursive.sh || exit 1;
-# bash CopyFileLocalToLocalAbsolutePaths.sh || exit 1;
-bash SlurmQueuesGetter.sh || exit 1;
-# bash UploadFileLocalToSftpAbsolutePaths.sh || exit 1;
-# bash SlurmJobListGetter.sh || exit 1;
-# bash DownloadFileSftpToLocalAbsolutePaths.sh || exit 1;
-# bash AllTogetherNowWrong.sh || exit 1;
-# bash AllTogetherNow.sh || exit 1;
+
+run_snippet () {
+   echo "travis_fold:start:$1"
+   bash $1 || exit 1; 
+   echo "travis_fold:end:$1"
+}
+
+snippets="DirectoryListing.sh \
+          DirectoryListingShowHidden.sh \
+          DirectoryListingRecursive.sh \
+          CopyFileLocalToLocalAbsolutePaths.sh \
+          SlurmQueuesGetter.sh \
+          UploadFileLocalToSftpAbsolutePaths.sh \
+          SlurmJobListGetter.sh \
+          DownloadFileSftpToLocalAbsolutePaths.sh \
+          AllTogetherNowWrong.sh \
+          AllTogetherNow.sh"
+
+for snippet in $snippets ; 
+do
+   run_snippet $snippet
+done
  
 exit 0;
