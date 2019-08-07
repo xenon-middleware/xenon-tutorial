@@ -24,6 +24,7 @@ matrix:
         - "which xenon"
         - "ls -l /home/travis/.ssh"
         - "chmod 644 /home/travis/.ssh/config"
+        - "rm /home/travis/.ssh/known_hosts"
         - "ls -l /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
@@ -31,7 +32,7 @@ matrix:
       language: bash
       name: "Bash snippets using xenon-cli"
       script: 
-        - "xenon -vvvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat --prop xenon.adaptors.schedulers.ssh.loadKnownHosts=false queues"
+        - # "xenon -vvvvvv scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat --prop xenon.adaptors.schedulers.ssh.loadKnownHosts=false queues"
         - "bash travis.sh"
       services: 
         - docker
@@ -65,6 +66,7 @@ matrix:
         - "pip install -r readthedocs/code-tabs/python/requirements.txt"
         - "pip install -r readthedocs/code-tabs/python/requirements-dev.txt"
         - "ls -l /home/travis/.ssh"
+        - "rm /home/travis/.ssh/known_hosts"
         - "chmod 644 /home/travis/.ssh/config"
         - "ls -l /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
