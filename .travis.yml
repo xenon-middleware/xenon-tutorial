@@ -31,8 +31,6 @@ matrix:
       script: 
         - "./gradlew check"
     - 
-      after_script:
-        - "cat /home/travis/xenon-grpc-log.txt"
       before_install: 
         - "sudo apt install -y openjdk-11-jre"
         - "docker pull nlesc/xenon-slurm:17"
@@ -46,7 +44,6 @@ matrix:
         - "ls -ld /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
-        - (xenon-grpc -vvvv > /home/travis/xenon-grpc-log.txt) &
       install: 
         - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
         - "which xenon-grpc"
