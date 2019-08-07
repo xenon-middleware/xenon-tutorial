@@ -34,10 +34,10 @@ matrix:
       before_install: 
         - "sudo apt install -y openjdk-11-jre"
         - "docker pull nlesc/xenon-slurm:17"
-        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
       before_script: 
+        - "which xenon-grpc"
         - "bash vm-prep/make-fixtures.sh"
-        - "cd readthedocs/code-tabs/python"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
         - "ls -l /home/travis/.ssh"
         - "chmod 644 /home/travis/.ssh/config"
         - "ls -l /home/travis/.ssh"
@@ -45,8 +45,9 @@ matrix:
         - "chmod 700 /home/travis/.ssh"
         - "ls -ld /home/travis/.ssh"
       install: 
-        - "(git clone https://github.com/xenon-middleware/pyxenon.git && cd pyxenon && pip install .)"
-        - "which xenon-grpc"
+        - "cd readthedocs/code-tabs/python"
+        - "pip install -r requirements.txt"
+        - "pip install -r requirements-dev.txt"
       language: python
       name: "Python snippets using pyxenon and xenon-grpc"
       script: 
