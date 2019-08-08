@@ -1,5 +1,6 @@
 import xenon
-from xenon import FileSystem, PasswordCredential, CopyRequest, Path, CopyStatus, Scheduler, JobDescription, JobStatus
+from xenon import (FileSystem, PasswordCredential, CopyRequest,
+    Path, CopyStatus, Scheduler, JobDescription, JobStatus)
 
 
 def upload(local_fs=None, remote_fs=None):
