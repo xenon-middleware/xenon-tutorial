@@ -210,14 +210,14 @@ __ https://slurm.schedmd.com/
 |
 |
 
-A copy of the SLURM Docker image (`nlesc/xenon-slurm`__:17) has been included in the virtual machine. Bring it
+A copy of the SLURM Docker image (`xenonmiddleware/slurm`__:17) has been included in the virtual machine. Bring it
 up with:
 
-__ https://hub.docker.com/r/nlesc/xenon-slurm/
+__ https://hub.docker.com/r/xenonmiddleware/slurm/
 
 .. code-block:: bash
 
-      docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17
+      docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17
 
 Use ``docker ps`` to check the state of the container
 
@@ -538,14 +538,14 @@ Suggested exercises
 
 - Repeat selected exercises, but test against a physically remote system instead of a Docker container. Requires
   credentials for the remote system.
-- Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `nlesc/xenon-webdav`__
+- Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `xenonmiddleware/webdav`__
   as part of the virtual machine for testing.
 - Use the ``s3`` file adaptor to connect to Amazon's
-  `Simple Storage Service`__. Requires downloading of the Docker container `nlesc/xenon-s3`__ (300MB) from DockerHub for
+  `Simple Storage Service`__. Requires downloading of the Docker container `xenonmiddleware/s3`__ (300MB) from DockerHub for
   testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.
 
 __ https://en.wikipedia.org/wiki/WebDAV
-__ https://hub.docker.com/r/nlesc/xenon-webdav/
+__ https://hub.docker.com/r/xenonmiddleware/webdav/
 __ https://aws.amazon.com/s3
-__ https://hub.docker.com/r/nlesc/xenon-s3/
+__ https://hub.docker.com/r/xenonmiddleware/s3/
 

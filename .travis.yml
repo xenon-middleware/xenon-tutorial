@@ -4,9 +4,9 @@ matrix:
   include: 
     - 
       before_install: 
-        - "docker pull nlesc/xenon-slurm:17"
+        - "docker pull xenonmiddleware/slurm:17"
       before_script: 
-        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/bash"
         - "docker images"
@@ -51,11 +51,11 @@ matrix:
         - "./gradlew check"
     - 
       before_install: 
-        - "docker pull nlesc/xenon-slurm:17"
+        - "docker pull xenonmiddleware/slurm:17"
       before_script: 
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/python"
-        - "docker run --detach --publish 10022:22 --hostname slurm17 nlesc/xenon-slurm:17"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
       install: 
         - "sudo apt install -y openjdk-11-jre"
         - "pip install -r readthedocs/code-tabs/python/requirements.txt"

@@ -169,8 +169,10 @@
 1. Download Docker images
     
     ```
-    docker pull nlesc/xenon-ssh
-    docker pull nlesc/xenon-slurm:17
+    docker pull xenonmiddleware/s3
+    docker pull xenonmiddleware/slurm:17
+    docker pull xenonmiddleware/ssh
+    docker pull xenonmiddleware/webdav
     ```
 1. Generate the Sphinx documentation locally just in case there are network problems
 1. Export vm as ova
