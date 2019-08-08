@@ -17,7 +17,7 @@ public class DownloadFileSftpToLocalAbsolutePathsTest {
     private Map<String, String> properties;
 
     @Rule
-    public GenericContainer<?> slurm = new GenericContainer<>("nlesc/xenon-slurm:17").withExposedPorts(22);
+    public GenericContainer<?> slurm = new GenericContainer<>("xenonmiddleware/slurm:17").withExposedPorts(22);
 
     @Before
     public void setUp() throws UnsupportedOperationException, IOException, InterruptedException {
