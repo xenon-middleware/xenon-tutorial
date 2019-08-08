@@ -546,8 +546,8 @@ Suggested exercises
 - Repeat selected exercises using `WebDAV`__ instead of SFTP. We included the Docker container `xenonmiddleware/webdav`__
   as part of the virtual machine for testing.
 - Use the ``s3`` file adaptor to connect to Amazon's
-  `Simple Storage Service`__. Requires downloading of the Docker container `xenonmiddleware/s3`__ (300MB) from DockerHub for
-  testing on your own machine, or an Amazon Web Services account for testing against a physically remote system.
+  `Simple Storage Service`__. Either use the Docker container `xenonmiddleware/s3`__ (included in this virtual machine) for
+  testing on your own machine, or use an existing Amazon Web Services account for testing against the real thing.
 
 __ https://en.wikipedia.org/wiki/WebDAV
 __ https://hub.docker.com/r/xenonmiddleware/webdav/
