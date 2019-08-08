@@ -96,7 +96,7 @@
     ```
     sudo apt install python3-pip
     cd ~/xenon-tutorial/readthedocs/
-    pip3 install -U -r requirements.txt
+    pip3 install --user -r requirements.txt
     ```
 
 1. Add the user-space Python packages to the PATH
@@ -154,7 +154,7 @@
     sudo apt install tree
     ```
 
-1. Install editors: nano, others
+1. Install simple editors: nano, others
 
     ```
     sudo apt install geany
@@ -165,6 +165,51 @@
     sudo update-alternatives --config editor
 
     ```
+
+1. Install Eclipse
+
+    ```
+    # (from https://download.eclipse.org/eclipse/downloads/drops4/R-4.12-201906051800/)
+    # download platform runtime binary
+    cd ~/Downloads
+    wget http://ftp.snt.utwente.nl/pub/software/eclipse//eclipse/downloads/drops4/R-4.12-201906051800/eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
+    tar -xzvf eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
+
+    mkdir -p ~/opt/eclipse/
+    mv eclipse ~/opt/eclipse/eclipse-4.12
+    ```
+
+    ```
+    mkdir -p $HOME/.local/share/applications/
+
+    echo "[Desktop Entry]
+    Type=Application
+    GenericName=Text Editor
+    Encoding=UTF-8
+    Name=Eclipse
+    Comment=Java IDE
+    Exec=$HOME/opt/eclipse/eclipse-4.12/eclipse
+    Icon=$HOME/opt/eclipse/eclipse-4.12/icon.xpm
+    Terminal=false
+    Categories=GNOME;GTK;Utility;TextEditor;Development;
+    MimeType=text/plain" > $HOME/.local/share/applications/eclipse.desktop
+
+    echo "
+    # Add directory containing eclipse to the PATH
+    PATH=\$PATH:$HOME/opt/eclipse/eclipse-4.12
+    " >> $HOME/.profile
+    ```
+
+    Configure Eclipse by installing _Help_ >> _Install New Software..._ >> (select _--All Available Sites--_) >> _Programming Languages_ >> _Eclipse Java Development Tools_ (see https://medium.com/@acisternino/a-minimal-eclipse-java-ide-d9ba75491418).
+
+    Prepare Java snippets directory as an Eclipse Java project:
+
+    ```
+    cd $HOME/xenon-tutorial/readthedocs/code-tabs/java
+    ./gradlew eclipse
+    ```
+
+    In Eclipse, _Import project_.
 
 1. Download Docker images
     
