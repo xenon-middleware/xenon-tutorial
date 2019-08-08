@@ -32,6 +32,11 @@ program can be found on the system:
 
    xenon --help
 
+.. code-block:: bash
+
+   xenon --version
+   Xenon CLI v3.0.1, Xenon library v3.0.1, Xenon cloud library v3.0.1
+
 |
 |
 |
