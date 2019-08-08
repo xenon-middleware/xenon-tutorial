@@ -22,7 +22,7 @@ During the import, you'll see an initialization wizard. Make sure that the virtu
 
 Start the virtual machine and log in as user ``travis`` with password ``password``.
 
-Once the system has booted, Click ``Activities`` and then start both a terminal and Firefox by clicking their respective
+Once the system has booted, start both a terminal and Firefox by clicking their respective
 icons. Use Firefox to navigate to the tutorial text at `<https://xenon-tutorial.readthedocs.io>`_.
 
 In the terminal, confirm that the ``xenon`` command line interface
