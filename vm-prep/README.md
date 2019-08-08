@@ -96,7 +96,7 @@
     ```
     sudo apt install python3-pip
     cd ~/xenon-tutorial/readthedocs/
-    pip3 install -U -r requirements.txt
+    pip3 install --user -r requirements.txt
     ```
 
 1. Add the user-space Python packages to the PATH
@@ -199,6 +199,17 @@
     PATH=\$PATH:$HOME/opt/eclipse/eclipse-4.12
     " >> $HOME/.profile
     ```
+
+    Configure Eclipse by installing _Help_ >> _Install New Software..._ >> (select _--All Available Sites--_) >> _Programming Languages_ >> _Eclipse Java Development Tools_ (see https://medium.com/@acisternino/a-minimal-eclipse-java-ide-d9ba75491418).
+
+    Prepare Java snippets directory as an Eclipse Java project:
+
+    ```
+    cd $HOME/xenon-tutorial/readthedocs/code-tabs/java
+    ./gradlew eclipse
+    ```
+
+    In Eclipse, _Import project_.
 
 1. Download Docker images
     
