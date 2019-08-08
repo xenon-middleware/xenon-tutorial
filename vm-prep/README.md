@@ -154,7 +154,7 @@
     sudo apt install tree
     ```
 
-1. Install editors: nano, others
+1. Install simple editors: nano, others
 
     ```
     sudo apt install geany
@@ -164,6 +164,40 @@
     # choose which editor should be default (nano)
     sudo update-alternatives --config editor
 
+    ```
+
+1. Install Eclipse
+
+    ```
+    # (from https://download.eclipse.org/eclipse/downloads/drops4/R-4.12-201906051800/)
+    # download platform runtime binary
+    cd ~/Downloads
+    wget https://download.eclipse.org/eclipse/downloads/drops4/R-4.12-201906051800/download.php?dropFile=eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
+    tar -xzvf eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
+
+    mkdir -p ~/opt/eclipse/
+    mv eclipse-4.12 ~/opt/eclipse/
+    ```
+
+    ```
+    mkdir -p $HOME/.local/share/applications/
+
+    echo "[Desktop Entry]
+    Type=Application
+    GenericName=Text Editor
+    Encoding=UTF-8
+    Name=Eclipse
+    Comment=Java IDE
+    Exec=$HOME/opt/eclipse/eclipse-4.12/eclipse
+    Icon=$HOME/opt/eclipse/eclipse-4.12/icon.xpm
+    Terminal=false
+    Categories=GNOME;GTK;Utility;TextEditor;Development;
+    MimeType=text/plain" > $HOME/.local/share/applications/eclipse.desktop
+
+    echo "
+    # Add directory containing eclipse to the PATH
+    PATH=\$PATH:$HOME/opt/eclipse/eclipse-4.12
+    " >> $HOME/.profile
     ```
 
 1. Download Docker images
