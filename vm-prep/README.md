@@ -172,11 +172,11 @@
     # (from https://download.eclipse.org/eclipse/downloads/drops4/R-4.12-201906051800/)
     # download platform runtime binary
     cd ~/Downloads
-    wget https://download.eclipse.org/eclipse/downloads/drops4/R-4.12-201906051800/download.php?dropFile=eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
+    wget http://ftp.snt.utwente.nl/pub/software/eclipse//eclipse/downloads/drops4/R-4.12-201906051800/eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
     tar -xzvf eclipse-platform-4.12-linux-gtk-x86_64.tar.gz
 
     mkdir -p ~/opt/eclipse/
-    mv eclipse-4.12 ~/opt/eclipse/
+    mv eclipse ~/opt/eclipse/eclipse-4.12
     ```
 
     ```
