@@ -28,7 +28,7 @@ public class UploadFileLocalToSftpAbsolutePathsWebdavEquivalent {
         FileSystem filesystemLocal = FileSystem.create(adaptorLocal);
 
         // define what file to upload
-        Path fileLocal = new Path("/home/daisycutter/tmp/home/travis/sleep.sh");
+        Path fileLocal = new Path("/home/travis/sleep.sh");
 
         // use the webdav file system adaptor to create a file system representation; the remote
         // filesystem requires credentials to log in, so we'll have to create those too.
