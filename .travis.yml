@@ -47,6 +47,8 @@ matrix:
       jdk: openjdk11
       language: java
       name: "Java snippets that use xenon library directly"
+      env:
+        - TERM=dumb
       script: 
         - "./gradlew check"
     - 
