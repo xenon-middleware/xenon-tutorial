@@ -3,14 +3,12 @@ dist: bionic
 matrix: 
   include: 
     - 
+      name: "Bash snippets using xenon-cli"
+      language: bash
+      services: 
+        - docker
       before_install: 
         - "docker pull xenonmiddleware/slurm:17"
-      before_script: 
-        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
-        - "bash vm-prep/make-fixtures.sh"
-        - "cd readthedocs/code-tabs/bash"
-        - "docker images"
-        - "docker ps -a"
       install: 
         - "sudo apt install -y openjdk-11-jre"
         - "wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.1/xenon-cli-shadow-3.0.1.tar"
@@ -21,53 +19,62 @@ matrix:
         - "echo '# add xenon-cli directory to PATH' >> /home/travis/.bashrc"
         - "echo 'PATH=$PATH:/home/travis/.local/bin/xenon/xenon-cli-shadow-3.0.1/bin' >> /home/travis/.bashrc"
         - "source /home/travis/.bashrc"
-        - "chmod 700 /home/travis"
-        - "chmod 644 /home/travis/.ssh/config"
+        - "chmod go-w /home/travis"
+        - "chmod 700 /home/travis/.ssh"
+        - "chmod 600 /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon"
-      language: bash
-      name: "Bash snippets using xenon-cli"
+      before_script: 
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
+        - "bash vm-prep/make-fixtures.sh"
+        - "cd readthedocs/code-tabs/bash"
+        - "docker images"
+        - "docker ps -a"
       script: 
         - "bash travis.sh"
-      services: 
-        - docker
     - 
+      name: "Java snippets that use xenon library directly"
+      language: java
+      jdk: openjdk11
+      env:
+        - TERM=dumb
       before_cache: 
         - "rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock"
         - "rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
-      before_install: 
-        - "sudo apt install -y openjdk-11-jre"
-      before_script: 
-        - "bash vm-prep/make-fixtures.sh"
-        - "cd readthedocs/code-tabs/java"
       cache: 
         directories: 
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
-      jdk: openjdk11
-      language: java
-      name: "Java snippets that use xenon library directly"
-      env:
-        - TERM=dumb
+      before_install: 
+        - "sudo apt install -y openjdk-11-jre"
+      before_script: 
+        - "bash vm-prep/make-fixtures.sh"
+        - "chmod go-w /home/travis"
+        - "chmod 700 /home/travis/.ssh"
+        - "cat /home/travis/.ssh/config"
+        - "chmod 600 /home/travis/.ssh/config"
+        - "bash vm-prep/print-ssh-permissions.sh"
+        - "cd readthedocs/code-tabs/java"
       script: 
         - "./gradlew --debug check"
     - 
+      name: "Python snippets using pyxenon and xenon-grpc"
+      language: python
       before_install: 
         - "docker pull xenonmiddleware/slurm:17"
-      before_script: 
-        - "bash vm-prep/make-fixtures.sh"
-        - "cd readthedocs/code-tabs/python"
-        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
       install: 
         - "sudo apt install -y openjdk-11-jre"
         - "pip install -r readthedocs/code-tabs/python/requirements.txt"
         - "pip install -r readthedocs/code-tabs/python/requirements-dev.txt"
-        - "chmod 700 /home/travis"
-        - "chmod 644 /home/travis/.ssh/config"
+        - "chmod go-w /home/travis"
+        - "chmod 700 /home/travis/.ssh"
+        - "chmod 600 /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon-grpc"
-      language: python
-      name: "Python snippets using pyxenon and xenon-grpc"
+      before_script: 
+        - "bash vm-prep/make-fixtures.sh"
+        - "cd readthedocs/code-tabs/python"
+        - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
       script: 
         - "pytest tests/test_slurm_queues_getter_with_props.py"
         - "pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py"
