@@ -50,7 +50,7 @@ matrix:
       env:
         - TERM=dumb
       script: 
-        - "./gradlew check"
+        - "./gradlew --debug check"
     - 
       before_install: 
         - "docker pull xenonmiddleware/slurm:17"
