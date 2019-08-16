@@ -31,3 +31,19 @@
     ```
 
 
+# Custom config, server-side
+
+```
+diff --suppress-common-lines --side-by-side ssh-server/sshd-default-config ssh-server/sshd-system-config
+#Port 22                              | Port 10022
+#HostKey /etc/ssh/ssh_host_ecdsa_key  | HostKey /etc/ssh/ssh_host_ecdsa_key
+#PubkeyAuthentication yes             | PubkeyAuthentication no
+#PasswordAuthentication yes           | PasswordAuthentication yes
+```
+
+# Custom system config, client-side
+
+```
+diff --suppress-common-lines --side-by-side ssh-client/ssh-default-config ssh-client/ssh-system-config
+(empty)
+```
