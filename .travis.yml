@@ -49,7 +49,6 @@ matrix:
         - "sudo apt install -y openjdk-11-jre"
       before_script: 
         - "chmod go-w /home/travis"
-        - "mkdir /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
         - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "chmod 600 /home/travis/.ssh/config"
