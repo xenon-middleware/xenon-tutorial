@@ -48,12 +48,14 @@ matrix:
       before_install: 
         - "sudo apt install -y openjdk-11-jre"
       before_script: 
-        - "bash vm-prep/make-fixtures.sh"
         - "chmod go-w /home/travis"
+        - "mkdir /home/travis/.ssh"
         - "chmod 700 /home/travis/.ssh"
-        - "cat /home/travis/.ssh/config"
+        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "chmod 600 /home/travis/.ssh/config"
+        - "cat /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
+        - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/java"
       script: 
         - "./gradlew --debug check"
