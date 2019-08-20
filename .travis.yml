@@ -50,7 +50,7 @@ matrix:
       before_script: 
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
-#        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
+        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "chmod 600 /home/travis/.ssh/config"
         - "cat /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
