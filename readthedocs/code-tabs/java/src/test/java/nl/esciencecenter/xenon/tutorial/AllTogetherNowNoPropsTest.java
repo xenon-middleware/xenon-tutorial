@@ -3,20 +3,24 @@ package nl.esciencecenter.xenon.tutorial;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testcontainers.containers.FixedHostPortGenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 
 public class AllTogetherNowNoPropsTest {
 
+    private final String image = "xenonmiddleware/slurm:17";
     private final String host = "localhost";
-    private final int port = 10022;
+    private final String port = "10022";
 
     @Rule
-    public FixedHostPortGenericContainer<?> slurm = new FixedHostPortGenericContainer<>("xenonmiddleware/slurm:17")
-                                                        .withFixedExposedPort(port, 22);
+    public FixedHostPortGenericContainer<?> slurm = new FixedHostPortGenericContainer<>(image)
+                                                        .withFixedExposedPort(Integer.parseInt(port), 22)
+                                                        .waitingFor(Wait.forHealthcheck());
+
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        AllTogetherNowNoProps.runExample(host, Integer.toString(port));
+        AllTogetherNowNoProps.runExample(host, port);
     }
 
 }
