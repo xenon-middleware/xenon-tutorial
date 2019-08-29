@@ -21,7 +21,7 @@ matrix:
         - "source /home/travis/.bashrc"
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
-        - "chmod 600 /home/travis/.ssh/config"
+        - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon"
       before_script: 
@@ -50,9 +50,7 @@ matrix:
       before_script: 
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
-        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
-        - "chmod 600 /home/travis/.ssh/config"
-        - "cat /home/travis/.ssh/config"
+        - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/java"
@@ -69,7 +67,7 @@ matrix:
         - "pip install -r readthedocs/code-tabs/python/requirements-dev.txt"
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
-        - "chmod 600 /home/travis/.ssh/config"
+        - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon-grpc"
       before_script: 
@@ -77,7 +75,7 @@ matrix:
         - "cd readthedocs/code-tabs/python"
         - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
       script: 
-        - "pytest tests/test_slurm_queues_getter_with_props.py"
+#        - "pytest tests/test_slurm_queues_getter_with_props.py"
         - "pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py"
       services: 
         - docker
