@@ -1,7 +1,5 @@
 package nl.esciencecenter.xenon.tutorial;
 
-import java.util.Map;
-
 import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
@@ -16,13 +14,11 @@ public class AllTogetherNowWrong {
 
         String host = "localhost";
         String port = "10022";
-        Map<String, String> propertiesSsh = null;
-        Map<String, String> propertiesSftp = null;
 
-        runExample(host, port, propertiesSsh, propertiesSftp);
+        runExample(host, port);
     }
 
-    public static void runExample(String host, String port, Map<String, String> propertiesSsh, Map<String, String> propertiesSftp) throws XenonException {
+    public static void runExample(String host, String port) throws XenonException {
 
         /*
          * step 1: upload input file(s)
@@ -41,7 +37,7 @@ public class AllTogetherNowWrong {
         String fileAdaptorRemote = "sftp";
         String filesystemRemoteLocation = host + ":" + port;
         FileSystem filesystemRemote = FileSystem.create(fileAdaptorRemote,
-                filesystemRemoteLocation, credential, propertiesSftp);
+                filesystemRemoteLocation, credential);
 
         {
             // specify the behavior in case the target path exists already
@@ -68,7 +64,7 @@ public class AllTogetherNowWrong {
         // create the SLURM scheduler representation
         String schedulerAdaptor = "slurm";
         String schedulerLocation = "ssh://" + host + ":" + port;
-        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential, propertiesSsh);
+        Scheduler scheduler = Scheduler.create(schedulerAdaptor, schedulerLocation, credential);
 
         // compose the job description:
         JobDescription jobDescription = new JobDescription();

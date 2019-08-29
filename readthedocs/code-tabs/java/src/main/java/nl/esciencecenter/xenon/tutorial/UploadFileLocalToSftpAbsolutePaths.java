@@ -1,7 +1,5 @@
 package nl.esciencecenter.xenon.tutorial;
 
-import java.util.Map;
-
 import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.filesystems.CopyMode;
@@ -16,12 +14,10 @@ public class UploadFileLocalToSftpAbsolutePaths {
 
         String host = "localhost";
         String port = "10022";
-        Map<String, String> properties = null;
-
-        runExample(host, port, properties);
+        runExample(host, port);
     }
 
-    public static void runExample(String host, String port, Map<String, String> properties) throws XenonException {
+    public static void runExample(String host, String port) throws XenonException {
 
         // use the local file system adaptor to create a file system representation
         String adaptorLocal = "file";
@@ -37,7 +33,7 @@ public class UploadFileLocalToSftpAbsolutePaths {
         String username = "xenon";
         char[] password = "javagat".toCharArray();
         PasswordCredential credential = new PasswordCredential(username, password);
-        FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential, properties);
+        FileSystem filesystemRemote = FileSystem.create(adaptorRemote, location, credential);
 
         // define which file to upload to
         Path fileRemote = new Path("/home/xenon/sleep.sh");
