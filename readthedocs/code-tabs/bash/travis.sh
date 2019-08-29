@@ -9,10 +9,6 @@ run_snippet () {
    echo "travis_fold:end:$1"
 }
 
-xenon scheduler slurm --location ssh://localhost:10022 \
---username xenon --password javagat \
---prop xenon.adaptors.schedulers.ssh.strictHostKeyChecking=false queues
-
 snippets="DirectoryListing.sh \
           DirectoryListingShowHidden.sh \
           DirectoryListingRecursive.sh \
