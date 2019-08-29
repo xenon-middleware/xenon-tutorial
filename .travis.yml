@@ -55,7 +55,7 @@ matrix:
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/java"
       script: 
-        - "TERM=dumb ./gradlew --debug test --tests nl.esciencecenter.xenon.tutorial.AllTogetherNowNoPropsTest"
+        - "TERM=dumb ./gradlew test --tests nl.esciencecenter.xenon.tutorial.AllTogetherNowNoPropsTest"
     -
       name: "Python snippets using pyxenon and xenon-grpc"
       language: python
