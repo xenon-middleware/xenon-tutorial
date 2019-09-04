@@ -231,7 +231,6 @@ Use ``docker ps`` to check the state of the container
       docker ps
 
 Once the status is ``healthy``, see if we can ``ssh`` into it on port ``10022`` as user ``xenon`` with password
-
 ``javagat``:
 
 .. code-block:: bash
