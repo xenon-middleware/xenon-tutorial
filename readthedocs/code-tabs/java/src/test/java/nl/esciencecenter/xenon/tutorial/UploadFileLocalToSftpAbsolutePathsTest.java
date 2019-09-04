@@ -1,35 +1,26 @@
 package nl.esciencecenter.xenon.tutorial;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.FixedHostPortGenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 
 public class UploadFileLocalToSftpAbsolutePathsTest {
 
-    private String host;
-    private String port;
-    private Map<String, String> properties;
+    private final String image = "xenonmiddleware/slurm:17";
+    private final String host = "localhost";
+    private final String port = "10022";
 
     @Rule
-    public GenericContainer<?> slurm = new GenericContainer<>("xenonmiddleware/slurm:17").withExposedPorts(22);
+    public FixedHostPortGenericContainer<?> slurm = new FixedHostPortGenericContainer<>(image)
+                                                        .withFixedExposedPort(Integer.parseInt(port), 22)
+                                                        .waitingFor(Wait.forHealthcheck());
 
-    @Before
-    public void setUp() {
-        host = slurm.getContainerIpAddress();
-        port = Integer.toString(slurm.getFirstMappedPort());
-
-        properties = new HashMap<String, String>();
-        properties.put("xenon.adaptors.filesystems.sftp.loadSshConfig", "false");
-        properties.put("xenon.adaptors.filesystems.sftp.loadKnownHosts", "false");
-    }
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        UploadFileLocalToSftpAbsolutePaths.runExample(host, port, properties);
+        UploadFileLocalToSftpAbsolutePaths.runExample(host, port);
     }
+
 }

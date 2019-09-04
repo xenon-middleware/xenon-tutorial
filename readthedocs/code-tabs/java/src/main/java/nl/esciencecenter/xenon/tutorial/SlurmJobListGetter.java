@@ -1,7 +1,5 @@
 package nl.esciencecenter.xenon.tutorial;
 
-import java.util.Map;
-
 import nl.esciencecenter.xenon.XenonException;
 import nl.esciencecenter.xenon.credentials.PasswordCredential;
 import nl.esciencecenter.xenon.schedulers.Scheduler;
@@ -12,12 +10,10 @@ public class SlurmJobListGetter {
 
         String host = "localhost";
         String port = "10022";
-        Map<String, String> properties = null;
-
-        runExample(host, port, properties);
+        runExample(host, port);
     }
 
-    public static void runExample(String host, String port, Map<String, String> properties) throws XenonException {
+    public static void runExample(String host, String port) throws XenonException {
 
 
         String adaptor = "slurm";
@@ -29,7 +25,7 @@ public class SlurmJobListGetter {
         PasswordCredential credential = new PasswordCredential(username, password);
 
         // create the SLURM scheduler
-        Scheduler scheduler = Scheduler.create(adaptor, location, credential, properties);
+        Scheduler scheduler = Scheduler.create(adaptor, location, credential);
 
         // ask SLURM for its queues and list the jobs in each
         for (String queueName : scheduler.getQueueNames()) {

@@ -1,32 +1,25 @@
 package nl.esciencecenter.xenon.tutorial;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.FixedHostPortGenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 
 public class UploadFileLocalToSftpAbsolutePathsWebdavEquivalentTest {
 
-    private String host;
-    private String port;
-    private Map<String, String> properties;
+    private final String image = "xenonmiddleware/webdav";
+    private final String host = "localhost";
+    private final String port = "10080";
 
     @Rule
-    public GenericContainer<?> webdav = new GenericContainer<>("xenonmiddleware/webdav").withExposedPorts(80);
-
-    @Before
-    public void setUp() {
-        host = webdav.getContainerIpAddress();
-        port = Integer.toString(webdav.getFirstMappedPort());
-        properties = new HashMap<String, String>();
-    }
+    public FixedHostPortGenericContainer<?> slurm = new FixedHostPortGenericContainer<>(image)
+                                                        .withFixedExposedPort(Integer.parseInt(port), 80)
+                                                        .waitingFor(Wait.forHealthcheck());
 
     @Test(expected = Test.None.class)
     public void test1() throws Exception {
-        UploadFileLocalToSftpAbsolutePathsWebdavEquivalent.runExample(host, port, properties);
+        UploadFileLocalToSftpAbsolutePathsWebdavEquivalent.runExample(host, port);
     }
+
 }
