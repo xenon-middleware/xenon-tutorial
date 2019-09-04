@@ -13,10 +13,10 @@ On your system, start VirtualBox.
 
 This tutorial uses a virtual machine to help avoid issues that are due to system configuration.
 In case you don't have a copy of the virtual machine, you can
-download it from GoogleDrive `here`__ (5.5 Gb). After the download finishes, click ``File`` in VirtualBox, then
+download it from Zenodo `here`__. After the download finishes, click ``File`` in VirtualBox, then
 ``Import appliance``, then select the file you downloaded.
 
-__ https://drive.google.com/open?id=0B1GaxSkd5lU8UkF6V1A1VGpPZ2c
+__ https://doi.org/10.5281/zenodo.3386295
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
