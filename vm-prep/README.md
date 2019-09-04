@@ -5,25 +5,25 @@
     - Windows: https://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-Win.exe
     - OS X: https://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-OSX.dmg
     - Linux: https://www.virtualbox.org/wiki/Linux_Downloads
-1. Create a virtual machine in VirtualBox using Ubuntu 18.04.02 as a base image. Get the .iso here http://releases.ubuntu.com/18.04/
+1. Create a virtual machine in VirtualBox using Ubuntu 18.04.03 as a base image. Get the .iso here http://releases.ubuntu.com/18.04/
 1. Configure the VM with at least 2 CPUs.
 1. Configure main memory to use 4 GB.
 1. Configure video memory to use the maximum of 128 MB.
 1. Call the user ``travis``
-1. Set her password to ``password``
+1. Set his password to ``password``
+1. Update packages
+
+    ```
+    sudo apt update
+    sudo apt upgrade
+    ```
+
 1. Enable Bash completion from history
 
     ```
     echo '"\e[A": history-search-backward            # arrow up' >> ~/.inputrc
     echo '"\e[B": history-search-forward             # arrow down'  >> ~/.inputrc
     echo 'set completion-ignore-case on' >> ~/.inputrc
-    ```
-
-1. Once the virtual machine has started, update its packages
-
-    ```
-    sudo apt update
-    sudo apt upgrade
     ```
 
 1. Install Java version 11
@@ -137,6 +137,7 @@
     ```
 
 1. Check that the downloaded version of xenon-cli uses the same xenon as what is defined in ``readthedocs/code-tabs/java/build.gradle``.
+1. Check that the downloaded version of xenon-cli is the same as what is defined in ``.travis.yml``.
 1. Create filesystem fixtures
 
     ```
@@ -220,6 +221,16 @@
     docker pull xenonmiddleware/webdav
     ```
 1. Generate the Sphinx documentation locally just in case there are network problems
+1. Configure OpenSSH
+
+    ```
+    sudo apt install openssh-client
+    chmod go-w /home/travis
+    chmod 700 /home/travis/.ssh
+    cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts
+    cp vm-prep/.ssh/config /home/travis/.ssh/config
+    ```
+
 1. Export vm as ova
 1. Test the installation
 
