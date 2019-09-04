@@ -22,6 +22,7 @@ matrix:
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
         - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
+        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon"
       before_script: 
@@ -51,6 +52,7 @@ matrix:
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
         - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
+        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "bash vm-prep/make-fixtures.sh"
         - "cd readthedocs/code-tabs/java"
@@ -68,6 +70,7 @@ matrix:
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
         - "cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts"
+        - "cp vm-prep/.ssh/config /home/travis/.ssh/config"
         - "bash vm-prep/print-ssh-permissions.sh"
         - "which xenon-grpc"
       before_script: 
