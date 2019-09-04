@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/xenon-tutorial/badge/?version=latest)](https://xenon-tutorial.readthedocs.io/en/latest/?badge=latest) 
 [![Build Status](https://travis-ci.org/xenon-middleware/xenon-tutorial.svg?branch=master)](https://travis-ci.org/xenon-middleware/xenon-tutorial)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1064654.svg)](https://doi.org/10.5281/zenodo.1064654)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1064653.svg)](https://doi.org/10.5281/zenodo.1064653)
 
 Source files for a [``xenon`` tutorial on ReadTheDocs](http://xenon-tutorial.readthedocs.io).
 
