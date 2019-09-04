@@ -1,7 +1,7 @@
 # Installation
 
 
-1. Use VirtualBox for virtualization. 
+1. Use VirtualBox for virtualization.
     - Windows: https://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-Win.exe
     - OS X: https://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-OSX.dmg
     - Linux: https://www.virtualbox.org/wiki/Linux_Downloads
@@ -27,7 +27,7 @@
     ```
 
 1. Install Java version 11
-    
+
     ```
     sudo apt install openjdk-11-jre
     ```
@@ -75,12 +75,13 @@
     # add current user to docker group
     sudo usermod -aG docker $USER
 
-    # start using the new settings
-    sudo newgrp docker
+    # start using the new settings (no sudo)
+    # Note: I actually had to reboot to make this work.
+    newgrp docker
     ```
 
 1. Install Git
-    
+
     ```
     sudo apt install git
     ```
@@ -133,7 +134,7 @@
 
     # enable the new settings
     source ~/.bashrc
-    
+
     ```
 
 1. Check that the downloaded version of xenon-cli uses the same xenon as what is defined in ``readthedocs/code-tabs/java/build.gradle``.
@@ -213,7 +214,7 @@
     In Eclipse, _Import project_.
 
 1. Download Docker images
-    
+
     ```
     docker pull xenonmiddleware/s3
     docker pull xenonmiddleware/slurm:17
@@ -228,7 +229,10 @@
     chmod go-w /home/travis
     chmod 700 /home/travis/.ssh
     cp vm-prep/.ssh/known_hosts /home/travis/.ssh/known_hosts
+    chmod 644 /home/travis/.ssh/known_hosts
     cp vm-prep/.ssh/config /home/travis/.ssh/config
+    chmod 600 /home/travis/.ssh/config
+    chown -R travis:travis /home/.ssh
     ```
 
 1. Export vm as ova
@@ -243,15 +247,15 @@ This here is @jmaassen's setup to avoid having to deal with intricacies related 
 1. In the terminal, start the SSH server with ``sudo systemctl start sshd.service``
 1. In VirtualBox, change the port forwarding settings, as follows:
     1. Go to menu item ``Machine``
-    1. Go to ``Settings`` 
+    1. Go to ``Settings``
     1. Go to ``Network``
     1. On tab ``Adaptor 1``, go to ``Advanced``, click on ``Port Forwarding``
     1. Click the ``plus`` icon to add a rule
         1. Under ``protocol`` fill in ``TCP``
-        1. Under ``Host IP`` fill in ``127.0.0.1`` 
-        1. Under ``Host Port`` fill in ``2222`` 
-        1. Under ``Guest IP`` fill in the value we got from ``ifconfig`` 
-        1. Under ``Guest Port`` fill in ``22`` 
+        1. Under ``Host IP`` fill in ``127.0.0.1``
+        1. Under ``Host Port`` fill in ``2222``
+        1. Under ``Guest IP`` fill in the value we got from ``ifconfig``
+        1. Under ``Guest Port`` fill in ``22``
 1. Outside the VM, open a terminal, type ``ssh -p 2222 tutorial@127.0.0.1`` (type password ``tutorial`` when asked). You should now be logged in to the RSE2017 VM.
 
 
