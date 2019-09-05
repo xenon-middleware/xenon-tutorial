@@ -37,10 +37,10 @@ program can be found on the system:
    xenon --version
    Xenon CLI v3.0.1, Xenon library v3.0.1, Xenon cloud library v3.0.1
 
+|
+
 If you run into trouble, :doc:`here are some pointers</when-things-dont-work>` on what you can do.
 
-|
-|
 |
 
 Interacting with filesystems
