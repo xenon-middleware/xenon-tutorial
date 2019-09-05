@@ -28,11 +28,11 @@ Ownership
 ---------
 
 All files and directories under ``~/.ssh``, as well as ``~/.ssh`` itself, should
-be owned by user $USER.
+be owned by the user with ``id`` ``$(id -u)``.
 
 .. code-block:: bash
 
-   chown -R $USER:$USER ~/.ssh
+   chown -R $(id -u):$(id -g) ~/.ssh
 
 
 ``ssh`` from the command line
