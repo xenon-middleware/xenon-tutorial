@@ -1,4 +1,4 @@
-Sphinx
-sphinx-tabs
+Sphinx>=2.1.*
+sphinx-tabs>=1.1.*
 
 
