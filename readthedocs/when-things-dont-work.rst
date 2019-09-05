@@ -11,7 +11,7 @@ verbose output.
 
 .. code-block::
 
-    xenon -vvvv <subcommands>
+   xenon -vvvv <subcommands>
 
 Java from Eclipse
 -----------------
@@ -21,7 +21,7 @@ Increase verbosity by adding the following in Eclipse Debug Configuration, tab
 
 .. code-block::
 
-    -Dloglevel=DEBUG
+   -Dloglevel=DEBUG
 
 Java from command line
 ----------------------
@@ -30,7 +30,7 @@ Increase the verbosity by adding ``loglevel=DEBUG`` as a property:
 
 .. code-block::
 
-    ./gradlew run -Pmain=nl.esciencecenter.xenon.tutorial.DirectoryListing -Ploglevel=DEBUG
+   ./gradlew run -Pmain=nl.esciencecenter.xenon.tutorial.DirectoryListing -Ploglevel=DEBUG
 
 Python
 ------
