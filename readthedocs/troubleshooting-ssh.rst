@@ -9,7 +9,7 @@ File permissions
 
 The first thing to check is whether your system has the correct permissions on
 the following files (you can check the octal representation of the file
-permission with: ``stat -c %a <filename>``):
+permission with: ``stat``):
 
 .. code-block::
 
