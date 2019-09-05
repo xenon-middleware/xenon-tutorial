@@ -37,6 +37,8 @@ program can be found on the system:
    xenon --version
    Xenon CLI v3.0.1, Xenon library v3.0.1, Xenon cloud library v3.0.1
 
+If you run into trouble, :doc:`here are some pointers</when-things-dont-work>` on what you can do.
+
 |
 |
 |
@@ -239,6 +241,9 @@ Once the status is ``healthy``, see if we can ``ssh`` into it on port ``10022`` 
 
       # if that works, exit again
       exit
+
+Be aware that ``ssh`` can sometimes be a little picky. We've assembled a list of
+tips and tricks for :doc:`troubleshooting SSH</troubleshooting-ssh>`.
 
 Check the help to see how the ``slurm`` subcommand works:
 
