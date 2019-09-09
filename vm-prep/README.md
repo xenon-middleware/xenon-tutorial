@@ -235,6 +235,20 @@
     chown -R travis:travis /home/.ssh
     ```
 
+1. Install pyxenon from git
+
+    ```
+    pip install -r readthedocs/code-tabs/python/requirements.txt
+    ```
+
+    Also include the test framework
+
+    ```
+    pip install -r readthedocs/code-tabs/python/requirements-dev.txt
+    ```
+
+    Check that it works by ``which xenon-grpc``
+
 1. Export vm as ova
 1. Test the installation
 
