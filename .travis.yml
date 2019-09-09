@@ -78,7 +78,6 @@ matrix:
         - "cd readthedocs/code-tabs/python"
         - "docker run --detach --publish 10022:22 --hostname slurm17 xenonmiddleware/slurm:17"
       script: 
-#        - "pytest tests/test_slurm_queues_getter_with_props.py"
         - "pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py"
       services: 
         - docker
