@@ -1,1 +1,1 @@
-git+https://github.com/xenon-middleware/pyxenon@6c689e322dcf6c2b142d170ea8c5bf8ec35195ce
+pyxenon==3.0.1
