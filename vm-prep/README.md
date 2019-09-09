@@ -240,18 +240,29 @@ install ``pyxenon`` in it (pyxenon does not work outside a virtual environment).
 
     ```
     sudo apt install virtualenv
+    cd ~/xenon-tutorial/readthedocs/code-tabs/python/
     virtualenv -p /usr/bin/python3.6 venv36
     source venv36/bin/activate
-    pip3 install -r ~/xenon-tutorial/readthedocs/code-tabs/python/requirements.txt
+    pip3 install -r requirements.txt
     ```
 
     Also include the test framework
 
     ```
-    pip3 install -r ~/xenon-tutorial/readthedocs/code-tabs/python/requirements-dev.txt
+    pip3 install -r requirements-dev.txt
     ```
 
-    Check that it works by ``which xenon-grpc``
+    Check that it works by
+
+    ```
+    which xenon-grpc
+    ```
+    and
+
+    ```
+    pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py \
+    --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py
+    ```
 
 1. Export vm as ova
 1. Test the installation
