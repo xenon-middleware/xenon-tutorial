@@ -232,8 +232,19 @@ Use ``docker ps`` to check the state of the container
 
       docker ps
 
-Once the status is ``healthy``, see if we can ``ssh`` into it on port ``10022`` as user ``xenon`` with password
-``javagat``:
+The last column in the resulting table lists the name of the container. By
+default, ``docker`` assigns automatically generated names, like
+``practical_robinson``, ``keen_goodall`` or ``infallible_morse``. You can use
+this name to stop and remove a container once you're done with it, as follows:
+
+.. code-block:: bash
+
+      docker stop practical_robinson
+      docker rm practical_robinson
+
+Anyway, that's for later. For now, check that the container's status is
+``healthy``, and see if you can ``ssh`` into it on port ``10022`` as user
+``xenon`` with password ``javagat``:
 
 .. code-block:: bash
 
@@ -521,6 +532,25 @@ Adapt the script as follows and run it:
 After about 60 seconds, you should have a local copy of ``sleep.stdout.txt``, with the correct contents this time.
 
 Congratulations -- you have successfully completed the tutorial!
+
+Cleanup
+^^^^^^^
+
+Use ``docker ps`` to check the state of the container:
+
+.. code-block:: bash
+
+      docker ps
+
+The last column in the resulting table lists the name of the container. By
+default, ``docker`` assigns automatically generated names, like
+``practical_robinson``, ``keen_goodall`` or ``infallible_morse``. You can use
+this name to stop and remove a container once you're done with it, as follows:
+
+.. code-block:: bash
+
+      docker stop practical_robinson
+      docker rm practical_robinson
 
 |
 |
