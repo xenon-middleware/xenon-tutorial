@@ -238,13 +238,13 @@
 1. Install pyxenon from git
 
     ```
-    pip install -r readthedocs/code-tabs/python/requirements.txt
+    pip3 install -r ~/xenon-tutorial/readthedocs/code-tabs/python/requirements.txt
     ```
 
     Also include the test framework
 
     ```
-    pip install -r readthedocs/code-tabs/python/requirements-dev.txt
+    pip3 install -r ~/xenon-tutorial/readthedocs/code-tabs/python/requirements-dev.txt
     ```
 
     Check that it works by ``which xenon-grpc``
