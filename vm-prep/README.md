@@ -235,9 +235,13 @@
     chown -R travis:travis /home/.ssh
     ```
 
-1. Install pyxenon from git
+1. Install python ``virtualenv``, make a virtual environment, activate it, and
+install ``pyxenon`` in it (pyxenon does not work outside a virtual environment).
 
     ```
+    sudo apt install virtualenv
+    virtualenv -p /usr/bin/python3.6 venv36
+    source venv36/bin/activate
     pip3 install -r ~/xenon-tutorial/readthedocs/code-tabs/python/requirements.txt
     ```
 
