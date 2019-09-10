@@ -193,7 +193,62 @@ Note that the source path may be standard input, and that the target path may be
       xenon filesystem file copy thefile.txt - 1> mystdout.txt
 
 ``xenon filesystem file`` has a few more subcommands, namely ``mkdir``, ``rename`` and ``remove``. You can
-experiment a bit more with those or move on to the next section.
+experiment a bit more with those.
+
+Ofcourse the point of ``xenon`` is not to move around file on your local filesystem. There are enough tools to help you with 
+that. The idea is that you can also use ``xenon`` to move file to and from different types of remote servers, without having to 
+learn a completely different tool every time. 
+
+First, lets check which types of file servers ``xenon`` currently supports:
+
+.. code-block:: bash
+
+      xenon filesystem --help 
+
+The usage line shows that next to ``file`` we can also choose ``ftp, s3, sftp`` or ``webdav``. Lets try ``ftp`` first. 
+
+.. code-block:: bash
+
+      xenon filesystem ftp --help
+
+The usage line tells us that ``ftp`` has an madatory parameter we haven't seen yet ``--location``. We can use this to specify 
+which server to connect to. Additionally, there are also optional ``--username`` and ``--password`` options in case we need 
+to log into the machine. 
+
+Let see if we can use this to connect to a real machine on the internet. A public FTP server for testing should be available at 
+``test.rebex.net`` with the credentials ``demo`` and ``password``:
+
+.. code-block:: bash
+
+      # list the files on the ftp server
+      xenon filesystem ftp --location test.rebex.net --username demo --password password list --long /
+
+This should give you a listing of the server at ``test.rebex.net``.
+
+Next to the commands we have already seen (``copy``, ``list``, etc.), ``ftp`` also supports a few new ones, namely ``upload`` 
+and ``download``. We can use these to transer files to and from the server. For example, this command will download a file from 
+out example FTP server: 
+
+.. code-block:: bash
+
+      # download a file from the ftp server
+      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme.txt 
+
+The same server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing 
+``ftp`` into ``sftp``: 
+
+.. code-block:: bash
+
+      # list the files on the sftp server
+      xenon filesystem sftp --location test.rebex.net --username demo --password password list --long /
+
+      # download a file from the sftp server
+      xenon filesystem sftp --location test.rebex.net --username demo --password password download --replace /readme.txt `pwd`/readme.txt 
+
+You can transfer data from and to other types of file servers (such as ``Webdav`` and ``S3``) in a similar fashion. We are working to add 
+support for missing types such as GridFTP and IRODs. 
+
+
 
 |
 |
