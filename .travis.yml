@@ -81,6 +81,10 @@ matrix:
         - "pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py"
       services: 
         - docker
+    -
+      name: "Checks whether software versions are consistent throughout the repository"
+      script:
+         - "bash consistent-versions.sh"
 notifications: 
   email: 
     on_failure: change
