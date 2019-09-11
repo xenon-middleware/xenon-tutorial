@@ -83,8 +83,9 @@ matrix:
         - docker
     -
       name: "Checks whether software versions are consistent throughout the repository"
+      language: bash
       script:
-         - "bash consistent-versions.sh"
+         - "bash consistent-versions-test.sh"
 notifications: 
   email: 
     on_failure: change
