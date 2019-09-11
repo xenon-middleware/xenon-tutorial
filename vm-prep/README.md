@@ -123,14 +123,14 @@
 
     ```
     cd ~/Downloads
-    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.4/xenon-cli-shadow-3.0.4.tar
-    tar -xvf xenon-cli-shadow-3.0.4.tar
+    wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.3/xenon-cli-shadow-3.0.3.tar
+    tar -xvf xenon-cli-shadow-3.0.3.tar
     mkdir -p ~/.local/bin/xenon
-    mv xenon-cli-shadow-3.0.4 ~/.local/bin/xenon/
+    mv xenon-cli-shadow-3.0.3 ~/.local/bin/xenon/
 
     echo '' >> ~/.bashrc
     echo '# add xenon-cli directory to PATH' >> ~/.bashrc
-    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.4/bin' >> ~/.bashrc
+    echo 'PATH=$PATH:~/.local/bin/xenon/xenon-cli-shadow-3.0.3/bin' >> ~/.bashrc
 
     # enable the new settings
     source ~/.bashrc
