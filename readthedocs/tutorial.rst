@@ -35,7 +35,7 @@ program can be found on the system:
 .. code-block:: bash
 
    xenon --version
-   Xenon CLI v3.0.1, Xenon library v3.0.1, Xenon cloud library v3.0.1
+   Xenon CLI v3.0.4, Xenon library v3.0.4, Xenon cloud library v3.0.2
 
 |
 
@@ -193,7 +193,10 @@ Note that the source path may be standard input, and that the target path may be
       xenon filesystem file copy thefile.txt - 1> mystdout.txt
 
 ``xenon filesystem file`` has a few more subcommands, namely ``mkdir``, ``rename`` and ``remove``. You can
-experiment a bit more with those.
+experiment a bit more with those before moving on to the next section.
+
+Access to remote filesystems
+----------------------------
 
 Ofcourse the point of ``xenon`` is not to move around file on your local filesystem. There are enough tools to help you with 
 that. The idea is that you can also use ``xenon`` to move file to and from different types of remote servers, without having to 
@@ -218,10 +221,24 @@ to log into the machine.
 Let see if we can use this to connect to a real machine on the internet. A public FTP server for testing should be available at 
 ``test.rebex.net`` with the credentials ``demo`` and ``password``:
 
-.. code-block:: bash
+.. tabs::
 
-      # list the files on the ftp server
-      xenon filesystem ftp --location test.rebex.net --username demo --password password list --long /
+   .. group-tab:: Bash
+
+      .. literalinclude:: code-tabs/bash/FTPDirectoryListing.sh
+         :language: bash
+
+   .. group-tab:: Java
+
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/FTPDirectoryListingShowHidden.java
+         :language: java
+         :linenos:
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/ftp_directory_listing.py
+         :language: python
+         :linenos:
 
 This should give you a listing of the server at ``test.rebex.net``.
 
@@ -240,15 +257,13 @@ The same server also offers a secure FTP (``sftp``) service for testing. We can 
 .. code-block:: bash
 
       # list the files on the sftp server
-      xenon filesystem sftp --location test.rebex.net --username demo --password password list --long /
+      xenon filesystem sftp --location test.rebex.net --username demo --password password list /
 
       # download a file from the sftp server
-      xenon filesystem sftp --location test.rebex.net --username demo --password password download --replace /readme.txt `pwd`/readme.txt 
+      xenon filesystem sftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme2.txt 
 
 You can transfer data from and to other types of file servers (such as ``Webdav`` and ``S3``) in a similar fashion. We are working to add 
-support for missing types such as GridFTP and IRODs. 
-
-
+support for missing types such as GridFTP and iRODs. We will come back to transferring files in the sections below.
 
 |
 |
