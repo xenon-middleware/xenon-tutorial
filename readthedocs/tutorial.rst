@@ -35,7 +35,7 @@ program can be found on the system:
 .. code-block:: bash
 
    xenon --version
-   Xenon CLI v3.0.1, Xenon library v3.0.1, Xenon cloud library v3.0.1
+   Xenon CLI v3.0.3, Xenon library v3.0.3, Xenon cloud library v3.0.2
 
 |
 
@@ -568,7 +568,7 @@ Further reading
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://github.com/xenon-middleware/xenon
-__ http://xenon-middleware.github.io/xenon/versions/3.0.1/javadoc
+__ http://xenon-middleware.github.io/xenon/versions/3.0.3/javadoc
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 

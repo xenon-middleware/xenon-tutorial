@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'nl.esciencecenter.xenon:xenon:3.0.1'
-    implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.1'
+    implementation 'nl.esciencecenter.xenon:xenon:3.0.3'
+    implementation 'nl.esciencecenter.xenon.adaptors:xenon-adaptors-cloud:3.0.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.testcontainers:testcontainers:1.11.3'
 }
