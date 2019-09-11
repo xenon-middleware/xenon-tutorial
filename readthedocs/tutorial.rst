@@ -643,7 +643,7 @@ Further reading
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://github.com/xenon-middleware/xenon
-__ http://xenon-middleware.github.io/xenon/versions/3.0.3/javadoc
+__ http://xenon-middleware.github.io/xenon/versions/3.0.4/javadoc
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 
