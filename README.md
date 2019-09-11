@@ -6,7 +6,8 @@
 
 Source files for a [``xenon`` tutorial on ReadTheDocs](http://xenon-tutorial.readthedocs.io).
 
-- [``/readthedocs/code-tabs/bash``](/readthedocs/code-tabs/bash) contains the Bash snippets using [``xenon-cli``](https://github.com/xenon-middleware/xenon-cli).
-- [``/readthedocs/code-tabs/java``](/readthedocs/code-tabs/java) contains the Java snippets that use the [``xenon``](https://github.com/xenon-middleware/xenon) library directly. This directory can be run as a self-contained Java project.
-- [``/readthedocs/code-tabs/python``](/readthedocs/code-tabs/python) contains the Python snippets that use [``pyxenon``](https://github.com/xenon-middleware/pyxenon) and [``xenon-grpc``](https://github.com/xenon-middleware/xenon-grpc). This directory can be run as a self-contained Python project.
+- [``/readthedocs``](/readthedocs) contains all the source files for the tutorial text. It also contains a number of subdirectories with code snippets:
+   - [``code-tabs/bash``](/readthedocs/code-tabs/bash) contains the Bash snippets using [``xenon-cli``](https://github.com/xenon-middleware/xenon-cli).
+   - [``code-tabs/java``](/readthedocs/code-tabs/java) contains the Java snippets that use the [``xenon``](https://github.com/xenon-middleware/xenon) library directly. This directory can be run as a self-contained Java project.
+   - [``code-tabs/python``](/readthedocs/code-tabs/python) contains the Python snippets that use [``pyxenon``](https://github.com/xenon-middleware/pyxenon) and [``xenon-grpc``](https://github.com/xenon-middleware/xenon-grpc). This directory can be run as a self-contained Python project.
 - [``/vm-prep``](/vm-prep) contains instructions for setting up the Virtual Machine, as used during the tutorial.
