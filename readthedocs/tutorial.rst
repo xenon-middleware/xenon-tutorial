@@ -251,8 +251,18 @@ out example FTP server:
       # download a file from the ftp server
       xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme.txt 
 
-The same server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing 
-``ftp`` into ``sftp``: 
+You can even print the remote file on your screen by copying it to stdout: 
+
+.. code-block:: bash
+
+      # print a file from the ftp server on the screen
+      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt -
+
+Note that when using ``copy`` on remote servers, ``xenon`` will attempt to copy the file on the server itself. Since we don't have write 
+access to this FTP server, the command will fail.
+
+The strenght of ``xenon`` is that you can now use the same syntax to access a different type of server. For example, the ``test.rebex.net``
+server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing ``ftp`` into ``sftp``: 
 
 .. code-block:: bash
 
@@ -262,7 +272,19 @@ The same server also offers a secure FTP (``sftp``) service for testing. We can 
       # download a file from the sftp server
       xenon filesystem sftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme2.txt 
 
-You can transfer data from and to other types of file servers (such as ``Webdav`` and ``S3``) in a similar fashion. We are working to add 
+In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
+``~/.bash_history``, know that you can supply passwords from a file, as follows:
+
+.. code-block:: bash
+
+      # read password from the password.txt file
+      xenon filesystem sftp --location test.rebex.net --username demo --password @password.txt list /
+
+in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
+knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
+``--password PASSWORD`` syntax.
+
+You can also transfer data from and to other types of file servers (such as ``Webdav`` and ``S3``) in a similar fashion. We are working to add 
 support for missing types such as GridFTP and iRODs. We will come back to transferring files in the sections below.
 
 |
@@ -358,17 +380,6 @@ for that location, as follows:
          :language: python
          :linenos:
 
-In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
-``~/.bash_history``, know that you can supply passwords from a file, as follows:
-
-.. code-block:: bash
-
-      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password @password.txt queues
-
-in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
-knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
-``--password PASSWORD`` syntax.
-
 Besides ``queues``, other ``slurm`` subcommands are ``exec``, ``submit``, ``list``, ``remove``, and ``wait``. Let's try
 to have ``xenon`` ask SLURM for its list of jobs in each queue, as follows:
 
@@ -397,9 +408,7 @@ container, or whatever hostname you specified for it when you ran the ``docker r
       submit --stdout hostname.stdout.txt /bin/hostname
 
       # check to see if the output was written to file /home/xenon/hostname.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat hostname.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download hostname.stdout.txt -
 
 Below are a few more examples of ``slurm submit``:
 
@@ -410,18 +419,14 @@ Below are a few more examples of ``slurm submit``:
       submit --stdout /home/xenon/ls.stdout.txt ls -- -la
 
       # check to see if the output was written to file /home/xenon/ls.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat ls.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download ls.stdout.txt -
 
       # submit an 'env' job with environment variable MYKEY, and capture standard out so we know it worked
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout /home/xenon/env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
       # check to see if the output from 'env' was written to file /home/xenon/env.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat env.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download env.stdout.txt -
 
 |
 |
