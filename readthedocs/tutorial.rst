@@ -198,27 +198,27 @@ experiment a bit more with those before moving on to the next section.
 Access to remote filesystems
 ----------------------------
 
-Ofcourse the point of ``xenon`` is not to move around file on your local filesystem. There are enough tools to help you with 
-that. The idea is that you can also use ``xenon`` to move file to and from different types of remote servers, without having to 
-learn a completely different tool every time. 
+Of course the point of ``xenon`` is not to move around files on your local filesystem. There are enough tools to help you with
+that. The idea is that you can also use ``xenon`` to move files to and from different types of remote servers, without having to
+learn a completely different tool every time.
 
-First, lets check which types of file servers ``xenon`` currently supports:
+First, let's check which types of file servers ``xenon`` currently supports:
 
 .. code-block:: bash
 
-      xenon filesystem --help 
+      xenon filesystem --help
 
-The usage line shows that next to ``file`` we can also choose ``ftp, s3, sftp`` or ``webdav``. Lets try ``ftp`` first. 
+The usage line shows that besides ``file`` we can also choose ``ftp, s3, sftp`` or ``webdav``. Let's try ``ftp`` first.
 
 .. code-block:: bash
 
       xenon filesystem ftp --help
 
-The usage line tells us that ``ftp`` has an madatory parameter we haven't seen yet ``--location``. We can use this to specify 
-which server to connect to. Additionally, there are also optional ``--username`` and ``--password`` options in case we need 
-to log into the machine. 
+The usage line tells us that ``ftp`` has an mandatory parameter ``--location`` which we haven't seen yet. We can use this to specify
+which server to connect to. Additionally, there are also optional ``--username`` and ``--password`` options in case we need
+to log into the machine.
 
-Let see if we can use this to connect to a real machine on the internet. A public FTP server for testing should be available at 
+Let's see if we can use this to connect to a real machine on the internet. A public FTP server for testing should be available at
 ``test.rebex.net`` with the credentials ``demo`` and ``password``:
 
 .. tabs::
@@ -242,27 +242,27 @@ Let see if we can use this to connect to a real machine on the internet. A publi
 
 This should give you a listing of the server at ``test.rebex.net``.
 
-Next to the commands we have already seen (``copy``, ``list``, etc.), ``ftp`` also supports a few new ones, namely ``upload`` 
-and ``download``. We can use these to transer files to and from the server. For example, this command will download a file from 
-out example FTP server: 
+Besides the commands we have already seen (``copy``, ``list``, etc.), ``ftp`` also supports a few new ones, namely ``upload``
+and ``download``. We can use these to transer files to and from the server. For example, this command will download a file from
+our example FTP server:
 
 .. code-block:: bash
 
       # download a file from the ftp server
-      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme.txt 
+      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme.txt
 
-You can even print the remote file on your screen by copying it to stdout: 
+You can even print the remote file on your screen by copying it to stdout:
 
 .. code-block:: bash
 
       # print a file from the ftp server on the screen
       xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt -
 
-Note that when using ``copy`` on remote servers, ``xenon`` will attempt to copy the file on the server itself. Since we don't have write 
+Note that when using ``copy`` on remote servers, ``xenon`` will attempt to copy the file on the server itself. Since we don't have write
 access to this FTP server, the command will fail.
 
-The strenght of ``xenon`` is that you can now use the same syntax to access a different type of server. For example, the ``test.rebex.net``
-server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing ``ftp`` into ``sftp``: 
+The strength of ``xenon`` is that you can now use the same syntax to access a different type of server. For example, the ``test.rebex.net``
+server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing ``ftp`` into ``sftp``:
 
 .. code-block:: bash
 
@@ -270,7 +270,7 @@ server also offers a secure FTP (``sftp``) service for testing. We can access th
       xenon filesystem sftp --location test.rebex.net --username demo --password password list /
 
       # download a file from the sftp server
-      xenon filesystem sftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme2.txt 
+      xenon filesystem sftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme2.txt
 
 In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
 ``~/.bash_history``, know that you can supply passwords from a file, as follows:
@@ -284,8 +284,8 @@ in which the file ``password.txt`` should contain the password. Since everything
 knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
 ``--password PASSWORD`` syntax.
 
-You can also transfer data from and to other types of file servers (such as ``Webdav`` and ``S3``) in a similar fashion. We are working to add 
-support for missing types such as GridFTP and iRODs. We will come back to transferring files in the sections below.
+You can also transfer data from and to other types of file servers (such as ``WebDAV`` and ``S3``) in a similar fashion. We are working to add
+support for other types such as GridFTP and iRODS. We will come back to transferring files in the sections below.
 
 |
 |
@@ -478,7 +478,7 @@ that:
 .. tabs::
 
    .. group-tab:: Bash
-    
+
       .. literalinclude:: code-tabs/bash/UploadFileLocalToSftpAbsolutePaths.sh
          :language: bash
 
@@ -549,7 +549,7 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DownloadFileSftpToLocalAbsolutePaths.java
          :language: java
-         :linenos:   
+         :linenos:
 
    .. group-tab:: Python
 
@@ -566,7 +566,7 @@ By this time you may start to consider putting those 3 commands in a script, as 
       .. literalinclude:: code-tabs/bash/AllTogetherNowWrong.sh
          :language: bash
 
-   .. group-tab:: Java 
+   .. group-tab:: Java
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/AllTogetherNowWrong.java
          :language: java
