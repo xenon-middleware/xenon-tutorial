@@ -35,7 +35,7 @@ program can be found on the system:
 .. code-block:: bash
 
    xenon --version
-   Xenon CLI v3.0.3, Xenon library v3.0.3, Xenon cloud library v3.0.2
+   Xenon CLI v3.0.4, Xenon library v3.0.4, Xenon cloud library v3.0.2
 
 |
 
@@ -193,7 +193,99 @@ Note that the source path may be standard input, and that the target path may be
       xenon filesystem file copy thefile.txt - 1> mystdout.txt
 
 ``xenon filesystem file`` has a few more subcommands, namely ``mkdir``, ``rename`` and ``remove``. You can
-experiment a bit more with those or move on to the next section.
+experiment a bit more with those before moving on to the next section.
+
+Access to remote filesystems
+----------------------------
+
+Of course the point of ``xenon`` is not to move around files on your local filesystem. There are enough tools to help you with
+that. The idea is that you can also use ``xenon`` to move files to and from different types of remote servers, without having to
+learn a completely different tool every time.
+
+First, let's check which types of file servers ``xenon`` currently supports:
+
+.. code-block:: bash
+
+      xenon filesystem --help
+
+The usage line shows that besides ``file`` we can also choose ``ftp, s3, sftp`` or ``webdav``. Let's try ``ftp`` first.
+
+.. code-block:: bash
+
+      xenon filesystem ftp --help
+
+The usage line tells us that ``ftp`` has an mandatory parameter ``--location`` which we haven't seen yet. We can use this to specify
+which server to connect to. Additionally, there are also optional ``--username`` and ``--password`` options in case we need
+to log into the machine.
+
+Let's see if we can use this to connect to a real machine on the internet. A public FTP server for testing should be available at
+``test.rebex.net`` with the credentials ``demo`` and ``password``:
+
+.. tabs::
+
+   .. group-tab:: Bash
+
+      .. literalinclude:: code-tabs/bash/FTPDirectoryListing.sh
+         :language: bash
+
+   .. group-tab:: Java
+
+      .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/FTPDirectoryListingShowHidden.java
+         :language: java
+         :linenos:
+
+   .. group-tab:: Python
+
+      .. literalinclude:: code-tabs/python/pyxenon_snippets/ftp_directory_listing.py
+         :language: python
+         :linenos:
+
+This should give you a listing of the server at ``test.rebex.net``.
+
+Besides the commands we have already seen (``copy``, ``list``, etc.), ``ftp`` also supports a few new ones, namely ``upload``
+and ``download``. We can use these to transer files to and from the server. For example, this command will download a file from
+our example FTP server:
+
+.. code-block:: bash
+
+      # download a file from the ftp server
+      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme.txt
+
+You can even print the remote file on your screen by copying it to stdout:
+
+.. code-block:: bash
+
+      # print a file from the ftp server on the screen
+      xenon filesystem ftp --location test.rebex.net --username demo --password password download /readme.txt -
+
+Note that when using ``copy`` on remote servers, ``xenon`` will attempt to copy the file on the server itself. Since we don't have write
+access to this FTP server, the command will fail.
+
+The strength of ``xenon`` is that you can now use the same syntax to access a different type of server. For example, the ``test.rebex.net``
+server also offers a secure FTP (``sftp``) service for testing. We can access that service with ``xenon`` by simply changing ``ftp`` into ``sftp``:
+
+.. code-block:: bash
+
+      # list the files on the sftp server
+      xenon filesystem sftp --location test.rebex.net --username demo --password password list /
+
+      # download a file from the sftp server
+      xenon filesystem sftp --location test.rebex.net --username demo --password password download /readme.txt `pwd`/readme2.txt
+
+In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
+``~/.bash_history``, know that you can supply passwords from a file, as follows:
+
+.. code-block:: bash
+
+      # read password from the password.txt file
+      xenon filesystem sftp --location test.rebex.net --username demo --password @password.txt list /
+
+in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
+knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
+``--password PASSWORD`` syntax.
+
+You can also transfer data from and to other types of file servers (such as ``WebDAV`` and ``S3``) in a similar fashion. We are working to add
+support for other types such as GridFTP and iRODS. We will come back to transferring files in the sections below.
 
 |
 |
@@ -288,17 +380,6 @@ for that location, as follows:
          :language: python
          :linenos:
 
-In case you are reluctant to type plaintext passwords on the command line, for example because of logging in
-``~/.bash_history``, know that you can supply passwords from a file, as follows:
-
-.. code-block:: bash
-
-      xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password @password.txt queues
-
-in which the file ``password.txt`` should contain the password. Since everything about the user ``xenon`` is public
-knowledge anyway, such security precautions are not needed for this tutorial, so we'll just continue to use the
-``--password PASSWORD`` syntax.
-
 Besides ``queues``, other ``slurm`` subcommands are ``exec``, ``submit``, ``list``, ``remove``, and ``wait``. Let's try
 to have ``xenon`` ask SLURM for its list of jobs in each queue, as follows:
 
@@ -327,9 +408,7 @@ container, or whatever hostname you specified for it when you ran the ``docker r
       submit --stdout hostname.stdout.txt /bin/hostname
 
       # check to see if the output was written to file /home/xenon/hostname.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat hostname.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download hostname.stdout.txt -
 
 Below are a few more examples of ``slurm submit``:
 
@@ -340,18 +419,14 @@ Below are a few more examples of ``slurm submit``:
       submit --stdout /home/xenon/ls.stdout.txt ls -- -la
 
       # check to see if the output was written to file /home/xenon/ls.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat ls.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download ls.stdout.txt -
 
       # submit an 'env' job with environment variable MYKEY, and capture standard out so we know it worked
       xenon scheduler slurm --location ssh://localhost:10022 --username xenon --password javagat \
       submit --stdout /home/xenon/env.stdout.txt --env MYKEY=myvalue /usr/bin/env
 
       # check to see if the output from 'env' was written to file /home/xenon/env.stdout.txt
-      ssh -p 10022 xenon@localhost ls -l
-      # see what's in it
-      ssh -p 10022 xenon@localhost cat env.stdout.txt
+      xenon filesystem sftp --location localhost:10022 --username xenon --password javagat download env.stdout.txt -
 
 |
 |
@@ -403,7 +478,7 @@ that:
 .. tabs::
 
    .. group-tab:: Bash
-    
+
       .. literalinclude:: code-tabs/bash/UploadFileLocalToSftpAbsolutePaths.sh
          :language: bash
 
@@ -474,7 +549,7 @@ With step 1 (upload) and step 2 (submit) covered, step 3 (download) remains:
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/DownloadFileSftpToLocalAbsolutePaths.java
          :language: java
-         :linenos:   
+         :linenos:
 
    .. group-tab:: Python
 
@@ -491,7 +566,7 @@ By this time you may start to consider putting those 3 commands in a script, as 
       .. literalinclude:: code-tabs/bash/AllTogetherNowWrong.sh
          :language: bash
 
-   .. group-tab:: Java 
+   .. group-tab:: Java
 
       .. literalinclude:: code-tabs/java/src/main/java/nl/esciencecenter/xenon/tutorial/AllTogetherNowWrong.java
          :language: java
@@ -568,7 +643,7 @@ Further reading
 - PyXenon: The Python interface to Xenon (`github.com`__, `readthedocs.io`__)
 
 __ https://github.com/xenon-middleware/xenon
-__ http://xenon-middleware.github.io/xenon/versions/3.0.3/javadoc
+__ http://xenon-middleware.github.io/xenon/versions/3.0.4/javadoc
 __ https://github.com/xenon-middleware/pyxenon
 __ http://pyxenon.readthedocs.io/en/latest/
 

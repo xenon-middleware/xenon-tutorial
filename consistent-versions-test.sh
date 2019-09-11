@@ -1,7 +1,7 @@
 #!/bin/env bash
 
-XENON_VERSION=3.0.3
-XENON_CLI_VERSION=3.0.3
+XENON_VERSION=3.0.4
+XENON_CLI_VERSION=3.0.4
 XENON_ADAPTORS_CLOUD_VERSION=3.0.2
 
 VERBOSE=1
@@ -57,7 +57,7 @@ actual=$(head --lines=+38 readthedocs/tutorial.rst  | tail --lines=1)
 expected="   Xenon CLI v$XENON_CLI_VERSION, Xenon library v$XENON_VERSION, Xenon cloud library v$XENON_ADAPTORS_CLOUD_VERSION"
 test $actual $expected || exit 1
 
-actual=$(head --lines=+571 readthedocs/tutorial.rst  | tail --lines=1)
+actual=$(head --lines=+646 readthedocs/tutorial.rst  | tail --lines=1)
 expected="__ http://xenon-middleware.github.io/xenon/versions/$XENON_VERSION/javadoc"
 test $actual $expected || exit 1
 
