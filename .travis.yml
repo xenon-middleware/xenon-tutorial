@@ -11,13 +11,13 @@ matrix:
         - "docker pull xenonmiddleware/slurm:17"
       install: 
         - "sudo apt install -y openjdk-11-jre"
-        - "wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.1/xenon-cli-shadow-3.0.1.tar"
-        - "tar -xvf xenon-cli-shadow-3.0.1.tar"
+        - "wget https://github.com/xenon-middleware/xenon-cli/releases/download/v3.0.3/xenon-cli-shadow-3.0.3.tar"
+        - "tar -xvf xenon-cli-shadow-3.0.3.tar"
         - "mkdir -p /home/travis/.local/bin/xenon"
-        - "mv xenon-cli-shadow-3.0.1 /home/travis/.local/bin/xenon/"
+        - "mv xenon-cli-shadow-3.0.3 /home/travis/.local/bin/xenon/"
         - "echo '' >> /home/travis/.bashrc"
         - "echo '# add xenon-cli directory to PATH' >> /home/travis/.bashrc"
-        - "echo 'PATH=$PATH:/home/travis/.local/bin/xenon/xenon-cli-shadow-3.0.1/bin' >> /home/travis/.bashrc"
+        - "echo 'PATH=$PATH:/home/travis/.local/bin/xenon/xenon-cli-shadow-3.0.3/bin' >> /home/travis/.bashrc"
         - "source /home/travis/.bashrc"
         - "chmod go-w /home/travis"
         - "chmod 700 /home/travis/.ssh"
@@ -81,6 +81,11 @@ matrix:
         - "pytest tests/ --ignore=tests/test_upload_file_local_to_sftp_absolute_paths.py --ignore=tests/test_download_file_sftp_to_local_absolute_paths.py"
       services: 
         - docker
+    -
+      name: "Checks whether software versions are consistent throughout the repository"
+      language: bash
+      script:
+         - "bash consistent-versions-test.sh"
 notifications: 
   email: 
     on_failure: change
