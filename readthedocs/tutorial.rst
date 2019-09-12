@@ -234,12 +234,6 @@ Let's see if we can use this to connect to a real machine on the internet. A pub
          :language: java
          :linenos:
 
-   .. group-tab:: Python
-
-      .. literalinclude:: code-tabs/python/pyxenon_snippets/ftp_directory_listing.py
-         :language: python
-         :linenos:
-
 This should give you a listing of the server at ``test.rebex.net``.
 
 Besides the commands we have already seen (``copy``, ``list``, etc.), ``ftp`` also supports a few new ones, namely ``upload``
