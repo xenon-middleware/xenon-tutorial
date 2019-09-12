@@ -16,7 +16,7 @@ In case you don't have a copy of the virtual machine, you can
 download it from Zenodo `here`__. After the download finishes, click ``File`` in VirtualBox, then
 ``Import appliance``, then select the file you downloaded.
 
-__ https://doi.org/10.5281/zenodo.3386295
+__ https://doi.org/10.5281/zenodo.3406325
 
 During the import, you'll see an initialization wizard. Make sure that the virtual machine is configured with two CPUs.
 
