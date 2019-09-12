@@ -9,8 +9,8 @@ def run_example():
     credential = PasswordCredential(username='demo',
                                     password='password')
 
-    filesystem = FileSystem.create(adaptor='ftp', location='test.rebex.net', credential=credential)
-    path = Path("/home/travis/fixtures")
+    filesystem = FileSystem.create(adaptor='ftp', location='test.rebex.net', password_credential=credential)
+    path = Path("/")
 
     listing = filesystem.list(path, recursive=False)
 
